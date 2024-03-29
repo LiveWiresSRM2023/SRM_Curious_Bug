@@ -17,8 +17,8 @@ class _AuthState extends State<Auth> {
         child: Padding(
           padding: const EdgeInsets.all(40.0),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: 500,
+            height: MediaQuery.of(context).size.height * 0.9,
+            width: MediaQuery.of(context).size.width * 0.3,
             alignment: Alignment.center,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -36,7 +36,7 @@ class _AuthState extends State<Auth> {
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -45,7 +45,7 @@ class _AuthState extends State<Auth> {
                     width: 200,
                     height: 200,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   Text(
                     'Explore, share and ignite your new research',
                     style: GoogleFonts.inter(
@@ -60,7 +60,7 @@ class _AuthState extends State<Auth> {
                     style: GoogleFonts.inter(fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   Text(
                     'Sign In with Google',
                     style: GoogleFonts.inter(
@@ -70,35 +70,38 @@ class _AuthState extends State<Auth> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    width: 200,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0C4DA2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: InkWell(
-                      onTap: () {},
-                      splashColor: Colors.white.withOpacity(0.5),
-                      highlightColor: Colors.transparent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/google-icon.png',
-                            width: 24,
-                            height: 24,
-                          ),
-                          const SizedBox(
-                              width: 8), // Add space between text and image
-                          Text(
-                            'Google',
-                            style: GoogleFonts.inter(
-                              color: Colors.white,
-                              fontSize: 18,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: 200,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0C4DA2),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: InkWell(
+                        onTap: () {},
+                        splashColor: Colors.white.withOpacity(0.5),
+                        highlightColor: Colors.transparent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/google-icon.png',
+                              width: 24,
+                              height: 24,
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                                width: 8), // Add space between text and image
+                            Text(
+                              'Google',
+                              style: GoogleFonts.inter(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
