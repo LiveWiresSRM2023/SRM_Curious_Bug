@@ -45,7 +45,7 @@ class _AuthState extends State<Auth> {
                     width: 200,
                     height: 200,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 40),
                   Text(
                     'Explore, share and ignite your new research',
                     style: GoogleFonts.inter(
@@ -54,13 +54,13 @@ class _AuthState extends State<Auth> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   Text(
                     '"Dive into the Depths of Discovery: Unleash the Power of Research at your Fingertips"',
                     style: GoogleFonts.inter(fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 40),
                   Text(
                     'Sign In with Google',
                     style: GoogleFonts.inter(
@@ -69,7 +69,7 @@ class _AuthState extends State<Auth> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   Container(
                     width: 200,
                     height: 40,
