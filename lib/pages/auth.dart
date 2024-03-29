@@ -13,22 +13,22 @@ class _AuthState extends State<Auth> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Center(
         // Wrap with Center widget
         child: Container(
-          padding: EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(30.0),
           decoration: BoxDecoration(
             boxShadow: [
-              BoxShadow(
-                color: Color(0xFFA8CBF6),
+              const BoxShadow(
+                color: const Color(0xFFA8CBF6),
                 offset: Offset(0, 0),
                 blurRadius: 30,
                 spreadRadius: 7.0,
               )
             ],
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: const Color.fromARGB(255, 255, 255, 255),
             borderRadius: BorderRadius.circular(20),
           ),
           height: 600,
@@ -46,13 +46,13 @@ class _AuthState extends State<Auth> {
                 children: [
                   Text(
                     'Explore, share and ignite your new research',
-                    style: GoogleFonts.archivo(
+                    style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     '"Dive into the Depths of Discovery: Unleash the Power of Research at your Fingertips"',
                     style: GoogleFonts.inter(fontSize: 14),
@@ -64,18 +64,18 @@ class _AuthState extends State<Auth> {
                 children: [
                   Text(
                     'Sign In with Google',
-                    style: GoogleFonts.archivo(
+                    style: GoogleFonts.inter(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     width: 200,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Color(0xFF0C4DA2),
+                      color: const Color(0xFF0C4DA2),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: InkWell(
@@ -90,7 +90,7 @@ class _AuthState extends State<Auth> {
                             width: 24,
                             height: 24,
                           ),
-                          SizedBox(
+                          const SizedBox(
                               width: 8), // Add space between text and image
                           Text(
                             'Google',
@@ -114,7 +114,7 @@ class _AuthState extends State<Auth> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: Auth(),
   ));
 }
