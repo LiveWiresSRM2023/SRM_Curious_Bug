@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:srm_curious_bug/pages/auth.dart';
+import 'package:srm_curious_bug/pages/feed/feed.dart';
+import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 
 void main() {
@@ -10,14 +11,13 @@ void main() {
 
 //using stateless widget here.
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SRM CURIOUS BUG',
       debugShowCheckedModeBanner: false,
-<<<<<<< HEAD
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: const Color(0xff0c4da2),
@@ -32,14 +32,6 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const Profile(),
         '/feed': (context) => const Feed(),
         '/mini_profile': (context) => const MiniProfile(),
-=======
-      home: const Feed(), // replace this with Auth()
-      routes: {
-        '/auth': (context) => const Auth(),
-        '/profile': (context) => const Profile(),
-        '/feed': (context) => const Feed()
-        
->>>>>>> fab9dd5d944368704db352cdcd40662eb8ad1020
       },
     );
   }
