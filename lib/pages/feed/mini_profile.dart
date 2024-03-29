@@ -34,12 +34,15 @@ class _MiniProfileState extends State<MiniProfile> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
                 child: Text(
-                    "Software Engineer | Full Stack Developer | Open to Opportunities|Passionate software engineer with 5+ years of experience in full-stack web development. Skilled in JavaScript, React.js, Node.js, and MongoDB. Dedicated to creating scalable and efficient solutions to complex problems. Currently seeking new opportunities to contribute my expertise to innovative projects",
-                    style: GoogleFonts.archivo(
-                        textStyle: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black)))),
+              "Software Engineer | Full Stack Developer | Open to Opportunities|Passionate software engineer with 5+ years of experience in full-stack web development. Skilled in JavaScript, React.js, Node.js, and MongoDB. Dedicated to creating scalable and efficient solutions to complex problems. Currently seeking new opportunities to contribute my expertise to innovative projects",
+              style: GoogleFonts.archivo(
+                textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
+              textAlign: TextAlign.center,
+            )),
           ),
           const SizedBox(height: 30),
           Padding(
@@ -107,23 +110,63 @@ class _MiniProfileState extends State<MiniProfile> {
                   shrinkWrap: true,
                   itemCount: 3,
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        leading: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            "assets/images/bluebells.jpg",
-                            width: MediaQuery.of(context).size.width * 0.06,
-                            height: MediaQuery.of(context).size.height * 0.06,
-                            fit: BoxFit.cover,
-                          ),
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 8.0),
+                                width: MediaQuery.of(context).size.height * 0.2,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.15,
+                                color: Colors.white,
+                                child: Image.asset(
+                                  "assets/images/bluebells.jpg",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "How i make cool designs?\nLet me tell you :)",
+                                      style: GoogleFonts.archivo(
+                                        textStyle: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.04),
+                                    Text(
+                                      "8,123 viewers",
+                                      style: GoogleFonts.archivo(
+                                        textStyle: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        title: Text("How i make cool designs ? ",
-                            style: GoogleFonts.archivo(
-                                textStyle: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black))),
                       ),
                     );
                   },
