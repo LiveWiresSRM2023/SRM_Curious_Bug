@@ -105,15 +105,18 @@ class _MiniProfileState extends State<MiniProfile> {
                 const SizedBox(height: 10),
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 3, // Example item count
+                  itemCount: 3,
                   itemBuilder: (context, index) {
                     return Card(
                       child: ListTile(
-                        leading: Image.asset(
-                          "assets/images/bluebells.jpg", // Your image path
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
+                        leading: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            "assets/images/bluebells.jpg",
+                            width: MediaQuery.of(context).size.width * 0.06,
+                            height: MediaQuery.of(context).size.height * 0.06,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         title: Text("How i make cool designs ? ",
                             style: GoogleFonts.archivo(
