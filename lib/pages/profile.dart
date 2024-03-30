@@ -57,7 +57,7 @@ class Profile extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      'Sign In with Google',
+                      ' Sign In with Google ',
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
