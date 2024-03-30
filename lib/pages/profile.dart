@@ -29,76 +29,80 @@ class Profile extends StatelessWidget {
               borderRadius: BorderRadius.circular(
                   20), // Corrected border radius value // Set border color to blue
             ),
-            height: screenSize.height * 0.9, // 80% of the screen height
+            height: screenSize.height * 0.88, // 80% of the screen height
             width: screenSize.width * 0.3, // 80% of the screen width
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Edit your Profile',
-                  style: GoogleFonts.inter(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Edit your Profile',
+                    style: GoogleFonts.inter(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Image.asset(
-                  'assets/images/srm_logo.png',
-                  width: 80,
-                  height: 80,
-                ),
-                const SizedBox(height: 5),
-                const ProfileTextField(labelText: 'Name'),
-                const ProfileTextField(labelText: 'College'),
-                const ProfileTextField(labelText: 'Position in the department'),
-                const ProfileTextField(labelText: 'Social Links'),
-                const SizedBox(height: 5),
-                Column(
-                  children: [
-                    Text(
-                      ' Sign In with Google ',
-                      style: GoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 10),
-                    InkWell(
-                      onTap: () {},
-                      splashColor: Colors.white.withOpacity(0.5),
-                      highlightColor: Colors.transparent,
-                      child: Container(
-                        width: 150,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF0C4DA2),
-                          borderRadius: BorderRadius.circular(20),
+                  const SizedBox(height: 5),
+                  Image.asset(
+                    'assets/images/srm_logo.png',
+                    width: 80,
+                    height: 80,
+                  ),
+                  const SizedBox(height: 4),
+                  const ProfileTextField(labelText: 'Name'),
+                  const ProfileTextField(labelText: 'College'),
+                  const ProfileTextField(
+                      labelText: 'Position in the department'),
+                  const ProfileTextField(labelText: 'Social Links'),
+                  const SizedBox(height: 5),
+                  Column(
+                    children: [
+                      Text(
+                        ' Sign In with Google ',
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Continue',
-                              style: GoogleFonts.inter(
-                                color: Colors.white,
-                                fontSize: 14,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10),
+                      InkWell(
+                        onTap: () {},
+                        splashColor: Colors.white.withOpacity(0.5),
+                        highlightColor: Colors.transparent,
+                        child: Container(
+                          width: 150,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF0C4DA2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Continue',
+                                style: GoogleFonts.inter(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                                width: 8), // Add space between text and image
-                            const Icon(
-                              Icons.arrow_forward_rounded,
-                              color: Colors.white,
-                            ),
-                          ],
+                              const SizedBox(
+                                  width: 8), // Add space between text and image
+                              const Icon(
+                                Icons.arrow_forward_rounded,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -140,7 +144,7 @@ class ProfileTextField extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
       ],
     );
   }
