@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
+import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
 import 'package:srm_curious_bug/pages/feed/posts.dart';
 import 'package:srm_curious_bug/widgets/custom_textfield.dart';
 
@@ -16,7 +15,7 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> {
   List posts = [
     {
-      "title":"Sample project",
+      "title": "Sample project",
       "upvote": "10",
       "post": "Automating legal document analysis with Python libraries",
       "timestamp": "2024-03-28T22:33:00+05:30",
@@ -34,7 +33,7 @@ class _FeedState extends State<Feed> {
       "expertise": ["Python", "Natural Language Processing (NLP)"]
     },
     {
-      "title":"Sample project",
+      "title": "Sample project",
       "upvote": "10",
       "post": "Open-source legal case management tools - Seeking ML engineers",
       "timestamp": "2024-03-28T22:33:00+05:30",
@@ -52,7 +51,7 @@ class _FeedState extends State<Feed> {
       "expertise": ["Law", "Open Source Software (OSS)"]
     },
     {
-      "title":"Sample project",
+      "title": "Sample project",
       "upvote": "10",
       "post":
           "Visualizing legal data trends: Exploring Python libraries for data analysis",

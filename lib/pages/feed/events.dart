@@ -13,91 +13,165 @@ class Events extends StatelessWidget {
           padding:
               const EdgeInsets.only(top: 15, bottom: 15, left: 25, right: 25),
           child: ListView(children: <Widget>[
-            Container(
-              // height: screenSize.height * 0.95,
-              width: screenSize.width * 0.5,
-              // alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 232, 228, 228),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("UPCOMING EVENTS",
-                        style: GoogleFonts.inter(
-                            textStyle: const TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black))),
-                    Divider(
-                      color: Theme.of(context).colorScheme.primary,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("UPCOMING EVENTS",
+                      style: GoogleFonts.archivo(
+                          textStyle: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black))),
+                  Divider(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  SizedBox(
+                    // height: screenSize.height * 0.5,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 228, 238, 247),
+                              borderRadius: BorderRadius.circular(10.0),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey.withOpacity(0.5),
+                              //     spreadRadius: 2,
+                              //     blurRadius: 5,
+                              //     offset: Offset(
+                              //         0, 3),
+                              //   ),
+                              //],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Event Name : ABCD",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    Text(
+                                      "Venue : TP AUDI",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    Text(
+                                      "Date: ${DateTime.now().add(Duration(days: index)).toString().split(" ")[0]}",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    // Container(
+                                    //   alignment: Alignment.bottomRight,
+                                    //   child: OutlinedButton(
+                                    //     onPressed: () {},
+                                    //     style: OutlinedButton.styleFrom(
+                                    //       side: BorderSide(
+                                    //           color: Theme.of(context)
+                                    //               .primaryColor),
+                                    //       shape: RoundedRectangleBorder(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(8.0),
+                                    //       ),
+                                    //     ),
+                                    //     child: const Padding(
+                                    //       padding: EdgeInsets.all(2),
+                                    //       child: Text(
+                                    //         ' REGISTER ',
+                                    //         style: TextStyle(
+                                    //           color: Colors.white,
+                                    //           fontSize: 10.0,
+                                    //           fontWeight: FontWeight.bold,
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // )
+                                    Container(
+                                      alignment: Alignment.bottomRight,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          // Add your onPressed action here
+                                        },
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(1),
+                                          child: Text(
+                                            'REGISTER',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    SizedBox(
-                      height: screenSize.height * 0.5,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: 3,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Event Name : ABCD",
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.01),
-                              Text(
-                                "Venue : TP AUDI",
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.01),
-                              Text(
-                                "Date: ${DateTime.now().add(Duration(days: index)).toString().split(" ")[0]}",
-                                style: GoogleFonts.inter(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey[700],
-                                ),
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.01),
-                              GestureDetector(
-                                onTap: () {
-                                  // Handle onTap action
-                                },
-                                child: Text(
-                                  "Register Now",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ),
-                              const Divider(color: Colors.grey),
-                            ],
-                          );
-                        },
+                  ),
+                  Divider(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle onTap action
+                    },
+                    child: Text(
+                      "Show More",
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ]),
