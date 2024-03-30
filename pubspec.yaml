@@ -28,6 +28,15 @@ flutter:
     - assets/images/srm_logo.png
     - assets/images/bluebells.jpg
     - assets/images/google-icon.png
+    - assets/icons/calender_icon.png
+    - assets/icons/data_icon.png
+    - assets/icons/discussion_icon.png
+    - assets/icons/down_vote_icon.png
+    - assets/icons/emojii_icon.png
+    - assets/icons/gallery_icon.png
+    - assets/icons/share_icon.png
+    - assets/icons/up_vote_icon.png
+
     
 
 

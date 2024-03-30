@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:srm_curious_bug/pages/auth.dart';
+import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
@@ -26,12 +27,13 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const Profile(),
+      home: const Events(),
       routes: {
         '/auth': (context) => const Auth(),
         '/profile': (context) => const Profile(),
         '/feed': (context) => const Feed(),
         '/mini_profile': (context) => const MiniProfile(),
+        '/events': (context) => const Events(),
       },
     );
   }
