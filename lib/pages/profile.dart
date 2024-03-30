@@ -9,9 +9,7 @@ class Profile extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
+      backgroundColor: Colors.white,
       body: Center(
         // Wrap with Center widget
         child: Container(
