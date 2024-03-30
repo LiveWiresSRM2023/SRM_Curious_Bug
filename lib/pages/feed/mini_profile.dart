@@ -180,7 +180,7 @@ class _MiniProfileState extends State<MiniProfile> {
           color: Colors.white,
           child: Image.asset(
             "images/bg_white.jpg",
-            height: 100,
+            height: MediaQuery.of(context).size.height * 0.2,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
           ),
@@ -188,8 +188,8 @@ class _MiniProfileState extends State<MiniProfile> {
         Positioned(
           top: 50,
           child: Container(
-            width: 120,
-            height: 120,
+            width: MediaQuery.of(context).size.width * 0.09,
+            height: MediaQuery.of(context).size.width * 0.09,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
