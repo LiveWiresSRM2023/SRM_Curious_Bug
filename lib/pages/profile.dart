@@ -34,7 +34,7 @@ class Profile extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
@@ -47,8 +47,8 @@ class Profile extends StatelessWidget {
                   const SizedBox(height: 5),
                   Image.asset(
                     'assets/images/srm_logo.png',
-                    width: 80,
-                    height: 80,
+                    width: screenSize.height * 0.14,
+                    height: screenSize.height * 0.14,
                   ),
                   const SizedBox(height: 4),
                   const ProfileTextField(labelText: 'Name'),
@@ -124,18 +124,18 @@ class ProfileTextField extends StatelessWidget {
         Text(labelText),
         const SizedBox(height: 5),
         SizedBox(
-          height: 30, // Reduced height
+          height: 33, // Reduced height
           width: 300,
           child: TextFormField(
             decoration: InputDecoration(
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(12.0),
                 borderSide: const BorderSide(color: Colors.transparent),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(12.0),
                 borderSide:
                     const BorderSide(color: Color.fromARGB(0, 197, 46, 46)),
               ),
@@ -144,7 +144,7 @@ class ProfileTextField extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 5),
       ],
     );
   }
