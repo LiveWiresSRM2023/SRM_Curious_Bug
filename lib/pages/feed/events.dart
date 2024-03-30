@@ -121,9 +121,7 @@ class Events extends StatelessWidget {
                                     Container(
                                       alignment: Alignment.bottomRight,
                                       child: TextButton(
-                                        onPressed: () {
-                                          // Add your onPressed action here
-                                        },
+                                        onPressed: () {},
                                         style: TextButton.styleFrom(
                                           backgroundColor: Theme.of(context)
                                               .colorScheme

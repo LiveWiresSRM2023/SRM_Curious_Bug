@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -105,46 +104,61 @@ class Post extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          //TODO: Implement firestore update
-                        },
-                        child: Icon(
-                          Icons.keyboard_arrow_up_rounded,
-                          color: Theme.of(context).colorScheme.primary,
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            //TODO: Implement firestore update
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Icon(
+                              Icons.keyboard_arrow_up_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
                         ),
-                      ),
-                      Text(posts[index]["upvote"]),
-                      InkWell(
-                        onTap: () {
-                          // TODO: Implement firestore update
-                        },
-                        child: Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: Theme.of(context).colorScheme.primary,
+                        Text(posts[index]["upvote"]),
+                        InkWell(
+                          onTap: () {
+                            // TODO: Implement firestore update
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 100,
-                      ),
-                      Icon(
-                        Icons.messenger_outline,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      Text(posts[index]["n_comments"].toString()),
-                      const SizedBox(
-                        width: 100,
-                      ),
-                      Icon(
-                        Icons.ios_share,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const Text("Share")
-                    ],
+                        const SizedBox(
+                          width: 100,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Icon(
+                            Icons.messenger_outline,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        Text(posts[index]["n_comments"].toString()),
+                        const SizedBox(
+                          width: 100,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Icon(
+                            Icons.ios_share,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        const Text("Share")
+                      ],
+                    ),
                   )
                 ],
               ),

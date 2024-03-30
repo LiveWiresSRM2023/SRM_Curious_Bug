@@ -30,9 +30,9 @@ class _MiniProfileState extends State<MiniProfile> {
           child: Center(
               child: Text(
             "Software Engineer | Full Stack Developer | Open to Opportunities|Passionate software engineer with 5+ years of experience in full-stack web development. Skilled in JavaScript, React.js, Node.js, and MongoDB. Dedicated to creating scalable and efficient solutions to complex problems. Currently seeking new opportunities to contribute my expertise to innovative projects",
-            style: GoogleFonts.archivo(
+            style: GoogleFonts.inter(
               textStyle: const TextStyle(
-                  fontSize: 15,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
             ),
@@ -221,7 +221,7 @@ class HashTagWidget extends StatelessWidget {
         ),
         child: Text(
           tag,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 12),
         ),
       ),
     );
