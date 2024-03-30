@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.2.4 <4.0.0'
 
 dependencies:
+  carousel_slider: ^4.2.1
   firebase_auth: ^4.18.0
   flutter:
     sdk: flutter
@@ -20,22 +21,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/bg_white.jpg
-    - assets/images/lw_logo_dark.png
-    - assets/images/lw_logo_light.png
-    - assets/images/srm_logo_wname_dark.png
-    - assets/images/srm_logo_wname_light.png
-    - assets/images/srm_logo.png
-    - assets/images/bluebells.jpg
-    - assets/images/google-icon.png
-    - assets/icons/calender_icon.png
-    - assets/icons/data_icon.png
-    - assets/icons/discussion_icon.png
-    - assets/icons/down_vote_icon.png
-    - assets/icons/emojii_icon.png
-    - assets/icons/gallery_icon.png
-    - assets/icons/share_icon.png
-    - assets/icons/up_vote_icon.png
+    - assets/icons/
+    - assets/images/
 
     
 

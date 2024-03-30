@@ -14,10 +14,7 @@ class _MiniProfileState extends State<MiniProfile> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(padding: EdgeInsets.zero, children: <Widget>[
-        Container(
-            margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.15),
-            child: buildTop()),
+        Container(margin: const EdgeInsets.only(bottom: 70), child: buildTop()),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
@@ -136,7 +133,7 @@ class _MiniProfileState extends State<MiniProfile> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "How i make cool designs?\nLet me tell you :)",
+                                    "How I make cool designs?\nLet me tell you :)",
                                     style: GoogleFonts.archivo(
                                       textStyle: const TextStyle(
                                         fontSize: 15,
@@ -187,11 +184,18 @@ class _MiniProfileState extends State<MiniProfile> {
         ),
         Positioned(
           top: 50,
-          child: const CircleAvatar(
-            radius: 60,
-            backgroundColor: Color.fromARGB(255, 217, 214, 214),
-            backgroundImage: AssetImage(
-              "assets/images/srm_logo.png",
+          child: Container(
+            width: 120,
+            height: 120,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Image.asset(
+                "assets/images/srm_logo.png",
+              ),
             ),
           ),
         ),
@@ -203,7 +207,7 @@ class _MiniProfileState extends State<MiniProfile> {
 class HashTagWidget extends StatelessWidget {
   final String tag;
 
-  const HashTagWidget(this.tag);
+  const HashTagWidget(this.tag, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +216,7 @@ class HashTagWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 214, 193, 121),
+          color: const Color.fromARGB(255, 214, 193, 121),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(

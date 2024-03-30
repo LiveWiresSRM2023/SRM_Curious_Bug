@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,7 +27,7 @@ class Post extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image.asset(
-                        "assets/images/srm_logo.png",
+                        posts[index]["op_profile"],
                         width: 50,
                         height: 50,
                       ),
@@ -33,20 +35,17 @@ class Post extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        "SRM INSTITUTE",
+                        posts[index]["op_name"],
                         style: GoogleFonts.archivo(
                           fontSize: 15,
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text("·"),
-                      const SizedBox(
-                        height: 10,
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Text("·"),
                       ),
                       Text(
-                        "23s",
+                        "${DateTime.now().difference(DateTime.parse(posts[index]["timestamp"])).inDays}D",
                         style: GoogleFonts.archivo(
                             fontSize: 15, color: const Color(0xff5b7083)),
                       )
@@ -56,7 +55,7 @@ class Post extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    "Title of the project",
+                    posts[index]["title"],
                     style: GoogleFonts.inter(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -64,11 +63,89 @@ class Post extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    "An excellent platform for developing and strengthening your research. It can increase your productivity as an individual, even as it allows you to rise your profile.",
+                    posts[index]["post"],
                     style: GoogleFonts.inter(
                       fontSize: 15,
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  posts[index]["post_images"].length > 0
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 500,
+                              height: 200,
+                              child: CarouselSlider(
+                                  items: List.generate(
+                                      posts[index]["post_images"].length,
+                                      (imageIndex) => Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                image: DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image: NetworkImage(
+                                                        posts[index]
+                                                                ["post_images"]
+                                                            [imageIndex]))),
+                                          )),
+                                  options: CarouselOptions(
+                                      autoPlay: false,
+                                      height: 200,
+                                      enlargeCenterPage: true)),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(
+                          height: 0,
+                        ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          //TODO: Implement firestore update
+                        },
+                        child: Icon(
+                          Icons.keyboard_arrow_up_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text(posts[index]["upvote"]),
+                      InkWell(
+                        onTap: () {
+                          // TODO: Implement firestore update
+                        },
+                        child: Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 100,
+                      ),
+                      Icon(
+                        Icons.messenger_outline,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      Text(posts[index]["n_comments"].toString()),
+                      const SizedBox(
+                        width: 100,
+                      ),
+                      Icon(
+                        Icons.ios_share,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const Text("Share")
+                    ],
+                  )
                 ],
               ),
             ),

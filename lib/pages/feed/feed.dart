@@ -14,6 +14,64 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
+  List posts = [
+    {
+      "title":"Sample project",
+      "upvote": "10",
+      "post": "Automating legal document analysis with Python libraries",
+      "timestamp": "2024-03-28T22:33:00+05:30",
+      "op_name": "Data Analyst",
+      "n_comments": 5,
+      "hashtags": ["legaltech", "python", "nlp"],
+      "op_email": "data.analyst@yourcompany.com",
+      "op_profile": "assets/images/srm_logo.png",
+      "comments": "/collection/{docID}",
+      "post_images": [
+        "https://picsum.photos/600/300",
+        "https://picsum.photos/600/300"
+      ],
+      "duration": "1 month",
+      "expertise": ["Python", "Natural Language Processing (NLP)"]
+    },
+    {
+      "title":"Sample project",
+      "upvote": "10",
+      "post": "Open-source legal case management tools - Seeking ML engineers",
+      "timestamp": "2024-03-28T22:33:00+05:30",
+      "op_name": "Law Firm Manager",
+      "n_comments": 1,
+      "hashtags": ["opensource", "legaltech", "law", "linux"],
+      "op_email": "manager@lawfirm.com",
+      "op_profile": "assets/images/srm_logo.png",
+      "comments": "/collection/{docID}",
+      "post_images": [
+        "https://picsum.photos/600/300",
+        "https://picsum.photos/600/300"
+      ],
+      "duration": "3 months",
+      "expertise": ["Law", "Open Source Software (OSS)"]
+    },
+    {
+      "title":"Sample project",
+      "upvote": "10",
+      "post":
+          "Visualizing legal data trends: Exploring Python libraries for data analysis",
+      "timestamp": "2024-03-28T22:33:00+05:30",
+      "op_name": "Data Scientist",
+      "n_comments": 3,
+      "hashtags": ["law", "datavisualization", "python"],
+      "op_email": "data.scientist@yourcompany.com",
+      "op_profile": "assets/images/srm_logo.png",
+      "comments": "/collection/{docID}",
+      "post_images": [
+        "https://picsum.photos/600/300",
+        "https://picsum.photos/600/300"
+      ],
+      "duration": "2 weeks",
+      "expertise": ["Python", "Data Visualization"]
+    }
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +93,10 @@ class _FeedState extends State<Feed> {
               child: Column(
                 children: [
                   Container(
-                    height: 150,
+                    height: 200,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(children: [
                         const SizedBox(
                           height: 20,
@@ -67,8 +125,58 @@ class _FeedState extends State<Feed> {
                             )
                           ],
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Row(
-                          
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child:
+                                  Image.asset("assets/icons/gallery_icon.png"),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Image.asset("assets/icons/data_icon.png"),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child:
+                                  Image.asset("assets/icons/calendar_icon.png"),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child:
+                                  Image.asset("assets/icons/gallery_icon.png"),
+                            ),
+                            const Spacer(),
+                            TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                  fixedSize: MaterialStateProperty.all(
+                                      const Size(100, 30)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Theme.of(context).colorScheme.primary)),
+                              child: Text(
+                                "Post",
+                                style: GoogleFonts.archivo(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              ),
+                            )
+                          ],
                         )
                       ]),
                     ),
@@ -78,9 +186,9 @@ class _FeedState extends State<Feed> {
                   ),
                   SingleChildScrollView(
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height - 160,
-                      child: const Post(
-                        posts: [1, 2, 3, 5, 6],
+                      height: MediaQuery.of(context).size.height - 210,
+                      child: Post(
+                        posts: posts,
                       ),
                     ),
                   ),
