@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const Feed(),
+      home: const Auth(),
       routes: {
         '/auth': (context) => const Auth(),
         '/profile': (context) => const Profile(),

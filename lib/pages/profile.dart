@@ -53,63 +53,58 @@ class Profile extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   const CustomTextField(
-                    borderColor: Color(0xffdcdcdc),
-                      width: 300, showLabel: true, labelText: 'Name'),
+                      borderColor: Color(0xffdcdcdc),
+                      width: 300,
+                      showLabel: true,
+                      labelText: 'Name'),
                   const CustomTextField(
-                    borderColor: Color(0xffdcdcdc),
-                      width: 300, showLabel: true, labelText: 'College'),
+                      borderColor: Color(0xffdcdcdc),
+                      width: 300,
+                      showLabel: true,
+                      labelText: 'College'),
                   const CustomTextField(
-                    borderColor: Color(0xffdcdcdc),
+                      borderColor: Color(0xffdcdcdc),
                       width: 300,
                       showLabel: true,
                       labelText: 'Position in the department'),
                   const CustomTextField(
-                    borderColor: Color(0xffdcdcdc),
-                      width: 300, showLabel: true, labelText: 'Social Links'),
+                      borderColor: Color(0xffdcdcdc),
+                      width: 300,
+                      showLabel: true,
+                      labelText: 'Social Links'),
                   const SizedBox(height: 5),
-                  Column(
-                    children: [
-                      Text(
-                        ' Sign In with Google ',
-                        style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/feed');
+                    },
+                    splashColor: Colors.white.withOpacity(0.5),
+                    highlightColor: Colors.transparent,
+                    child: Container(
+                      width: 150,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      const SizedBox(height: 10),
-                      InkWell(
-                        onTap: () {},
-                        splashColor: Colors.white.withOpacity(0.5),
-                        highlightColor: Colors.transparent,
-                        child: Container(
-                          width: 150,
-                          height: 35,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF0C4DA2),
-                            borderRadius: BorderRadius.circular(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Continue',
+                            style: GoogleFonts.inter(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Continue',
-                                style: GoogleFonts.inter(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(
-                                  width: 8), // Add space between text and image
-                              const Icon(
-                                Icons.arrow_forward_rounded,
-                                color: Colors.white,
-                              ),
-                            ],
+                          const SizedBox(
+                              width: 8), // Add space between text and image
+                          const Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Colors.white,
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
