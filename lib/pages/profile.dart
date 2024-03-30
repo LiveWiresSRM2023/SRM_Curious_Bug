@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:srm_curious_bug/widgets/custom_textfield.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +52,20 @@ class Profile extends StatelessWidget {
                     height: screenSize.height * 0.14,
                   ),
                   const SizedBox(height: 4),
-                  const ProfileTextField(labelText: 'Name'),
-                  const ProfileTextField(labelText: 'College'),
-                  const ProfileTextField(
+                  const CustomTextField(
+                    borderColor: Color(0xffdcdcdc),
+                      width: 300, showLabel: true, labelText: 'Name'),
+                  const CustomTextField(
+                    borderColor: Color(0xffdcdcdc),
+                      width: 300, showLabel: true, labelText: 'College'),
+                  const CustomTextField(
+                    borderColor: Color(0xffdcdcdc),
+                      width: 300,
+                      showLabel: true,
                       labelText: 'Position in the department'),
-                  const ProfileTextField(labelText: 'Social Links'),
+                  const CustomTextField(
+                    borderColor: Color(0xffdcdcdc),
+                      width: 300, showLabel: true, labelText: 'Social Links'),
                   const SizedBox(height: 5),
                   Column(
                     children: [
@@ -107,45 +117,6 @@ class Profile extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ProfileTextField extends StatelessWidget {
-  final String labelText;
-
-  const ProfileTextField({Key? key, required this.labelText}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(labelText),
-        const SizedBox(height: 5),
-        SizedBox(
-          height: 33, // Reduced height
-          width: 300,
-          child: TextFormField(
-            decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: const BorderSide(color: Colors.transparent),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide:
-                    const BorderSide(color: Color.fromARGB(0, 197, 46, 46)),
-              ),
-              fillColor: Colors.grey[200],
-              filled: true,
-            ),
-          ),
-        ),
-        const SizedBox(height: 5),
-      ],
     );
   }
 }
