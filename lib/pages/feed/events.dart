@@ -59,7 +59,7 @@ class Events extends StatelessWidget {
                                     Text(
                                       "Event Name : ABCD",
                                       style: GoogleFonts.inter(
-                                        fontSize: 14,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
@@ -71,7 +71,7 @@ class Events extends StatelessWidget {
                                     Text(
                                       "Venue : TP AUDI",
                                       style: GoogleFonts.inter(
-                                        fontSize: 14,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
@@ -83,7 +83,7 @@ class Events extends StatelessWidget {
                                     Text(
                                       "Date: ${DateTime.now().add(Duration(days: index)).toString().split(" ")[0]}",
                                       style: GoogleFonts.inter(
-                                        fontSize: 13,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey[700],
                                       ),
@@ -162,6 +162,7 @@ class Events extends StatelessWidget {
                     },
                     child: Text(
                       "Show More",
+                      // textAlign: TextAlign.start,
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
