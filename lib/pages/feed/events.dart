@@ -128,7 +128,7 @@ class Events extends StatelessWidget {
                                               .primary,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(8.0),
+                                                BorderRadius.circular(20.0),
                                           ),
                                         ),
                                         child: const Padding(

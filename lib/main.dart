@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:srm_curious_bug/pages/auth.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
@@ -5,8 +6,16 @@ import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 
-void main() {
-  //add this
+void main() async {
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyDpPLA4Nt1FY6hsoseVPYD2JRP7e9ENKD4",
+          authDomain: "srm-timetable-bb661.firebaseapp.com",
+          projectId: "srm-timetable-bb661",
+          storageBucket: "srm-timetable-bb661.appspot.com",
+          messagingSenderId: "1062574904489",
+          appId: "1:1062574904489:web:46160ce4a3c6c9bf6485b8",
+          measurementId: "G-008T9SX14L"));
   runApp(const MyApp());
 }
 
@@ -17,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SRM CURIOUS BUG',
+      title: 'SRM EUREKA',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(

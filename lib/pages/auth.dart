@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,6 +10,18 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
+  void checkAuth() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      Navigator.pushReplacementNamed(context, '/profile');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkAuth();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -84,7 +97,42 @@ class _AuthState extends State<Auth> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: InkWell(
-                        onTap: () {
+                        onTap: () async {
+                          GoogleAuthProvider googleAuthProvider =
+                              GoogleAuthProvider();
+                          await FirebaseAuth.instance
+                              .signInWithPopup(googleAuthProvider)
+                              .then((value) {
+                            if (FirebaseAuth.instance.currentUser!.email!
+                                    .split("@")
+                                    .last !=
+                                "srmist.edu.in") {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.error_outline_rounded,
+                                      color: Colors.white,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      "Please sign in using SRM Gmail",
+                                      style: GoogleFonts.openSans(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ],
+                                ),
+                              ));
+                            } else {
+                              checkAuth();
+                            }
+                          });
                           Navigator.pushReplacementNamed(context, '/profile');
                         },
                         splashColor: Colors.white.withOpacity(0.5),
