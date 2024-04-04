@@ -113,16 +113,20 @@ class _FeedState extends State<Feed> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          child: ListView(
-                            children: [
-                              Chip(
-                                label: Text("Posts"),
-                              ),
-                              Chip(label: Text("Topics")),
-                              Chip(label: Text("Media")),
-                              Chip(label: Text("User")),
-                              Chip(label: Text("Events")),
-                            ],
+                          child: SizedBox(
+                            height: 60,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: const [
+                                Chip(
+                                  label: Text("Posts"),
+                                ),
+                                Chip(label: Text("Topics")),
+                                Chip(label: Text("Media")),
+                                Chip(label: Text("User")),
+                                Chip(label: Text("Events")),
+                              ],
+                            ),
                           ),
                         )
                         // Row(
@@ -255,8 +259,8 @@ class _FeedState extends State<Feed> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "TITLE",
-                              style: GoogleFonts.inter(
+                              "Title",
+                              style: GoogleFonts.archivo(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
@@ -265,7 +269,7 @@ class _FeedState extends State<Feed> {
                           ),
                           const SizedBox(height: 5),
                           Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: TextField(
                               maxLines: 1,
                               decoration: InputDecoration(
@@ -284,8 +288,8 @@ class _FeedState extends State<Feed> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "ABSTRACT",
-                              style: GoogleFonts.inter(
+                              "Abstract",
+                              style: GoogleFonts.archivo(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
@@ -315,7 +319,7 @@ class _FeedState extends State<Feed> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "MEDIA",
+                              "Media",
                               style: GoogleFonts.inter(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
@@ -330,28 +334,34 @@ class _FeedState extends State<Feed> {
                               children: [
                                 Text(
                                   "Invite",
-                                  style: GoogleFonts.inter(
+                                  style: GoogleFonts.archivo(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
                                 ),
                                 const SizedBox(width: 5),
-                                // Padding(
-                                //   padding: const EdgeInsets.all(8.0),
-                                //   child: TextField(
-                                //     decoration: InputDecoration(
-                                //       hintText: 'Enter your text here',
-                                //       border: OutlineInputBorder(
-                                //         borderSide: BorderSide(
-                                //           color: Theme.of(context)
-                                //               .colorScheme
-                                //               .primary,
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 200,
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.only(left: 8),
+                                        hintText: 'Enter your text here',
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              width: 1),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 Text(
                                   "Collaborate",
                                   style: GoogleFonts.inter(
