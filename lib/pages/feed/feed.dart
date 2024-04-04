@@ -1,6 +1,8 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
@@ -15,6 +17,11 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController abstractController = TextEditingController();
+  TextEditingController invitesController = TextEditingController();
+  TextEditingController durationController = TextEditingController();
+
   List posts = [
     {
       "title": "Sample project",
@@ -284,11 +291,11 @@ class _FeedState extends State<Feed> {
                       content: StatefulBuilder(builder:
                           (BuildContext context, StateSetter dialogState) {
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: SingleChildScrollView(
                             child: Container(
                               // height: 500,
-                              width: MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.5,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 // border: Border.all(
@@ -317,6 +324,7 @@ class _FeedState extends State<Feed> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextField(
+                                        controller: titleController,
                                         maxLines: 1,
                                         decoration: InputDecoration(
                                           hintText: 'Enter your text here',
@@ -348,6 +356,7 @@ class _FeedState extends State<Feed> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextField(
+                                        controller: abstractController,
                                         maxLines: 2,
                                         decoration: InputDecoration(
                                           hintText: 'Enter your text here',
@@ -491,130 +500,269 @@ class _FeedState extends State<Feed> {
                                     //       ),
                                     //     )),
                                     const SizedBox(height: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Invite",
-                                            style: GoogleFonts.archivo(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.04,
-                                              width: MediaQuery.of(context)
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: (MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.09,
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                  contentPadding:
-                                                      const EdgeInsets.only(
-                                                          left: 8),
-                                                  hintText:
-                                                      'Enter your text here',
-                                                  filled: true,
-                                                  fillColor: Colors.grey[50],
-                                                  hintStyle:
-                                                      GoogleFonts.archivo(
-                                                    fontSize: 10,
-                                                    fontWeight:
-                                                        FontWeight.normal,
+                                                  0.25) -
+                                              10,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "Invite",
+                                                  style: GoogleFonts.archivo(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
                                                     color: Colors.black,
                                                   ),
-                                                  // filled: true,
-                                                  // fillColor: Colors.grey[50],
-                                                  border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary,
-                                                      width: 1,
+                                                ),
+                                                const SizedBox(width: 5),
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.04,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.15,
+                                                  child: TextField(
+                                                    decoration: InputDecoration(
+                                                      contentPadding:
+                                                          const EdgeInsets.only(
+                                                              left: 8),
+                                                      hintText:
+                                                          'Enter your text here',
+                                                      filled: true,
+                                                      fillColor:
+                                                          Colors.grey[50],
+                                                      hintStyle:
+                                                          GoogleFonts.archivo(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: Colors.black,
+                                                      ),
+                                                      // filled: true,
+                                                      // fillColor: Colors.grey[50],
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                          width: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: (MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.25) -
+                                              10,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Collaborate",
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Transform.scale(
+                                                scale: 0.5,
+                                                child: ColorFiltered(
+                                                  colorFilter: ColorFilter.mode(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    BlendMode.srcIn,
+                                                  ),
+                                                  child: CupertinoSwitch(
+                                                    value: _switch,
+                                                    onChanged: (bool value) {
+                                                      setState(() {
+                                                        _switch = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: (MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.25) -
+                                              10,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Topics",
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 4),
+                                                const Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Expanded(
+                                                    child: Wrap(
+                                                      alignment:
+                                                          WrapAlignment.center,
+                                                      children: [
+                                                        HashTagWidget1(
+                                                            'twitter'),
+                                                        HashTagWidget1('srm'),
+                                                        HashTagWidget1('ig'),
+                                                        HashTagWidget1(
+                                                            'srmist'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 50,
+                                          width: (MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.25) -
+                                              10,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Duration",
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 60,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.15,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: TextField(
+                                                    controller:
+                                                        durationController,
+                                                    decoration: InputDecoration(
+                                                      contentPadding:
+                                                          const EdgeInsets.only(
+                                                              left: 8),
+                                                      hintText:
+                                                          'Enter duration',
+                                                      filled: true,
+                                                      fillColor:
+                                                          Colors.grey[50],
+                                                      hintStyle:
+                                                          GoogleFonts.archivo(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: Colors.black,
+                                                      ),
+                                                      // filled: true,
+                                                      // fillColor: Colors.grey[50],
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                          width: 1,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                          Text(
-                                            "Collaborate",
-                                            style: GoogleFonts.inter(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Transform.scale(
-                                            scale: 0.5,
-                                            child: ColorFiltered(
-                                              colorFilter: ColorFilter.mode(
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                BlendMode.srcIn,
-                                              ),
-                                              child: CupertinoSwitch(
-                                                value: _switch,
-                                                onChanged: (bool value) {
-                                                  setState(() {
-                                                    _switch = value;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        )
+                                      ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Topics",
-                                            style: GoogleFonts.inter(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 4),
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Expanded(
-                                              child: Wrap(
-                                                alignment: WrapAlignment.center,
-                                                children: [
-                                                  HashTagWidget1('#twitter'),
-                                                  HashTagWidget1('#srm'),
-                                                  HashTagWidget1('#ig'),
-                                                  HashTagWidget1('#srmist'),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    const SizedBox(
+                                      height: 20,
                                     ),
                                     Center(
                                       child: Padding(
                                         padding: const EdgeInsets.all(2.0),
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.pushReplacementNamed(
-                                                context, '/feed');
+                                            setState(() {
+                                              posts.add({
+                                                "title": titleController.text,
+                                                "upvote": "0",
+                                                "post": abstractController,
+                                                "timestamp":
+                                                    DateTime.now().toString(),
+                                                "op_name": FirebaseAuth.instance
+                                                    .currentUser!.displayName,
+                                                "n_comments": 0,
+                                                "hashtags": [
+                                                  "legaltech",
+                                                  "python",
+                                                  "nlp"
+                                                ],
+                                                "op_email": FirebaseAuth
+                                                    .instance
+                                                    .currentUser!
+                                                    .email,
+                                                "op_profile": FirebaseAuth
+                                                    .instance
+                                                    .currentUser!
+                                                    .photoURL,
+                                                "comments":
+                                                    "/collection/{docID}",
+                                                "post_images": [
+                                                  "https://picsum.photos/600/300",
+                                                  "https://picsum.photos/600/300"
+                                                ],
+                                                "duration":
+                                                    durationController.text,
+                                                "expertise": [
+                                                  "Python",
+                                                  "Natural Language Processing (NLP)"
+                                                ]
+                                              });
+                                            });
+                                            Navigator.pop(context);
                                           },
                                           splashColor:
                                               Colors.white.withOpacity(0.5),
