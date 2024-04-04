@@ -505,28 +505,30 @@ class _FeedState extends State<Feed> {
                                           ),
                                           const SizedBox(width: 5),
                                           Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 5.0,
+                                                right: 5.0,
+                                                bottom: 10,
+                                                top: 5),
                                             child: SizedBox(
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .height *
-                                                  0.04,
+                                                  0.05,
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.09,
+                                                  0.15,
                                               child: TextField(
                                                 decoration: InputDecoration(
                                                   contentPadding:
-                                                      const EdgeInsets.only(
-                                                          left: 8),
-                                                  hintText:
-                                                      'Enter your text here',
+                                                      const EdgeInsets.all(8),
+                                                  hintText: 'Email',
+
                                                   filled: true,
                                                   fillColor: Colors.grey[50],
-                                                  hintStyle:
-                                                      GoogleFonts.archivo(
-                                                    fontSize: 10,
+                                                  hintStyle: GoogleFonts.inter(
+                                                    fontSize: 12,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     color: Colors.black,
@@ -541,6 +543,8 @@ class _FeedState extends State<Feed> {
                                                       width: 1,
                                                     ),
                                                   ),
+                                                  // hintAlignment:
+                                                  //     Alignment.centerLeft,
                                                 ),
                                               ),
                                             ),
@@ -623,7 +627,7 @@ class _FeedState extends State<Feed> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.1,
+                                                0.08,
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
