@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +15,7 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
+  bool _switch = false;
   List posts = [
     {
       "title": "Sample project",
@@ -74,7 +76,6 @@ class _FeedState extends State<Feed> {
 
   @override
   Widget build(BuildContext context) {
-    bool _switch = false;
     return Scaffold(
       backgroundColor: const Color(0xffF7F9FA),
       body: Row(
@@ -119,48 +120,77 @@ class _FeedState extends State<Feed> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Chip(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
                                   label: Text(
                                     "Posts",
                                     style: GoogleFonts.inter(
-                                        fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                                 const SizedBox(
                                   width: 10,
                                 ),
                                 Chip(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
                                     label: Text(
-                                  "Topics",
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.bold),
-                                )),
+                                      "Topics",
+                                      style: GoogleFonts.inter(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                    )),
                                 const SizedBox(
                                   width: 10,
                                 ),
                                 Chip(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
                                     label: Text(
-                                  "Media",
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.bold),
-                                )),
+                                      "Media",
+                                      style: GoogleFonts.inter(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                    )),
                                 const SizedBox(
                                   width: 10,
                                 ),
                                 Chip(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
                                     label: Text(
-                                  "User",
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.bold),
-                                )),
+                                      "User",
+                                      style: GoogleFonts.inter(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                    )),
                                 const SizedBox(
                                   width: 10,
                                 ),
                                 Chip(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
                                     label: Text(
-                                  "Events",
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.bold),
-                                )),
+                                      "Events",
+                                      style: GoogleFonts.inter(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                    )),
                               ],
                             ),
                           ),
@@ -271,206 +301,275 @@ class _FeedState extends State<Feed> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: Colors.white,
-                elevation: 0.0,
-                content: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    // height: 500,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2.0,
+              return StatefulBuilder(builder: (context, dialogState) {
+                List images = [];
+                return AlertDialog(
+                  backgroundColor: Colors.white,
+                  elevation: 0.0,
+                  content: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      // height: 500,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2.0,
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Title",
-                              style: GoogleFonts.archivo(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Title",
+                                style: GoogleFonts.archivo(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your text here',
-                                filled: true,
-                                fillColor: Colors.grey[50],
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 1,
-                                )),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Abstract",
-                              style: GoogleFonts.archivo(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              maxLines: 2,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your text here',
-                                filled: true,
-                                fillColor: Colors.grey[50],
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                maxLines: 1,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter your text here',
+                                  filled: true,
+                                  fillColor: Colors.grey[50],
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
                                     color:
                                         Theme.of(context).colorScheme.primary,
                                     width: 1,
+                                  )),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Abstract",
+                                style: GoogleFonts.archivo(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                maxLines: 2,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter your text here',
+                                  filled: true,
+                                  fillColor: Colors.grey[50],
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 1,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Media",
-                              style: GoogleFonts.inter(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Media",
+                                style: GoogleFonts.inter(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Invite",
-                                  style: GoogleFonts.archivo(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                            const SizedBox(height: 5),
+                            SizedBox(
+                                width: 300,
+                                height: 120,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: List.generate(
+                                        images.length + 1,
+                                        (index) => index != images.length
+                                            ? Container(
+                                                width: 100,
+                                                height: 100,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.red,
+                                                    border: Border.all(
+                                                        color: Colors.black,
+                                                        width: 1),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    image: DecorationImage(
+                                                        image: MemoryImage(
+                                                            images[index]))),
+                                              )
+                                            : InkWell(
+                                                onTap: () async {
+                                                  FilePickerResult? picker =
+                                                      await FilePicker.platform
+                                                          .pickFiles(
+                                                              allowMultiple:
+                                                                  true,
+                                                              type: FileType
+                                                                  .image);
+                                                  if (picker != null) {
+                                                    for (PlatformFile image
+                                                        in picker.files) {
+                                                      images.add(image.bytes);
+                                                    }
+                                                    dialogState(() {});
+                                                    // print(images);
+                                                  }
+                                                },
+                                                child: Container(
+                                                  height: 100,
+                                                  width: 100,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.grey,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      border: Border.all(
+                                                          color: Colors.black,
+                                                          width: 1)),
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              )))),
+                            const SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Invite",
+                                    style: GoogleFonts.archivo(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(width: 5),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    height: 40,
-                                    width: 200,
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.only(left: 8),
-                                        hintText: 'Enter your text here',
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              width: 1),
+                                  const SizedBox(width: 5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height: 40,
+                                      width: 200,
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.only(left: 8),
+                                          hintText: 'Enter your text here',
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                width: 1),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  "Collaborate",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(width: 5),
-                                Transform.scale(
-                                  scale: 0.5,
-                                  child: ColorFiltered(
-                                    colorFilter: ColorFilter.mode(
-                                      Theme.of(context).colorScheme.primary,
-                                      BlendMode.srcIn,
-                                    ),
-                                    child: CupertinoSwitch(
-                                      value: _switch,
-                                      onChanged: (bool value) {
-                                        setState(() {
-                                          _switch = value;
-                                        });
-                                      },
+                                  Text(
+                                    "Collaborate",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Topics",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Expanded(
-                                      child: Wrap(
-                                        alignment: WrapAlignment.center,
-                                        children: [
-                                          HashTagWidget1('#twitter'),
-                                          HashTagWidget1('#srm'),
-                                          HashTagWidget1('#ig'),
-                                          HashTagWidget1('#srmist'),
-                                        ],
+                                  const SizedBox(width: 5),
+                                  Transform.scale(
+                                    scale: 0.5,
+                                    child: ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                        Theme.of(context).colorScheme.primary,
+                                        BlendMode.srcIn,
+                                      ),
+                                      child: CupertinoSwitch(
+                                        value: _switch,
+                                        onChanged: (bool value) {
+                                          setState(() {
+                                            _switch = value;
+                                          });
+                                        },
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Topics",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Expanded(
+                                        child: Wrap(
+                                          alignment: WrapAlignment.center,
+                                          children: [
+                                            HashTagWidget1('#twitter'),
+                                            HashTagWidget1('#srm'),
+                                            HashTagWidget1('#ig'),
+                                            HashTagWidget1('#srmist'),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
+                );
+              });
             },
           );
         },
