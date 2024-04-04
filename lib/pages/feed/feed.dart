@@ -109,78 +109,92 @@ class _FeedState extends State<Feed> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Image.asset("assets/images/srm_logo.png",
-                                width: 50, height: 50),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              "Whats's on your mind?",
-                              style: GoogleFonts.archivo(
-                                  fontSize: 20, color: const Color(0xff5B7083)),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: ListView(
                             children: [
-                              InkWell(
-                                onTap: () {},
-                                child: Image.asset(
-                                    "assets/icons/gallery_icon.png"),
+                              Chip(
+                                label: Text("Posts"),
                               ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              InkWell(
-                                onTap: () {},
-                                child:
-                                    Image.asset("assets/icons/data_icon.png"),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              InkWell(
-                                onTap: () {},
-                                child:
-                                    Image.asset("assets/icons/emojii_icon.png"),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              InkWell(
-                                onTap: () {},
-                                child: Image.asset(
-                                    "assets/icons/calendar_icon.png"),
-                              ),
-                              const Spacer(),
-                              TextButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                    fixedSize: MaterialStateProperty.all(
-                                        const Size(100, 30)),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Theme.of(context).colorScheme.primary)),
-                                child: Text(
-                                  "Post",
-                                  style: GoogleFonts.archivo(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                ),
-                              )
+                              Chip(label: Text("Topics")),
+                              Chip(label: Text("Media")),
+                              Chip(label: Text("User")),
+                              Chip(label: Text("Events")),
                             ],
                           ),
                         )
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     Image.asset("assets/images/srm_logo.png",
+                        //         width: 50, height: 50),
+                        //     const SizedBox(
+                        //       width: 20,
+                        //     ),
+                        //     Text(
+                        //       "Whats's on your mind?",
+                        //       style: GoogleFonts.archivo(
+                        //           fontSize: 20, color: const Color(0xff5B7083)),
+                        //     )
+                        //   ],
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(2.0),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.start,
+                        //     crossAxisAlignment: CrossAxisAlignment.center,
+                        //     children: [
+                        //       InkWell(
+                        //         onTap: () {},
+                        //         child: Image.asset(
+                        //             "assets/icons/gallery_icon.png"),
+                        //       ),
+                        //       const SizedBox(
+                        //         width: 20,
+                        //       ),
+                        //       InkWell(
+                        //         onTap: () {},
+                        //         child:
+                        //             Image.asset("assets/icons/data_icon.png"),
+                        //       ),
+                        //       const SizedBox(
+                        //         width: 20,
+                        //       ),
+                        //       InkWell(
+                        //         onTap: () {},
+                        //         child:
+                        //             Image.asset("assets/icons/emojii_icon.png"),
+                        //       ),
+                        //       const SizedBox(
+                        //         width: 20,
+                        //       ),
+                        //       InkWell(
+                        //         onTap: () {},
+                        //         child: Image.asset(
+                        //             "assets/icons/calendar_icon.png"),
+                        //       ),
+                        //       const Spacer(),
+                        //       TextButton(
+                        //         onPressed: () {},
+                        //         style: ButtonStyle(
+                        //             fixedSize: MaterialStateProperty.all(
+                        //                 const Size(100, 30)),
+                        //             backgroundColor: MaterialStateProperty.all(
+                        //                 Theme.of(context).colorScheme.primary)),
+                        //         child: Text(
+                        //           "Post",
+                        //           style: GoogleFonts.archivo(
+                        //               color: Colors.white,
+                        //               fontWeight: FontWeight.bold,
+                        //               fontSize: 15),
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // )
                       ]),
                     ),
                   ),
