@@ -115,16 +115,52 @@ class _FeedState extends State<Feed> {
                           width: MediaQuery.of(context).size.width,
                           child: SizedBox(
                             height: 60,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: const [
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
                                 Chip(
-                                  label: Text("Posts"),
+                                  label: Text(
+                                    "Posts",
+                                    style: GoogleFonts.inter(
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                                Chip(label: Text("Topics")),
-                                Chip(label: Text("Media")),
-                                Chip(label: Text("User")),
-                                Chip(label: Text("Events")),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Chip(
+                                    label: Text(
+                                  "Topics",
+                                  style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Chip(
+                                    label: Text(
+                                  "Media",
+                                  style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Chip(
+                                    label: Text(
+                                  "User",
+                                  style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Chip(
+                                    label: Text(
+                                  "Events",
+                                  style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.bold),
+                                )),
                               ],
                             ),
                           ),
