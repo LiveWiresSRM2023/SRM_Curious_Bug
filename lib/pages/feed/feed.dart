@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
 import 'package:srm_curious_bug/pages/feed/posts.dart';
 import 'package:srm_curious_bug/widgets/custom_textfield.dart';
+import 'package:uuid/uuid.dart';
 
 class Feed extends StatefulWidget {
   const Feed({super.key});
@@ -21,6 +23,12 @@ class _FeedState extends State<Feed> {
   TextEditingController abstractController = TextEditingController();
   TextEditingController invitesController = TextEditingController();
   TextEditingController durationController = TextEditingController();
+
+  Future<void> getAllPosts() async {
+    await FirebaseFirestore.instance.collection("srmeureka").get().then((QuerySnapshot doc) {
+      doc.docs.map((e) => print(e.data()));
+    });
+  }
 
   List posts = [
     {
@@ -289,6 +297,8 @@ class _FeedState extends State<Feed> {
                 context: context,
                 builder: (BuildContext context) {
                   List images = [];
+                  bool mediaUploaded = false;
+                  List<String> mediaUrl = [];
                   return AlertDialog(
                       backgroundColor: Colors.white,
                       elevation: 0.0,
@@ -417,11 +427,16 @@ class _FeedState extends State<Feed> {
                                                                   type: FileType
                                                                       .image);
                                                       if (picker != null) {
+                                                        
                                                         for (PlatformFile image
                                                             in picker.files) {
                                                           images
                                                               .add(image.bytes);
+                                                              Reference storageRef = FirebaseStorage.instance.ref("/srmeureka/posts/${const Uuid().v4()}.png");
+                                                              await storageRef.putData(image.bytes!);
+                                                              mediaUrl.add(await storageRef.getDownloadURL());
                                                         }
+                                                        mediaUploaded = true;
                                                         dialogState(() {});
                                                         print(images);
                                                       }
@@ -729,9 +744,8 @@ class _FeedState extends State<Feed> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(2.0),
                                         child: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              posts.add({
+                                          onTap: () async {
+                                            Map<String, dynamic> storeData =  {
                                                 "title": titleController.text,
                                                 "upvote": "0",
                                                 "post": abstractController.text,
@@ -765,9 +779,12 @@ class _FeedState extends State<Feed> {
                                                   "Python",
                                                   "Natural Language Processing (NLP)"
                                                 ]
-                                              });
-                                            });
-                                            Navigator.pop(context);
+                                              };
+                                              FirebaseFirestore.instance.collection("srmeureka").doc(const Uuid().v4()).set(storeData);
+                                            await getAllPosts();
+                                            setState(() {
+                                              posts.insert(0,storeData);
+                                            Navigator.pop(context);});
                                           },
                                           splashColor:
                                               Colors.white.withOpacity(0.5),
