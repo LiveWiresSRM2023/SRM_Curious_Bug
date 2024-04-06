@@ -25,10 +25,15 @@ class Post extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Image.asset(
-                        posts[index]["op_profile"],
-                        width: 50,
+                      Container(
                         height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image:
+                                    NetworkImage(posts[index]["op_profile"]))),
                       ),
                       const SizedBox(
                         width: 10,

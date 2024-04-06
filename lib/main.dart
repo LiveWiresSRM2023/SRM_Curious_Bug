@@ -7,6 +7,7 @@ import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyDpPLA4Nt1FY6hsoseVPYD2JRP7e9ENKD4",

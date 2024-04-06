@@ -11,9 +11,12 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   void checkAuth() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      Navigator.pushReplacementNamed(context, '/profile');
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (FirebaseAuth.instance.currentUser != null) {
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, '/profile');
+      }
+    });
   }
 
   @override

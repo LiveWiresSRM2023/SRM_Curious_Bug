@@ -32,7 +32,7 @@ class _FeedState extends State<Feed> {
       "n_comments": 5,
       "hashtags": ["legaltech", "python", "nlp"],
       "op_email": "data.analyst@yourcompany.com",
-      "op_profile": "assets/images/srm_logo.png",
+      "op_profile": "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
       "comments": "/collection/{docID}",
       "post_images": [
         "https://picsum.photos/600/300",
@@ -50,7 +50,7 @@ class _FeedState extends State<Feed> {
       "n_comments": 1,
       "hashtags": ["opensource", "legaltech", "law", "linux"],
       "op_email": "manager@lawfirm.com",
-      "op_profile": "assets/images/srm_logo.png",
+      "op_profile": "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
       "comments": "/collection/{docID}",
       "post_images": [
         "https://picsum.photos/600/300",
@@ -69,7 +69,7 @@ class _FeedState extends State<Feed> {
       "n_comments": 3,
       "hashtags": ["law", "datavisualization", "python"],
       "op_email": "data.scientist@yourcompany.com",
-      "op_profile": "assets/images/srm_logo.png",
+      "op_profile": "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
       "comments": "/collection/{docID}",
       "post_images": [
         "https://picsum.photos/600/300",
@@ -82,7 +82,7 @@ class _FeedState extends State<Feed> {
 
   @override
   Widget build(BuildContext context) {
-    bool _switch = false;
+    bool collaborationSwitch = false;
     return Scaffold(
       backgroundColor: const Color(0xffF7F9FA),
       body: Row(
@@ -90,7 +90,10 @@ class _FeedState extends State<Feed> {
         children: [
           const Expanded(
             flex: 1,
-            child: MiniProfile(),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: MiniProfile(),
+            ),
           ),
           const VerticalDivider(
             color: Color(0xffdcdcdc),
@@ -98,169 +101,167 @@ class _FeedState extends State<Feed> {
           ),
           Expanded(
             flex: 2,
-            child: SizedBox(
-              child: Column(
-                children: [
-                  Container(
-                    height: 200,
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CustomTextField(
-                            borderColor: Theme.of(context).colorScheme.primary,
-                            width: double.maxFinite,
-                            labelText: "Search",
-                            leadingIcon: const Icon(Icons.search),
-                            showLabel: false),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: SizedBox(
-                            height: 60,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Chip(
-                                  label: Text(
-                                    "Posts",
-                                    style: GoogleFonts.inter(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Chip(
-                                    label: Text(
-                                  "Topics",
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.bold),
-                                )),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Chip(
-                                    label: Text(
-                                  "Media",
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.bold),
-                                )),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Chip(
-                                    label: Text(
-                                  "User",
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.bold),
-                                )),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Chip(
-                                    label: Text(
-                                  "Events",
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ],
-                            ),
-                          ),
-                        )
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   children: [
-                        //     Image.asset("assets/images/srm_logo.png",
-                        //         width: 50, height: 50),
-                        //     const SizedBox(
-                        //       width: 20,
-                        //     ),
-                        //     Text(
-                        //       "Whats's on your mind?",
-                        //       style: GoogleFonts.archivo(
-                        //           fontSize: 20, color: const Color(0xff5B7083)),
-                        //     )
-                        //   ],
-                        // ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(2.0),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.start,
-                        //     crossAxisAlignment: CrossAxisAlignment.center,
-                        //     children: [
-                        //       InkWell(
-                        //         onTap: () {},
-                        //         child: Image.asset(
-                        //             "assets/icons/gallery_icon.png"),
-                        //       ),
-                        //       const SizedBox(
-                        //         width: 20,
-                        //       ),
-                        //       InkWell(
-                        //         onTap: () {},
-                        //         child:
-                        //             Image.asset("assets/icons/data_icon.png"),
-                        //       ),
-                        //       const SizedBox(
-                        //         width: 20,
-                        //       ),
-                        //       InkWell(
-                        //         onTap: () {},
-                        //         child:
-                        //             Image.asset("assets/icons/emojii_icon.png"),
-                        //       ),
-                        //       const SizedBox(
-                        //         width: 20,
-                        //       ),
-                        //       InkWell(
-                        //         onTap: () {},
-                        //         child: Image.asset(
-                        //             "assets/icons/calendar_icon.png"),
-                        //       ),
-                        //       const Spacer(),
-                        //       TextButton(
-                        //         onPressed: () {},
-                        //         style: ButtonStyle(
-                        //             fixedSize: MaterialStateProperty.all(
-                        //                 const Size(100, 30)),
-                        //             backgroundColor: MaterialStateProperty.all(
-                        //                 Theme.of(context).colorScheme.primary)),
-                        //         child: Text(
-                        //           "Post",
-                        //           style: GoogleFonts.archivo(
-                        //               color: Colors.white,
-                        //               fontWeight: FontWeight.bold,
-                        //               fontSize: 15),
-                        //         ),
-                        //       )
-                        //     ],
-                        //   ),
-                        // )
-                      ]),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SingleChildScrollView(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height - 210,
-                      child: Post(
-                        posts: posts,
+            child: Column(
+              children: [
+                Container(
+                  height: 200,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(children: [
+                      const SizedBox(
+                        height: 20,
                       ),
+                      CustomTextField(
+                          borderColor: Theme.of(context).colorScheme.primary,
+                          width: double.maxFinite,
+                          labelText: "Search",
+                          leadingIcon: const Icon(Icons.search),
+                          showLabel: false),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: SizedBox(
+                          height: 60,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Chip(
+                                label: Text(
+                                  "Posts",
+                                  style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Chip(
+                                  label: Text(
+                                "Topics",
+                                style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.bold),
+                              )),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Chip(
+                                  label: Text(
+                                "Media",
+                                style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.bold),
+                              )),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Chip(
+                                  label: Text(
+                                "User",
+                                style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.bold),
+                              )),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Chip(
+                                  label: Text(
+                                "Events",
+                                style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.bold),
+                              )),
+                            ],
+                          ),
+                        ),
+                      )
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     Image.asset("assets/images/srm_logo.png",
+                      //         width: 50, height: 50),
+                      //     const SizedBox(
+                      //       width: 20,
+                      //     ),
+                      //     Text(
+                      //       "Whats's on your mind?",
+                      //       style: GoogleFonts.archivo(
+                      //           fontSize: 20, color: const Color(0xff5B7083)),
+                      //     )
+                      //   ],
+                      // ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(2.0),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      //       InkWell(
+                      //         onTap: () {},
+                      //         child: Image.asset(
+                      //             "assets/icons/gallery_icon.png"),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       InkWell(
+                      //         onTap: () {},
+                      //         child:
+                      //             Image.asset("assets/icons/data_icon.png"),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       InkWell(
+                      //         onTap: () {},
+                      //         child:
+                      //             Image.asset("assets/icons/emojii_icon.png"),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       InkWell(
+                      //         onTap: () {},
+                      //         child: Image.asset(
+                      //             "assets/icons/calendar_icon.png"),
+                      //       ),
+                      //       const Spacer(),
+                      //       TextButton(
+                      //         onPressed: () {},
+                      //         style: ButtonStyle(
+                      //             fixedSize: MaterialStateProperty.all(
+                      //                 const Size(100, 30)),
+                      //             backgroundColor: MaterialStateProperty.all(
+                      //                 Theme.of(context).colorScheme.primary)),
+                      //         child: Text(
+                      //           "Post",
+                      //           style: GoogleFonts.archivo(
+                      //               color: Colors.white,
+                      //               fontWeight: FontWeight.bold,
+                      //               fontSize: 15),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // )
+                    ]),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height - 210,
+                    child: Post(
+                      posts: posts,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           const VerticalDivider(
@@ -269,7 +270,10 @@ class _FeedState extends State<Feed> {
           ),
           const Expanded(
             flex: 1,
-            child: Events(),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Events(),
+            ),
           )
         ],
       ),
@@ -593,10 +597,11 @@ class _FeedState extends State<Feed> {
                                                     BlendMode.srcIn,
                                                   ),
                                                   child: CupertinoSwitch(
-                                                    value: _switch,
+                                                    value: collaborationSwitch,
                                                     onChanged: (bool value) {
                                                       setState(() {
-                                                        _switch = value;
+                                                        collaborationSwitch =
+                                                            value;
                                                       });
                                                     },
                                                   ),
@@ -729,7 +734,7 @@ class _FeedState extends State<Feed> {
                                               posts.add({
                                                 "title": titleController.text,
                                                 "upvote": "0",
-                                                "post": abstractController,
+                                                "post": abstractController.text,
                                                 "timestamp":
                                                     DateTime.now().toString(),
                                                 "op_name": FirebaseAuth.instance
