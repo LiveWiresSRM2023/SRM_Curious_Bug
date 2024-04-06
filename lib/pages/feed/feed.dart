@@ -776,7 +776,7 @@ class _FeedState extends State<Feed> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.1,
+                                                0.08,
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
