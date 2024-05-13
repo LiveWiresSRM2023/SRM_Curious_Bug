@@ -41,7 +41,8 @@ class _AuthState extends State<Auth> {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color:
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.4),
                   offset: const Offset(0, 0),
                   blurRadius: 30,
                   spreadRadius: 7.0,
@@ -58,9 +59,9 @@ class _AuthState extends State<Auth> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Image.asset(
-                    'assets/images/srm_logo.png',
-                    width: screenSize.height * 0.18,
-                    height: screenSize.height * 0.18,
+                    'assets/images/logo.png',
+                    width: screenSize.height * 0.25,
+                    height: screenSize.height * 0.25,
                   ),
                   const SizedBox(height: 20),
                   Text(

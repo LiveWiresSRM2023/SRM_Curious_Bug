@@ -1,116 +1,347 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:srm_curious_bug/widgets/custom_textfield.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
+    bool isChecked = true;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        // Wrap with Center widget
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            padding: const EdgeInsets.all(30.0),
-            decoration: BoxDecoration(
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0xFFA8CBF6),
-                  offset: Offset(0, 0),
-                  blurRadius: 30,
-                  spreadRadius: 7.0,
-                )
-              ],
-              color: const Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.circular(
-                  20), // Corrected border radius value // Set border color to blue
-            ),
-            height: screenSize.height * 0.88, // 80% of the screen height
-            width: screenSize.width * 0.3, // 80% of the screen width
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Edit your Profile',
-                    style: GoogleFonts.inter(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Image.asset(
-                    'assets/images/srm_logo.png',
-                    width: screenSize.height * 0.14,
-                    height: screenSize.height * 0.14,
-                  ),
-                  const SizedBox(height: 4),
-                  const CustomTextField(
-                      borderColor: Color(0xffdcdcdc),
-                      width: 300,
-                      showLabel: true,
-                      labelText: 'Name'),
-                  const CustomTextField(
-                      borderColor: Color(0xffdcdcdc),
-                      width: 300,
-                      showLabel: true,
-                      labelText: 'College'),
-                  const CustomTextField(
-                      borderColor: Color(0xffdcdcdc),
-                      width: 300,
-                      showLabel: true,
-                      labelText: 'Position in the department'),
-                  const CustomTextField(
-                      borderColor: Color(0xffdcdcdc),
-                      width: 300,
-                      showLabel: true,
-                      labelText: 'Social Links'),
-                  const SizedBox(height: 5),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushReplacementNamed(context, '/feed');
-                    },
-                    splashColor: Colors.white.withOpacity(0.5),
-                    highlightColor: Colors.transparent,
-                    child: Container(
-                      width: 150,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Continue',
-                            style: GoogleFonts.inter(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(
-                              width: 8), // Add space between text and image
-                          const Icon(
-                            Icons.arrow_forward_rounded,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.09,
+                width: MediaQuery.of(context).size.width * 0.09,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/logo.png"))),
               ),
-            ),
-          ),
-        ),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "First Name",
+                          style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.width * 0.03,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withOpacity(0.2),
+                                blurRadius: 7,
+                                offset: const Offset(0, 0),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            textAlign: TextAlign.start,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: InputBorder.none,
+                            ),
+                            autofocus: true,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Theme.of(context).colorScheme.secondary),
+                            // cursorHeight: 15,
+                            cursorWidth: screenSize.width * 0.001,
+                            cursorColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Last Name",
+                          style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.width * 0.03,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withOpacity(0.2),
+                                blurRadius: 7,
+                                offset: const Offset(0, 0),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            textAlign: TextAlign.start,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: InputBorder.none,
+                            ),
+                            autofocus: true,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Theme.of(context).colorScheme.secondary),
+                            // cursorHeight: 15,
+                            cursorWidth: screenSize.width * 0.001,
+                            cursorColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "College",
+                          style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.width * 0.03,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withOpacity(0.2),
+                                blurRadius: 7,
+                                offset: const Offset(0, 0),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            textAlign: TextAlign.start,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: InputBorder.none,
+                            ),
+                            autofocus: true,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Theme.of(context).colorScheme.secondary),
+                            // cursorHeight: 15,
+                            cursorWidth: screenSize.width * 0.001,
+                            cursorColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Department",
+                          style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.width * 0.03,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withOpacity(0.2),
+                                blurRadius: 7,
+                                offset: const Offset(0, 0),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            textAlign: TextAlign.start,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: InputBorder.none,
+                            ),
+                            autofocus: true,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Theme.of(context).colorScheme.secondary),
+                            // cursorHeight: 15,
+                            cursorWidth: screenSize.width * 0.001,
+                            cursorColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Position",
+                          style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.width * 0.03,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withOpacity(0.2),
+                                blurRadius: 7,
+                                offset: const Offset(0, 0),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            textAlign: TextAlign.start,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: InputBorder.none,
+                            ),
+                            autofocus: true,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Theme.of(context).colorScheme.secondary),
+                            // cursorHeight: 15,
+                            cursorWidth: screenSize.width * 0.001,
+                            cursorColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: isChecked,
+                      onChanged: (newValue) =>
+                          setState(() => isChecked = isChecked!),
+                      activeColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    Text(
+                      "I agree to the Terms of Service and acknowledge the Privacy Policy",
+                      style: GoogleFonts.openSans(
+                          textStyle: const TextStyle(
+                              fontSize: 9,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, '/feed');
+                  },
+                  splashColor: Colors.white.withOpacity(0.5),
+                  highlightColor: Colors.transparent,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color(0xffDe9a3a),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text(
+                          "Continue",
+                          style: GoogleFonts.archivo(
+                              textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ]),
       ),
     );
   }

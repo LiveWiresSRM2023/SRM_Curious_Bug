@@ -4,6 +4,7 @@ import 'package:srm_curious_bug/pages/auth.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
+import 'package:srm_curious_bug/pages/landing.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 
 void main() async {
@@ -31,14 +32,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color(0xff0c4da2),
-          secondary: const Color(0xffa8cbf6),
-          tertiary: const Color(0xffe4b316),
+          primary: const Color(0xffDe9a3a),
+          secondary: const Color(0xff6c6c6c),
+          tertiary: const Color.fromARGB(255, 255, 255, 255),
         ),
         useMaterial3: true,
       ),
-      home: const Auth(),
+      home: const Landing(),
       routes: {
+        '/landing': (context) => const Landing(),
         '/auth': (context) => const Auth(),
         '/profile': (context) => const Profile(),
         '/feed': (context) => const Feed(),
