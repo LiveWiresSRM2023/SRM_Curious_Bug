@@ -13,7 +13,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    bool _isChecked = true;
+    bool isChecked = true;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -293,9 +293,9 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Checkbox(
-                      value: _isChecked,
+                      value: isChecked,
                       onChanged: (newValue) =>
-                          setState(() => _isChecked = _isChecked!),
+                          setState(() => isChecked = isChecked!),
                       activeColor: Theme.of(context).colorScheme.primary,
                     ),
                     Text(

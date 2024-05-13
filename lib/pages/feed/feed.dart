@@ -298,8 +298,8 @@ class _FeedState extends State<Feed> {
         width: MediaQuery.of(context).size.width * 0.09,
         child: FloatingActionButton.extended(
           label:
-              Text("New Post", style: GoogleFonts.inter(color: Colors.white)),
-          backgroundColor: Theme.of(context).colorScheme.primary,
+              Text("Create +", style: GoogleFonts.inter(color: Colors.white)),
+          backgroundColor: Colors.black,
           onPressed: () {
             showDialog(
                 context: context,
@@ -851,7 +851,7 @@ class _FeedState extends State<Feed> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
-          icon: const Icon(Icons.add),
+          // icon: const Icon(Icons.add),
         ),
       ),
     );
