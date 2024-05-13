@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,12 +27,33 @@ class _FeedState extends State<Feed> {
   TextEditingController durationController = TextEditingController();
 
   Future<void> getAllPosts() async {
-    await FirebaseFirestore.instance.collection("srmeureka").get().then((QuerySnapshot doc) {
-      doc.docs.map((e) => print(e.data()));
+    await FirebaseFirestore.instance
+        .collection("srmeureka")
+        .get()
+        .then((QuerySnapshot doc) {
+      doc.docs.map((e) => posts.add({
+            "title": e["posts"],
+            "upvote": e["upvote"],
+            "post": e["posts"],
+            "timestamp": "2024-03-28T22:33:00+05:30",
+            "op_name": "Data Analyst",
+            "n_comments": 5,
+            "hashtags": ["legaltech", "python", "nlp"],
+            "op_email": "data.analyst@yourcompany.com",
+            "op_profile":
+                "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
+            "comments": "/collection/{docID}",
+            "post_images": [
+              "https://picsum.photos/600/300",
+              "https://picsum.photos/600/300"
+            ],
+            "duration": "1 month",
+            "expertise": ["Python", "Natural Language Processing (NLP)"]
+          }));
     });
   }
 
-  List posts = [
+  List<Map> posts = [
     {
       "title": "Sample project",
       "upvote": "10",
@@ -40,7 +63,8 @@ class _FeedState extends State<Feed> {
       "n_comments": 5,
       "hashtags": ["legaltech", "python", "nlp"],
       "op_email": "data.analyst@yourcompany.com",
-      "op_profile": "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
+      "op_profile":
+          "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
       "comments": "/collection/{docID}",
       "post_images": [
         "https://picsum.photos/600/300",
@@ -58,7 +82,8 @@ class _FeedState extends State<Feed> {
       "n_comments": 1,
       "hashtags": ["opensource", "legaltech", "law", "linux"],
       "op_email": "manager@lawfirm.com",
-      "op_profile": "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
+      "op_profile":
+          "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
       "comments": "/collection/{docID}",
       "post_images": [
         "https://picsum.photos/600/300",
@@ -77,7 +102,8 @@ class _FeedState extends State<Feed> {
       "n_comments": 3,
       "hashtags": ["law", "datavisualization", "python"],
       "op_email": "data.scientist@yourcompany.com",
-      "op_profile": "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
+      "op_profile":
+          "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
       "comments": "/collection/{docID}",
       "post_images": [
         "https://picsum.photos/600/300",
@@ -87,6 +113,13 @@ class _FeedState extends State<Feed> {
       "expertise": ["Python", "Data Visualization"]
     }
   ];
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   getAllPosts();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -427,14 +460,21 @@ class _FeedState extends State<Feed> {
                                                                   type: FileType
                                                                       .image);
                                                       if (picker != null) {
-                                                        
                                                         for (PlatformFile image
                                                             in picker.files) {
                                                           images
                                                               .add(image.bytes);
-                                                              Reference storageRef = FirebaseStorage.instance.ref("/srmeureka/posts/${const Uuid().v4()}.png");
-                                                              await storageRef.putData(image.bytes!);
-                                                              mediaUrl.add(await storageRef.getDownloadURL());
+                                                          Reference storageRef =
+                                                              FirebaseStorage
+                                                                  .instance
+                                                                  .ref(
+                                                                      "/srmeureka/posts/${const Uuid().v4()}.png");
+                                                          await storageRef
+                                                              .putData(
+                                                                  image.bytes!);
+                                                          mediaUrl.add(
+                                                              await storageRef
+                                                                  .getDownloadURL());
                                                         }
                                                         mediaUploaded = true;
                                                         dialogState(() {});
@@ -745,46 +785,47 @@ class _FeedState extends State<Feed> {
                                         padding: const EdgeInsets.all(2.0),
                                         child: InkWell(
                                           onTap: () async {
-                                            Map<String, dynamic> storeData =  {
-                                                "title": titleController.text,
-                                                "upvote": "0",
-                                                "post": abstractController.text,
-                                                "timestamp":
-                                                    DateTime.now().toString(),
-                                                "op_name": FirebaseAuth.instance
-                                                    .currentUser!.displayName,
-                                                "n_comments": 0,
-                                                "hashtags": [
-                                                  "legaltech",
-                                                  "python",
-                                                  "nlp"
-                                                ],
-                                                "op_email": FirebaseAuth
-                                                    .instance
-                                                    .currentUser!
-                                                    .email,
-                                                "op_profile": FirebaseAuth
-                                                    .instance
-                                                    .currentUser!
-                                                    .photoURL,
-                                                "comments":
-                                                    "/collection/{docID}",
-                                                "post_images": [
-                                                  "https://picsum.photos/600/300",
-                                                  "https://picsum.photos/600/300"
-                                                ],
-                                                "duration":
-                                                    durationController.text,
-                                                "expertise": [
-                                                  "Python",
-                                                  "Natural Language Processing (NLP)"
-                                                ]
-                                              };
-                                              FirebaseFirestore.instance.collection("srmeureka").doc(const Uuid().v4()).set(storeData);
+                                            Map<String, dynamic> storeData = {
+                                              "title": titleController.text,
+                                              "upvote": "0",
+                                              "post": abstractController.text,
+                                              "timestamp":
+                                                  DateTime.now().toString(),
+                                              "op_name": FirebaseAuth.instance
+                                                  .currentUser!.displayName,
+                                              "n_comments": 0,
+                                              "hashtags": [
+                                                "legaltech",
+                                                "python",
+                                                "nlp"
+                                              ],
+                                              "op_email": FirebaseAuth
+                                                  .instance.currentUser!.email,
+                                              "op_profile": FirebaseAuth
+                                                  .instance
+                                                  .currentUser!
+                                                  .photoURL,
+                                              "comments": "/collection/{docID}",
+                                              "post_images": [
+                                                "https://picsum.photos/600/300",
+                                                "https://picsum.photos/600/300"
+                                              ],
+                                              "duration":
+                                                  durationController.text,
+                                              "expertise": [
+                                                "Python",
+                                                "Natural Language Processing (NLP)"
+                                              ]
+                                            };
+                                            FirebaseFirestore.instance
+                                                .collection("srmeureka")
+                                                .doc(const Uuid().v4())
+                                                .set(storeData);
                                             await getAllPosts();
                                             setState(() {
-                                              posts.insert(0,storeData);
-                                            Navigator.pop(context);});
+                                              posts.insert(0, storeData);
+                                              Navigator.pop(context);
+                                            });
                                           },
                                           splashColor:
                                               Colors.white.withOpacity(0.5),
