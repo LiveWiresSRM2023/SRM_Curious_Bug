@@ -42,7 +42,7 @@ class _MiniProfileState extends State<MiniProfile> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: index == selectedIndex
-                          ? Color.fromARGB(255, 190, 188, 188)
+                          ? Theme.of(context).colorScheme.primary
                           : Colors.transparent,
                     ),
                     padding: const EdgeInsets.all(8.0),
