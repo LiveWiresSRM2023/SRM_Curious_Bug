@@ -12,7 +12,7 @@ class _MiniProfileState extends State<MiniProfile> {
   int selectedIndex = 0;
   Map<String, IconData> el = {
     'Home': Icons.home_rounded,
-    'Events': Icons.event_available,
+    'Events': Icons.event_seat_sharp,
     'Calendar': Icons.calendar_month,
   };
 
@@ -42,21 +42,29 @@ class _MiniProfileState extends State<MiniProfile> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: index == selectedIndex
-                          ? Theme.of(context).colorScheme.primary
+                          ? Theme.of(context).colorScheme.secondary
                           : Colors.transparent,
                     ),
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Icon(iconData, color: Colors.black, size: 19),
+                        Icon(
+                          iconData,
+                          color: index == selectedIndex
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.black,
+                        ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.01),
                         Text(txt,
                             style: GoogleFonts.inter(
-                                textStyle: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black))), // Example text
+                                textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: index == selectedIndex
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.black,
+                            ))), // Example text
                       ],
                     ),
                   ),
