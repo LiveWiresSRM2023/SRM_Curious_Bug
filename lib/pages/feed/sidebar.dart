@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MiniProfile extends StatefulWidget {
-  const MiniProfile({super.key});
+class SideBar extends StatefulWidget {
+  const SideBar({super.key});
 
   @override
-  State<MiniProfile> createState() => _MiniProfileState();
+  State<SideBar> createState() => _SideBarState();
 }
 
-class _MiniProfileState extends State<MiniProfile> {
+class _SideBarState extends State<SideBar> {
   int selectedIndex = 0;
   Map<String, IconData> el = {
     'Home': Icons.home_rounded,

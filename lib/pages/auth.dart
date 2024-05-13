@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +16,7 @@ class _AuthState extends State<Auth> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (FirebaseAuth.instance.currentUser != null) {
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, '/profile');
+        Navigator.pushReplacementNamed(context, '/onboard');
       }
     });
   }
@@ -137,7 +139,7 @@ class _AuthState extends State<Auth> {
                               checkAuth();
                             }
                           });
-                          Navigator.pushReplacementNamed(context, '/profile');
+                          Navigator.pushReplacementNamed(context, '/onboard');
                         },
                         splashColor: Colors.white.withOpacity(0.5),
                         highlightColor: Colors.transparent,
