@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:srm_curious_bug/pages/auth.dart';
+import 'package:srm_curious_bug/pages/feed/create.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:srm_curious_bug/pages/feed/sidebar.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         '/sidebar': (context) => const SideBar(),
         '/events': (context) => const Events(),
         '/profile': (context) => const Profile(),
+        '/create': (context) => const Create(),
       },
     );
   }

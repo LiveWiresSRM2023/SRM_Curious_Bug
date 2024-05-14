@@ -1,12 +1,11 @@
 // ignore_for_file: avoid_print
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:srm_curious_bug/pages/feed/create.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/posts.dart';
 import 'package:srm_curious_bug/pages/feed/sidebar.dart';
+import 'package:srm_curious_bug/pages/profile.dart';
 import 'package:srm_curious_bug/widgets/custom_textfield.dart';
 
 class Feed extends StatefulWidget {
@@ -17,21 +16,6 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController abstractController = TextEditingController();
-  TextEditingController invitesController = TextEditingController();
-  TextEditingController durationController = TextEditingController();
-  TextEditingController collaboratorController = TextEditingController();
-
-  Future<void> getAllPosts() async {
-    await FirebaseFirestore.instance
-        .collection("srmeureka")
-        .get()
-        .then((QuerySnapshot doc) {
-      doc.docs.map((e) => print(e.data()));
-    });
-  }
-
   List posts = [
     {
       "title": "Sample project",
@@ -195,13 +179,21 @@ class _FeedState extends State<Feed> {
                     padding: const EdgeInsets.only(top: 12.0, bottom: 8),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushReplacementNamed(context, '/profile');
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => const Profile(),
+                            transitionDuration: const Duration(seconds: 1),
+                            transitionsBuilder: (_, a, __, c) =>
+                                FadeTransition(opacity: a, child: c),
+                          ),
+                        );
                       },
                       child: Row(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.047,
-                            height: MediaQuery.of(context).size.height * 0.047,
+                            width: MediaQuery.of(context).size.width * 0.06,
+                            height: MediaQuery.of(context).size.height * 0.06,
                             decoration: BoxDecoration(
                               border: Border.all(
                                   color: Theme.of(context).colorScheme.primary),
