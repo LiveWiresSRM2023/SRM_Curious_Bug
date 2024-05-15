@@ -192,23 +192,19 @@ class _FeedState extends State<Feed> {
                       child: Row(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.06,
-                            height: MediaQuery.of(context).size.height * 0.06,
+                            width: MediaQuery.of(context).size.width * 0.065,
+                            height: MediaQuery.of(context).size.height * 0.065,
                             decoration: BoxDecoration(
                               border: Border.all(
                                   color: Theme.of(context).colorScheme.primary),
                               shape: BoxShape.circle,
                               color: Colors.black45,
                             ),
-                            // child: ClipOval(
-                            //   child: Image.asset(
-                            //     "assets/images/bluebells.jpg",
-                            //     width: MediaQuery.of(context).size.width * 0.02,
-                            //     height:
-                            //         MediaQuery.of(context).size.height * 0.02,
-                            //     fit: BoxFit.cover,
-                            //   ),
-                            // ),
+                            // child: const CircleAvatar(
+                            //     backgroundColor: Colors.white,
+                            //     radius: 38,
+                            //     backgroundImage:
+                            //         AssetImage("assets/images/pfp.jpg")),
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
