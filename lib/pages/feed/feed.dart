@@ -135,8 +135,7 @@ class _FeedState extends State<Feed> {
                       child: FloatingActionButton.extended(
                         label: Text("Create +",
                             style: GoogleFonts.inter(color: Colors.white)),
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
+                        backgroundColor: Colors.black,
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -160,7 +159,7 @@ class _FeedState extends State<Feed> {
                     padding: const EdgeInsets.only(top: 12.0, bottom: 8),
                     child: InkWell(
                       onTap: () {},
-                      child: Image.asset("assets/icons/notification 1.png",
+                      child: Image.asset("assets/icons/bell.png",
                           height: MediaQuery.of(context).size.height * 0.05,
                           width: MediaQuery.of(context).size.width * 0.05),
                     ),
@@ -170,13 +169,13 @@ class _FeedState extends State<Feed> {
                     padding: const EdgeInsets.only(top: 12.0, bottom: 8),
                     child: InkWell(
                       onTap: () {},
-                      child: Image.asset("assets/icons/discussion.png",
+                      child: Image.asset("assets/icons/message.png",
                           height: MediaQuery.of(context).size.height * 0.05,
                           width: MediaQuery.of(context).size.width * 0.05),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 12.0, bottom: 8),
+                    padding: const EdgeInsets.all(10),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -191,21 +190,11 @@ class _FeedState extends State<Feed> {
                       },
                       child: Row(
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.065,
-                            height: MediaQuery.of(context).size.height * 0.065,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Theme.of(context).colorScheme.primary),
-                              shape: BoxShape.circle,
-                              color: Colors.black45,
-                            ),
-                            // child: const CircleAvatar(
-                            //     backgroundColor: Colors.white,
-                            //     radius: 38,
-                            //     backgroundImage:
-                            //         AssetImage("assets/images/pfp.jpg")),
-                          ),
+                          const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 18,
+                              backgroundImage:
+                                  AssetImage("assets/images/pfp.jpg")),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                             width: MediaQuery.of(context).size.width * 0.02,
