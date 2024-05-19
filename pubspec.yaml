@@ -14,7 +14,6 @@ dependencies:
   firebase_core: ^2.28.0
   google_fonts: ^6.2.1
   file_picker: ^8.0.0+1
-  cloud_firestore: ^4.16.0
   firebase_storage: ^11.7.0
   uuid: ^4.3.3
   cloud_firestore: ^4.16.0

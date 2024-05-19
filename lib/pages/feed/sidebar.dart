@@ -40,9 +40,22 @@ class _SideBarState extends State<SideBar> {
                     width: MediaQuery.of(context).size.width * 0.04,
                     height: MediaQuery.of(context).size.height * 0.07,
                     decoration: BoxDecoration(
+                      boxShadow: [
+                        index == selectedIndex
+                            ? BoxShadow(
+                                blurRadius: 5,
+                                spreadRadius: 2,
+                                offset: const Offset(0, 0),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.6))
+                            : const BoxShadow(
+                                blurRadius: 0, color: Colors.transparent)
+                      ],
                       borderRadius: BorderRadius.circular(5),
                       color: index == selectedIndex
-                          ? Theme.of(context).colorScheme.secondary
+                          ? Colors.grey.shade400
                           : Colors.transparent,
                     ),
                     padding: const EdgeInsets.all(8.0),
@@ -51,8 +64,8 @@ class _SideBarState extends State<SideBar> {
                         Icon(
                           iconData,
                           color: index == selectedIndex
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.black,
+                              ? Colors.black
+                              : Theme.of(context).colorScheme.primary,
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.01),
@@ -62,9 +75,9 @@ class _SideBarState extends State<SideBar> {
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: index == selectedIndex
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Colors.black,
-                            ))), // Example text
+                                  ? Colors.black
+                                  : Theme.of(context).colorScheme.primary,
+                            ))),
                       ],
                     ),
                   ),
@@ -72,10 +85,6 @@ class _SideBarState extends State<SideBar> {
               );
             },
           ),
-        ),
-        const Divider(
-          height: 0.20,
-          color: Colors.grey,
         ),
         const SizedBox(height: 30),
         Padding(
@@ -91,8 +100,11 @@ class _SideBarState extends State<SideBar> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.black))),
-              SizedBox(
-                  height: 10, width: MediaQuery.of(context).size.width * 0.5),
+              const SizedBox(height: 10),
+              const Divider(
+                height: 0.20,
+                color: Colors.black,
+              ),
               const SizedBox(height: 10),
               const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -115,17 +127,16 @@ class _SideBarState extends State<SideBar> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("MY POSTS",
+              Text("My Posts",
                   style: GoogleFonts.archivo(
                       textStyle: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.black))),
-              SizedBox(
-                  height: 10, width: MediaQuery.of(context).size.width * 0.5),
+              const SizedBox(height: 10),
               const Divider(
                 height: 0.20,
-                color: Colors.grey,
+                color: Colors.black,
               ),
               const SizedBox(height: 10),
               ListView.builder(
@@ -209,10 +220,7 @@ class HashTagWidget extends StatelessWidget {
         child: Text(
           "# $tag",
           style: GoogleFonts.inter(
-              textStyle: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
+              textStyle: const TextStyle(fontSize: 15, color: Colors.black)),
         ),
       ),
     );

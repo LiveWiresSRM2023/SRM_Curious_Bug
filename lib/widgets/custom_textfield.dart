@@ -31,7 +31,7 @@ class CustomTextField extends StatelessWidget {
                 height: 0,
               ),
         SizedBox(
-          height: 33, // Reduced height
+          height: 33,
           width: width,
           child: TextFormField(
             decoration: InputDecoration(

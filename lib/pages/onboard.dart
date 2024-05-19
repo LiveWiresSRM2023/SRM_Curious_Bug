@@ -295,7 +295,7 @@ class _OnBoardState extends State<OnBoard> {
                     Checkbox(
                       value: isChecked,
                       onChanged: (newValue) =>
-                          setState(() => isChecked = isChecked!),
+                          setState(() => isChecked = isChecked),
                       activeColor: Theme.of(context).colorScheme.primary,
                     ),
                     Text(

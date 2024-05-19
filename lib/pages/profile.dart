@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:srm_curious_bug/pages/feed/create.dart';
 import 'package:srm_curious_bug/pages/feed/feed.dart';
+import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/custom_textfield.dart';
 
 class Profile extends StatefulWidget {
@@ -43,134 +44,13 @@ class _ProfileState extends State<Profile> {
     };
 
     return Scaffold(
-      // appBar: AppBar(),
-      backgroundColor: Color.fromARGB(255, 223, 218, 218),
+      appBar: appBar(context),
+      backgroundColor: const Color.fromARGB(255, 223, 218, 218),
       body: SingleChildScrollView(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.085,
-                        width: MediaQuery.of(context).size.width * 0.075,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/logo.png"),
-                                fit: BoxFit.cover)),
-                      ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.12),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Column(children: [
-                            SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.015,
-                            ),
-                            CustomTextField(
-                                borderColor:
-                                    Theme.of(context).colorScheme.primary,
-                                width: double.maxFinite,
-                                labelText: "Search",
-                                leadingIcon: const Icon(Icons.search),
-                                showLabel: false),
-                          ]),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 8),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        width: MediaQuery.of(context).size.width * 0.08,
-                        child: FloatingActionButton.extended(
-                          label: Text("Create +",
-                              style: GoogleFonts.inter(color: Colors.white)),
-                          backgroundColor: Colors.black,
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return const Create();
-                                });
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.008),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0, bottom: 8),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Image.asset("assets/icons/bell.png",
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            width: MediaQuery.of(context).size.width * 0.05),
-                      ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.008),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0, bottom: 8),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Image.asset("assets/icons/message.png",
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            width: MediaQuery.of(context).size.width * 0.05),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => const Feed(),
-                              transitionDuration: const Duration(seconds: 1),
-                              transitionsBuilder: (_, a, __, c) =>
-                                  FadeTransition(opacity: a, child: c),
-                            ),
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            const CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 18,
-                                backgroundImage:
-                                    AssetImage("assets/images/pfp.jpg")),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                              width: MediaQuery.of(context).size.width * 0.02,
-                              child: const Icon(
-                                Icons.arrow_drop_down_outlined,
-                                color: Colors.grey,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
