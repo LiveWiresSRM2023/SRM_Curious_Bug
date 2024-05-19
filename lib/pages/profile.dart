@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:readmore/readmore.dart';
+import 'package:srm_curious_bug/pages/feed/create.dart';
+import 'package:srm_curious_bug/pages/feed/feed.dart';
+import 'package:srm_curious_bug/widgets/custom_textfield.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -9,336 +13,1100 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool showMore = false;
+
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
+    Map<String, String> textMap = {
+      "UI/UX Designer": "InterMediate",
+      "Figma": "Beginner",
+      "ProductDesigner": "Beginner",
+    };
 
-    bool isChecked = true;
+    Map<String, List> userProfiles = {
+      "Alex Job A": ["UI/UX Designer", "assets/images/pfp.jpg"],
+      "Roshan SK": ["Software Developer", "assets/images/pfp.jpg"],
+      "Sudharshan": ["UI/UX Developer", "assets/images/pfp.jpg"],
+      "Abin": ["Data Scientist", "assets/images/pfp.jpg"],
+    };
+    Map<String, List> UserActivities = {
+      "Alex Job A": [
+        "3w",
+        "assets/images/bluebells.jpg",
+        "Had an amazing experience organizing Techutsav, An intra college event! Rocked the role of creative head, designing invitations, event details, banners, and backdrops. The Tech Innovation Challenge provided the perfect platform for us to unleash our creativity, problem-solving skills, and technical prowess. With fervor in our hearts and lines of code at our fingertips, we set out to tackle one of the most pressing issues of our time: transportation in urban landscapes.Big learning experience - leveled up my pressure management skills for sure! Plus, I met some super talented people along the way! 🔥✨"
+      ],
+      "Roshan SK": [
+        "5w",
+        "assets/images/bluebells.jpg",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      ],
+    };
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
+      // appBar: AppBar(),
+      backgroundColor: Color.fromARGB(255, 223, 218, 218),
+      body: SingleChildScrollView(
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.09,
-                width: MediaQuery.of(context).size.width * 0.09,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/logo.png"))),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "First Name",
-                          style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withOpacity(0.2),
-                                blurRadius: 7,
-                                offset: const Offset(0, 0),
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
-                            ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Last Name",
-                          style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withOpacity(0.2),
-                                blurRadius: 7,
-                                offset: const Offset(0, 0),
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
-                            ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "College",
-                          style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withOpacity(0.2),
-                                blurRadius: 7,
-                                offset: const Offset(0, 0),
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
-                            ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Department",
-                          style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withOpacity(0.2),
-                                blurRadius: 7,
-                                offset: const Offset(0, 0),
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
-                            ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Position",
-                          style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withOpacity(0.2),
-                                blurRadius: 7,
-                                offset: const Offset(0, 0),
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
-                            ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
-                          ),
-                        ),
-                      ),
-                    ]),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+                color: Colors.white,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (newValue) =>
-                          setState(() => isChecked = isChecked!),
-                      activeColor: Theme.of(context).colorScheme.primary,
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.085,
+                        width: MediaQuery.of(context).size.width * 0.075,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("assets/images/logo.png"),
+                                fit: BoxFit.cover)),
+                      ),
                     ),
-                    Text(
-                      "I agree to the Terms of Service and acknowledge the Privacy Policy",
-                      style: GoogleFonts.openSans(
-                          textStyle: const TextStyle(
-                              fontSize: 9,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey)),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.12),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        color: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(children: [
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                            CustomTextField(
+                                borderColor:
+                                    Theme.of(context).colorScheme.primary,
+                                width: double.maxFinite,
+                                labelText: "Search",
+                                leadingIcon: const Icon(Icons.search),
+                                showLabel: false),
+                          ]),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 8),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        width: MediaQuery.of(context).size.width * 0.08,
+                        child: FloatingActionButton.extended(
+                          label: Text("Create +",
+                              style: GoogleFonts.inter(color: Colors.white)),
+                          backgroundColor: Colors.black,
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const Create();
+                                });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.008),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0, bottom: 8),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Image.asset("assets/icons/bell.png",
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.05),
+                      ),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.008),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0, bottom: 8),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Image.asset("assets/icons/message.png",
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.05),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => const Feed(),
+                              transitionDuration: const Duration(seconds: 1),
+                              transitionsBuilder: (_, a, __, c) =>
+                                  FadeTransition(opacity: a, child: c),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 18,
+                                backgroundImage:
+                                    AssetImage("assets/images/pfp.jpg")),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.02,
+                              width: MediaQuery.of(context).size.width * 0.02,
+                              child: const Icon(
+                                Icons.arrow_drop_down_outlined,
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/feed');
-                  },
-                  splashColor: Colors.white.withOpacity(0.5),
-                  highlightColor: Colors.transparent,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: const Color(0xffDe9a3a),
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Text(
-                          "Continue",
-                          style: GoogleFonts.archivo(
-                              textStyle: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black)),
+                child: Row(
+                  children: [
+                    SingleChildScrollView(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.white,
+                                      )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10.0, bottom: 10, right: 10),
+                                    child: Column(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.45,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.9,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  image: const DecorationImage(
+                                                      image: AssetImage(
+                                                          "assets/images/Rectangle 14.png"),
+                                                      fit: BoxFit.fitWidth)),
+                                            ),
+                                            const Positioned(
+                                              bottom: 1,
+                                              left: 25,
+                                              child: CircleAvatar(
+                                                  backgroundColor: Colors.white,
+                                                  radius: 36,
+                                                  backgroundImage: AssetImage(
+                                                      "assets/images/pfp.jpg")),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              2.0),
+                                                      child: Text("Alex Job",
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.black,
+                                                          ))),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              2.0),
+                                                      child: Text("@alexjob145",
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                  textStyle:
+                                                                      TextStyle(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .secondary,
+                                                          ))),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: Text("UI/UX Designer",
+                                                      style: GoogleFonts.inter(
+                                                          textStyle:
+                                                              const TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ))),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              2.0),
+                                                      child: Text(
+                                                          "Chennai.TamilNadu.India",
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                  textStyle:
+                                                                      TextStyle(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .secondary,
+                                                          ))),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Padding(
+                                            padding: const EdgeInsets.all(15),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {},
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            2.0),
+                                                    child: Text("Contact info",
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: Colors.blue,
+                                                        ))),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 4.0),
+                                                      child: InkWell(
+                                                        onTap: () {},
+                                                        child: Image.asset(
+                                                            height: 35,
+                                                            width: 35,
+                                                            "assets/icons/gmail.png"),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 4.0,
+                                                              right: 4.0),
+                                                      child: InkWell(
+                                                        onTap: () {},
+                                                        child: Image.asset(
+                                                            height: 25,
+                                                            width: 25,
+                                                            "assets/icons/github.png"),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8,
+                                                              right: 4),
+                                                      child: InkWell(
+                                                        onTap: () {},
+                                                        child: Image.asset(
+                                                            height: 25,
+                                                            width: 25,
+                                                            "assets/icons/twitter.png"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8),
+                                            child: SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.055,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.075,
+                                              child:
+                                                  FloatingActionButton.extended(
+                                                label: Text("Edit Profile",
+                                                    style: GoogleFonts.inter(
+                                                        color: Colors.white,
+                                                        fontSize: 12)),
+                                                backgroundColor: Colors.black,
+                                                onPressed: () {},
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ]),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.white,
+                                      )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Text("About",
+                                              textAlign: TextAlign.start,
+                                              style: GoogleFonts.inter(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ))),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: ReadMoreText(
+                                              "Making magic on screens (UI/UX design) by day. When I'm off the clock, it's church, guitar jams, and good vibes. Love meeting new people. Always up to connect! Making magic on screens (UI/UX design) by day. When I'm off the clock, it's church, guitar jams, and good vibes. Love meeting new people. Always up to connect!Making magic on screens (UI/UX design) by day. When I'm off the clock, it's church, guitar jams, and good vibes. Love meeting new people. Always up to connect!.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                              textAlign: TextAlign.start,
+                                              trimLines: 5,
+                                              trimCollapsedText: ' Show More',
+                                              style: GoogleFonts.inter(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.black,
+                                              ))),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Colors.white,
+                                        )),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text("Activity",
+                                                    textAlign: TextAlign.start,
+                                                    style: GoogleFonts.inter(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
+                                                    ))),
+                                                const Spacer(),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  child: SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.055,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.075,
+                                                    child: FloatingActionButton
+                                                        .extended(
+                                                      label: Text("Create +",
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      12)),
+                                                      backgroundColor:
+                                                          Colors.black,
+                                                      onPressed: () {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return const Create();
+                                                            });
+                                                      },
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30.0),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.44,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ListView.builder(
+                                                itemCount:
+                                                    UserActivities.length,
+                                                itemBuilder: (context, index) {
+                                                  String username =
+                                                      UserActivities.keys
+                                                          .elementAt(index);
+                                                  String durationofpost =
+                                                      UserActivities.values
+                                                          .elementAt(index)[0];
+                                                  String postimg =
+                                                      UserActivities.values
+                                                          .elementAt(index)[1];
+                                                  String abt = UserActivities
+                                                      .values
+                                                      .elementAt(index)[2];
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(2.0),
+                                                              child: Text(
+                                                                  username,
+                                                                  style: GoogleFonts
+                                                                      .inter(
+                                                                          textStyle:
+                                                                              TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .secondary,
+                                                                  ))),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(2.0),
+                                                              child: Text(
+                                                                  "posted this",
+                                                                  style: GoogleFonts
+                                                                      .inter(
+                                                                          textStyle:
+                                                                              TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .secondary,
+                                                                  ))),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(2.0),
+                                                              child: Text(
+                                                                  " . $durationofpost",
+                                                                  style: GoogleFonts
+                                                                      .inter(
+                                                                          textStyle:
+                                                                              TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .secondary,
+                                                                  ))),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      top: 8.0,
+                                                                      right: 4,
+                                                                      bottom:
+                                                                          8),
+                                                              child: Container(
+                                                                  height: MediaQuery.of(context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.09,
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.09,
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8)),
+                                                                  child: Image
+                                                                      .asset(
+                                                                    postimg,
+                                                                  )),
+                                                            ),
+                                                            SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.53,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        4.0),
+                                                                child: ReadMoreText(
+                                                                    abt,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .justify,
+                                                                    trimLines:
+                                                                        3,
+                                                                    trimMode:
+                                                                        TrimMode
+                                                                            .Line,
+                                                                    trimCollapsedText:
+                                                                        ' Show More',
+                                                                    style: GoogleFonts
+                                                                        .inter(
+                                                                            textStyle:
+                                                                                const TextStyle(
+                                                                      fontSize:
+                                                                          11,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ))),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 5),
+                                                        const Divider(
+                                                            height: 1,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    187,
+                                                                    185,
+                                                                    185)),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.26,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.white,
+                                      )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Text("User ID : ",
+                                              style: GoogleFonts.inter(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Text(
+                                              "www.srmcuriousbees.in/alex_job",
+                                              style: GoogleFonts.inter(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.blue,
+                                              ))),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                              const SizedBox(height: 8),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.white,
+                                      )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("You might know : ",
+                                              style: GoogleFonts.inter(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ))),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        SizedBox(
+                                          height: showMore
+                                              ? MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.65
+                                              : MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.49,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ListView.builder(
+                                              itemCount: userProfiles.length,
+                                              itemBuilder: (context, index) {
+                                                String text1 = userProfiles.keys
+                                                    .elementAt(index);
+                                                String text2 = userProfiles
+                                                    .values
+                                                    .elementAt(index)[0];
+                                                String img = userProfiles.values
+                                                    .elementAt(index)[1];
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 4.0,
+                                                          bottom: 4,
+                                                          right: 8),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: CircleAvatar(
+                                                                backgroundColor:
+                                                                    const Color
+                                                                        .fromARGB(
+                                                                        255,
+                                                                        11,
+                                                                        4,
+                                                                        4),
+                                                                radius: 20,
+                                                                backgroundImage:
+                                                                    AssetImage(
+                                                                        img)),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Text(
+                                                                  text1,
+                                                                  style:
+                                                                      GoogleFonts
+                                                                          .inter(
+                                                                    textStyle:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          14.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  text2,
+                                                                  style:
+                                                                      GoogleFonts
+                                                                          .inter(
+                                                                    textStyle:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 2,
+                                                                bottom: 2,
+                                                                right: 8.0,
+                                                                left: 8),
+                                                        child: Divider(
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              231,
+                                                              228,
+                                                              228),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              showMore = !showMore;
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Center(
+                                              child: Text(
+                                                  showMore
+                                                      ? 'Show Less'
+                                                      : 'Show More',
+                                                  style: GoogleFonts.inter(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      143,
+                                                                      142,
+                                                                      142),
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold))),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                              const SizedBox(height: 8),
+                              Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Skills : ",
+                                            style: GoogleFonts.inter(
+                                              textStyle: const TextStyle(
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ListView.builder(
+                                              itemCount: textMap.length,
+                                              itemBuilder: (context, index) {
+                                                String text1 = textMap.keys
+                                                    .elementAt(index);
+                                                String text2 = textMap.values
+                                                    .elementAt(index);
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            border: Border.all(
+                                                                color: const Color
+                                                                    .fromARGB(
+                                                                    255,
+                                                                    14,
+                                                                    14,
+                                                                    14))),
+                                                        child: Center(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Text(
+                                                              text1,
+                                                              style: GoogleFonts
+                                                                  .inter(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          text2,
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            textStyle:
+                                                                const TextStyle(
+                                                              fontSize: 12.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ]),

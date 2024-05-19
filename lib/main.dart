@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:srm_curious_bug/pages/auth.dart';
+import 'package:srm_curious_bug/pages/feed/create.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/feed.dart';
-import 'package:srm_curious_bug/pages/feed/mini_profile.dart';
+import 'package:srm_curious_bug/pages/feed/sidebar.dart';
 import 'package:srm_curious_bug/pages/landing.dart';
+import 'package:srm_curious_bug/pages/onboard.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 
 void main() async {
@@ -38,14 +40,16 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const Landing(),
+      home: Landing(),
       routes: {
         '/landing': (context) => const Landing(),
         '/auth': (context) => const Auth(),
-        '/profile': (context) => const Profile(),
+        '/onboard': (context) => const OnBoard(),
         '/feed': (context) => const Feed(),
-        '/mini_profile': (context) => const MiniProfile(),
+        '/sidebar': (context) => const SideBar(),
         '/events': (context) => const Events(),
+        '/profile': (context) => const Profile(),
+        '/create': (context) => const Create(),
       },
     );
   }

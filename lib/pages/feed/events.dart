@@ -11,8 +11,8 @@ class Events extends StatefulWidget {
 class _EventsState extends State<Events> {
   Map<String, int> eV = {
     'Live': 0xFF85D358,
-    'Closed': 0xFFDE4540,
     'Ongoing': 0xBEFFD000,
+    'Closed': 0xFFDE4540,
   };
 
   @override
