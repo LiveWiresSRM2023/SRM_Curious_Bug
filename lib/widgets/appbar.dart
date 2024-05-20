@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:srm_curious_bug/pages/feed/create.dart';
+import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 PreferredSizeWidget appBar(BuildContext context) {
   return AppBar(
@@ -46,14 +48,15 @@ PreferredSizeWidget appBar(BuildContext context) {
               Text("Create +", style: GoogleFonts.inter(color: Colors.white)),
           backgroundColor: Colors.black,
           onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  // List images = [];
-                  // bool mediaUploaded = false;
-                  // List<String> mediaUrl = [];
-                  return const Create();
-                });
+            postDialog(context);
+            // showDialog(
+            //     context: context,
+            //     builder: (BuildContext context) {
+            //       // List images = [];
+            //       // bool mediaUploaded = false;
+            //       // List<String> mediaUrl = [];
+            //       return 
+            //     });
           },
           //mini: true,
           shape: RoundedRectangleBorder(
@@ -77,13 +80,13 @@ PreferredSizeWidget appBar(BuildContext context) {
         onTap: () {
           Navigator.pushNamed(context, '/profile');
         },
-        child: const Row(
+        child: Row(
           children: [
             CircleAvatar(
                 backgroundColor: Colors.white,
                 radius: 18,
-                backgroundImage: AssetImage("assets/images/pfp.jpg")),
-            SizedBox(
+                backgroundImage: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!)),
+            const SizedBox(
               height: 30,
               width: 30,
               child: Icon(

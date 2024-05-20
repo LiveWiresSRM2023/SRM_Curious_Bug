@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:srm_curious_bug/pages/auth.dart';
-import 'package:srm_curious_bug/pages/feed/create.dart';
-import 'package:srm_curious_bug/pages/feed/events.dart';
+// import 'package:srm_curious_bug/pages/feed/create.dart';
+// import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/feed.dart';
-import 'package:srm_curious_bug/pages/feed/sidebar.dart';
+// import 'package:srm_curious_bug/pages/feed/sidebar.dart';
 import 'package:srm_curious_bug/pages/landing.dart';
 import 'package:srm_curious_bug/pages/onboard.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SRM EUREKA',
+      title: 'SRM Curious Bees',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: Landing(),
+      home: Auth(),
       routes: {
         '/landing': (context) => const Landing(),
         '/auth': (context) => const Auth(),
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         // '/sidebar': (context) => const SideBar(),
         // '/events': (context) => const Events(),
         '/profile': (context) => const Profile(),
-        '/create': (context) => const Create(),
+        // '/create': (context) => const Create(),
       },
     );
   }
