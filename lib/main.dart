@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: Auth(),
+      home: const Auth(),
       routes: {
         '/landing': (context) => const Landing(),
         '/auth': (context) => const Auth(),

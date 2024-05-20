@@ -114,7 +114,7 @@ class _ProfileState extends State<Profile> {
                                           children: [
                                             Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               mainAxisSize: MainAxisSize.min,
@@ -122,25 +122,33 @@ class _ProfileState extends State<Profile> {
                                                 Container(
                                                   height: 200,
                                                   width: 200,
-                                                  decoration:
-                                                      BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          // image: DecorationImage(image: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!))
-                                                          image: DecorationImage(
-                                                              fit: BoxFit.fill,
-                                                              image: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!))),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      // image: DecorationImage(image: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!))
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.fill,
+                                                          image: NetworkImage(
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .photoURL!))),
                                                 ),
                                                 const SizedBox(
                                                   height: 10,
                                                 ),
-                                                Text(
-                                                  "Roshan SK",
-                                                  style: GoogleFonts.inter(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18),
+                                                SizedBox(
+                                                  // width: 160,
+                                                  child: Text(
+                                                    FirebaseAuth
+                                                        .instance
+                                                        .currentUser!
+                                                        .displayName!,
+                                                    style: GoogleFonts.inter(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18),
+                                                  ),
                                                 ),
                                                 const SizedBox(
                                                   height: 10,
@@ -235,19 +243,38 @@ class _ProfileState extends State<Profile> {
                                                                     horizontal:
                                                                         4.0),
                                                             child: InkWell(
-                                                              onTap: () {
-                                                                
-                                                              },
+                                                              onTap: () {},
                                                               child:
                                                                   Image.asset(
-                                                                contactImages.keys.toList()[
+                                                                contactImages
+                                                                        .keys
+                                                                        .toList()[
                                                                     index],
                                                                 height: 30,
                                                                 width: 30,
                                                               ),
                                                             ),
                                                           )),
-                                                )
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                TextButton(
+                                                    onPressed: () {},
+                                                    style: ButtonStyle(
+                                                        fixedSize: MaterialStateProperty.all(const Size(
+                                                            150, 35)),
+                                                        backgroundColor:
+                                                            MaterialStateProperty.all(
+                                                                Colors.black),
+                                                        shape: MaterialStateProperty.all(
+                                                            RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(
+                                                                    20)))),
+                                                    child: Text("Edit Profile",
+                                                        style: GoogleFonts.inter(
+                                                            color: Colors.white,
+                                                            fontWeight: FontWeight.bold)))
                                               ],
                                             )
                                           ],
@@ -558,42 +585,26 @@ class _ProfileState extends State<Profile> {
                                                   color: Colors.black,
                                                 ))),
                                             const Spacer(),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8),
-                                              child: SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.055,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.075,
-                                                child: FloatingActionButton
-                                                    .extended(
-                                                  label: Text("Create +",
-                                                      style: GoogleFonts.inter(
-                                                          color: Colors.white,
-                                                          fontSize: 12)),
-                                                  backgroundColor: Colors.black,
-                                                  onPressed: () {
-                                                    postDialog(context);
-                                                    // showDialog(
-                                                    //     context: context,
-                                                    //     builder:
-                                                    //         (BuildContext
-                                                    //             context) {
-                                                    //       return postDialog(context);
-                                                    //     });
-                                                  },
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.0),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            TextButton(
+                                                onPressed: () {
+                                                  postDialog(context);
+                                                },
+                                                style: ButtonStyle(
+                                                    fixedSize: MaterialStateProperty.all(
+                                                        const Size(100, 35)),
+                                                    backgroundColor:
+                                                        MaterialStateProperty.all(
+                                                            Colors.black),
+                                                    shape: MaterialStateProperty.all(
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    20)))),
+                                                child: Text("Create +",
+                                                    style: GoogleFonts.inter(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
                                           ],
                                         ),
                                       ),

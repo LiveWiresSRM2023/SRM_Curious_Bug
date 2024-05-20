@@ -21,7 +21,7 @@ class _FeedState extends State<Feed> {
 
   Future<void> getAllPosts() async {
     await FirebaseFirestore.instance
-        .collection("srmeureka")
+        .collection("posts")
         .get()
         .then((QuerySnapshot doc) {
       doc.docs.map((e) => posts.add({
