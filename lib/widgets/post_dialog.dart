@@ -1,12 +1,14 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:srm_curious_bug/pages/feed/feed.dart';
+// import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:uuid/uuid.dart';
 
 postDialog(BuildContext context) {
@@ -231,141 +233,190 @@ postDialog(BuildContext context) {
                           //       ),
                           //     )),
                           const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 250,
-                                child: Row(
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Invite",
+                                  style: GoogleFonts.archivo(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 280,
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 40,
+                                            width: 180,
+                                            child: TextField(
+                                              textAlign: TextAlign.left,
+                                              style: GoogleFonts.inter(
+                                                  fontSize: 14),
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              controller: invitesController,
+                                              decoration: InputDecoration(
+                                                contentPadding:
+                                                    const EdgeInsets.all(8),
+                                                hintText: 'Add collaborator',
+
+                                                filled: true,
+                                                fillColor: Colors.grey[50],
+
+                                                // suffix: IconButton(
+                                                //   icon: const Icon(Icons.add),
+                                                //   onPressed: () {
+                                                //     dialogState(() {
+                                                //       invities.add(
+                                                //           invitesController.text);
+                                                //     });
+                                                //   },
+                                                // ),
+                                                hintStyle: GoogleFonts.archivo(
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: IconButton(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              icon: const Icon(Icons.add),
+                                              onPressed: () {
+                                                dialogState(() {
+                                                  invities.add(
+                                                      invitesController.text);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            (MediaQuery.of(context).size.width *
+                                                    0.25) -
+                                                10,
+                                        height: 40,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: invities.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(1.0),
+                                              child: Container(
+                                                height: 25,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5.0),
+                                                      child: Text(
+                                                        invities[index],
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black),
+                                                      ),
+                                                    ),
+                                                    IconButton(
+                                                      iconSize: 10,
+                                                      color: Colors.black,
+                                                      icon: const Icon(
+                                                          Icons.close),
+                                                      onPressed: () {
+                                                        dialogState(() {
+                                                          invities.remove(
+                                                              invitesController
+                                                                  .text);
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        )),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Row(
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Invite",
-                                      style: GoogleFonts.archivo(
+                                      "Collaborate",
+                                      style: GoogleFonts.inter(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    SizedBox(
-                                      height: 30,
-                                      width: 200,
-                                      child: TextField(
-                                        textAlign: TextAlign.left,
-                                        style: GoogleFonts.inter(fontSize: 14),
-                                        textAlignVertical:
-                                            TextAlignVertical.center,
-                                        controller: invitesController,
-                                        decoration: InputDecoration(
-                                          suffix: IconButton(
-                                            icon: const Icon(Icons.add),
-                                            onPressed: () {
-                                              dialogState(() {
-                                                invities.add(
-                                                    invitesController.text);
-                                              });
-                                            },
-                                          ),
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 8, bottom: 2),
-                                          hintText: 'Add collaborator',
-                                          // hintTextDirection: Directionality.,
-                                          filled: true,
-                                          fillColor: Colors.grey[50],
-                                          hintStyle: GoogleFonts.archivo(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                          ),
-                                          // filled: true,
-                                          // fillColor: Colors.grey[50],
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              width: 1,
-                                            ),
-                                          ),
+                                    Transform.scale(
+                                      scale: 0.5,
+                                      child: ColorFiltered(
+                                        colorFilter: ColorFilter.mode(
+                                          Theme.of(context).colorScheme.primary,
+                                          BlendMode.srcIn,
+                                        ),
+                                        child: CupertinoSwitch(
+                                          value: collaborationSwitch,
+                                          onChanged: (bool value) {
+                                            dialogState(() {
+                                              collaborationSwitch = value;
+                                            });
+                                          },
                                         ),
                                       ),
                                     ),
                                   ],
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              SizedBox(
-                                  width: (MediaQuery.of(context).size.width *
-                                          0.25) -
-                                      10,
-                                  height: 40,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: invities.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        height: 25,
-                                        width: 50,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: Text(
-                                            invities[index],
-                                            style: GoogleFonts.inter(
-                                                fontSize: 14,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  )),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Collaborate",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Transform.scale(
-                                    scale: 0.5,
-                                    child: ColorFiltered(
-                                      colorFilter: ColorFilter.mode(
-                                        Theme.of(context).colorScheme.primary,
-                                        BlendMode.srcIn,
-                                      ),
-                                      child: CupertinoSwitch(
-                                        value: collaborationSwitch,
-                                        onChanged: (bool value) {
-                                          dialogState(() {
-                                            collaborationSwitch = value;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                           // Row(
                           //   children: [
@@ -497,6 +548,7 @@ postDialog(BuildContext context) {
                                   // await getAllPosts();
                                   dialogState(() {
                                     // posts.insert(0,storeData);
+
                                     Navigator.pop(context);
                                   });
                                 },

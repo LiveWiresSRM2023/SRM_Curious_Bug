@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_print
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/posts.dart';
 import 'package:srm_curious_bug/pages/feed/sidebar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:srm_curious_bug/widgets/appbar.dart';
 
 class Feed extends StatefulWidget {
   const Feed({super.key});

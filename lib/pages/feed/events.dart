@@ -77,7 +77,7 @@ class _EventsState extends State<Events> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                      width: 200,
+                                      width: 160,
                                       child: Text(
                                         events[index]["title"],
                                         style: GoogleFonts.inter(
@@ -87,10 +87,10 @@ class _EventsState extends State<Events> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 30),
+                                    const SizedBox(width: 8),
                                     Container(
                                       height: 30,
-                                      width: 70,
+                                      width: 60,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           color: color,

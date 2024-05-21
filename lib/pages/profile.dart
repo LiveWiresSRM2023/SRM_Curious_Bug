@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
-import 'package:srm_curious_bug/pages/feed/create.dart';
-import 'package:srm_curious_bug/pages/feed/feed.dart';
+// import 'package:srm_curious_bug/pages/feed/create.dart';
+// import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:srm_curious_bug/widgets/appbar.dart';
-import 'package:srm_curious_bug/widgets/custom_textfield.dart';
+import 'package:srm_curious_bug/widgets/editProfile.dart';
+// import 'package:srm_curious_bug/widgets/custom_textfield.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 class Profile extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ProfileState extends State<Profile> {
       "Abin": ["Data Scientist", "assets/images/pfp.jpg"],
     };
 
-    Map<String, List> UserActivities = {
+    Map<String, List> userActivities = {
       "Alex Job A": [
         "3w",
         "assets/images/bluebells.jpg",
@@ -48,10 +49,10 @@ class _ProfileState extends State<Profile> {
     };
 
     Map profileInto = {
-      "position": "Student at SRM FSH",
-      "degree": "Master in Applied Data Science",
-      "department": "Faculty of Science and Humanities",
-      "website": "www.google.com"
+      "Position ": "Student at SRM FSH",
+      "Degree ": "Master in Applied Data Science",
+      "Department ": "Faculty of Science and Humanities",
+      "Website ": "www.google.com"
     };
 
     // List contactImages = [
@@ -99,8 +100,7 @@ class _ProfileState extends State<Profile> {
                                     color: Colors.white,
                                   )),
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, bottom: 10, right: 10),
+                                padding: const EdgeInsets.all(10),
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -120,8 +120,8 @@ class _ProfileState extends State<Profile> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Container(
-                                                  height: 200,
-                                                  width: 200,
+                                                  height: 150,
+                                                  width: 150,
                                                   decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       // image: DecorationImage(image: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!))
@@ -136,27 +136,33 @@ class _ProfileState extends State<Profile> {
                                                 const SizedBox(
                                                   height: 10,
                                                 ),
-                                                SizedBox(
-                                                  // width: 160,
-                                                  child: Text(
-                                                    FirebaseAuth
-                                                        .instance
-                                                        .currentUser!
-                                                        .displayName!,
-                                                    style: GoogleFonts.inter(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    // width: 160,
+                                                    child: Text(
+                                                      FirebaseAuth
+                                                          .instance
+                                                          .currentUser!
+                                                          .displayName!,
+                                                      style: GoogleFonts.inter(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .secondary,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
                                                   ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
                                                 ),
                                                 Text(
                                                   "Tamil Nadu | Chennai",
                                                   style: GoogleFonts.inter(
-                                                      color: Colors.black,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontSize: 15),
@@ -260,7 +266,9 @@ class _ProfileState extends State<Profile> {
                                                   height: 20,
                                                 ),
                                                 TextButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      editProfile(context);
+                                                    },
                                                     style: ButtonStyle(
                                                         fixedSize: WidgetStateProperty.all(const Size(
                                                             150, 35)),
@@ -590,12 +598,12 @@ class _ProfileState extends State<Profile> {
                                                   postDialog(context);
                                                 },
                                                 style: ButtonStyle(
-                                                    fixedSize: MaterialStateProperty.all(
+                                                    fixedSize: WidgetStateProperty.all(
                                                         const Size(100, 35)),
                                                     backgroundColor:
-                                                        MaterialStateProperty.all(
+                                                        WidgetStateProperty.all(
                                                             Colors.black),
-                                                    shape: MaterialStateProperty.all(
+                                                    shape: WidgetStateProperty.all(
                                                         RoundedRectangleBorder(
                                                             borderRadius:
                                                                 BorderRadius.circular(
@@ -615,18 +623,18 @@ class _ProfileState extends State<Profile> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: ListView.builder(
-                                            itemCount: UserActivities.length,
+                                            itemCount: userActivities.length,
                                             itemBuilder: (context, index) {
-                                              String username = UserActivities
+                                              String username = userActivities
                                                   .keys
                                                   .elementAt(index);
                                               String durationofpost =
-                                                  UserActivities.values
+                                                  userActivities.values
                                                       .elementAt(index)[0];
-                                              String postimg = UserActivities
+                                              String postimg = userActivities
                                                   .values
                                                   .elementAt(index)[1];
-                                              String abt = UserActivities.values
+                                              String abt = userActivities.values
                                                   .elementAt(index)[2];
                                               return Padding(
                                                 padding:
