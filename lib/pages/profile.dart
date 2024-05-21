@@ -22,9 +22,9 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     Map<String, String> textMap = {
-      "NLP": "InterMediate",
+      "NLP": "Intermediate",
       "Differential equations": "Beginner",
-      "DSP": "Beginner",
+      "DSP": "Expert",
     };
 
     Map<String, List> userProfiles = {

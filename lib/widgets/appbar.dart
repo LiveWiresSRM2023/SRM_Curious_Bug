@@ -9,7 +9,7 @@ PreferredSizeWidget appBar(BuildContext context) {
     elevation: 0,
     leading: InkWell(
       onTap: () {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/feed');
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10.0),

@@ -127,7 +127,7 @@ class Post extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(posts[index]["upvote"]),
+                        Text(posts[index]["upvote"].toString()),
                         InkWell(
                           onTap: () {
                             // TODO: Implement firestore update
