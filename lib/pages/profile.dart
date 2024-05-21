@@ -22,9 +22,9 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     Map<String, String> textMap = {
-      "UI/UX Designer": "InterMediate",
-      "Figma": "Beginner",
-      "ProductDesigner": "Beginner",
+      "NLP": "InterMediate",
+      "Differential equations": "Beginner",
+      "DSP": "Beginner",
     };
 
     Map<String, List> userProfiles = {
@@ -262,12 +262,12 @@ class _ProfileState extends State<Profile> {
                                                 TextButton(
                                                     onPressed: () {},
                                                     style: ButtonStyle(
-                                                        fixedSize: MaterialStateProperty.all(const Size(
+                                                        fixedSize: WidgetStateProperty.all(const Size(
                                                             150, 35)),
                                                         backgroundColor:
-                                                            MaterialStateProperty.all(
+                                                            WidgetStateProperty.all(
                                                                 Colors.black),
-                                                        shape: MaterialStateProperty.all(
+                                                        shape: WidgetStateProperty.all(
                                                             RoundedRectangleBorder(
                                                                 borderRadius: BorderRadius.circular(
                                                                     20)))),
@@ -1047,7 +1047,7 @@ class _ProfileState extends State<Profile> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            "Skills : ",
+                                            "Interests : ",
                                             style: GoogleFonts.inter(
                                               textStyle: const TextStyle(
                                                 fontSize: 14.0,

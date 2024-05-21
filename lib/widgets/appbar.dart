@@ -31,12 +31,12 @@ PreferredSizeWidget appBar(BuildContext context) {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: const BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: const BorderSide(color: Colors.transparent, width: 0),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide(color: Colors.yellow.shade900),
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: const BorderSide(color: Colors.transparent, width: 0),
           ),
           fillColor: Colors.grey.shade200,
           filled: true,
@@ -49,9 +49,9 @@ PreferredSizeWidget appBar(BuildContext context) {
             postDialog(context);
           },
           style: ButtonStyle(
-              fixedSize: MaterialStateProperty.all(const Size(100, 35)),
-              backgroundColor: MaterialStateProperty.all(Colors.black),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              fixedSize: WidgetStateProperty.all(const Size(100, 35)),
+              backgroundColor: WidgetStateProperty.all(Colors.black),
+              shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)))),
           child: Text("Create +",
               style: GoogleFonts.inter(

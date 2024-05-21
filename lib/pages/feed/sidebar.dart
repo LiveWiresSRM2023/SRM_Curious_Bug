@@ -34,52 +34,48 @@ class _SideBarState extends State<SideBar> {
                     selectedIndex = index;
                   });
                 },
-                child: Padding(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.04,
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  decoration: BoxDecoration(
+                    // boxShadow: [
+                    //   index == selectedIndex
+                    //       ? BoxShadow(
+                    //           blurRadius: 5,
+                    //           spreadRadius: 2,
+                    //           offset: const Offset(0, 0),
+                    //           color: Theme.of(context)
+                    //               .colorScheme
+                    //               .primary
+                    //               .withOpacity(0.6))
+                    //       : const BoxShadow(
+                    //           blurRadius: 0, color: Colors.transparent)
+                    // ],
+                    borderRadius: BorderRadius.circular(5),
+                    color: index == selectedIndex
+                        ? Colors.grey.shade400
+                        : Colors.transparent,
+                  ),
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.04,
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        index == selectedIndex
-                            ? BoxShadow(
-                                blurRadius: 5,
-                                spreadRadius: 2,
-                                offset: const Offset(0, 0),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.6))
-                            : const BoxShadow(
-                                blurRadius: 0, color: Colors.transparent)
-                      ],
-                      borderRadius: BorderRadius.circular(5),
-                      color: index == selectedIndex
-                          ? Colors.grey.shade400
-                          : Colors.transparent,
-                    ),
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          iconData,
-                          color: index == selectedIndex
-                              ? Colors.black
-                              : Theme.of(context).colorScheme.primary,
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.01),
-                        Text(txt,
-                            style: GoogleFonts.inter(
-                                textStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: index == selectedIndex
-                                  ? Colors.black
-                                  : Theme.of(context).colorScheme.primary,
-                            ))),
-                      ],
-                    ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        iconData,
+                        color: index == selectedIndex
+                            ? Colors.black
+                            : Theme.of(context).colorScheme.primary,
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      Text(txt,
+                          style: GoogleFonts.inter(
+                              textStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: index == selectedIndex
+                                ? Colors.black
+                                : Theme.of(context).colorScheme.primary,
+                          ))),
+                    ],
                   ),
                 ),
               );

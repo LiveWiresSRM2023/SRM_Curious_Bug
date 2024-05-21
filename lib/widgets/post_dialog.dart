@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -14,6 +15,7 @@ postDialog(BuildContext context) {
   TextEditingController invitesController = TextEditingController();
   TextEditingController durationController = TextEditingController();
   TextEditingController collaboratorController = TextEditingController();
+  List invities = [];
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -91,9 +93,9 @@ postDialog(BuildContext context) {
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
                               controller: abstractController,
-                              maxLines: 2,
+                              maxLines: 5,
                               decoration: InputDecoration(
-                                hintText: 'Enter your text here',
+                                hintText: 'Enter abstract here',
                                 filled: true,
                                 fillColor: Colors.grey[50],
                                 border: OutlineInputBorder(
@@ -232,176 +234,55 @@ postDialog(BuildContext context) {
                           Row(
                             children: [
                               SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width * 0.25) -
-                                        10,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Invite",
-                                        style: GoogleFonts.archivo(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.04,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.15,
-                                        child: TextField(
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.only(left: 8),
-                                            hintText: 'Enter your text here',
-                                            filled: true,
-                                            fillColor: Colors.grey[50],
-                                            hintStyle: GoogleFonts.archivo(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.black,
-                                            ),
-                                            // filled: true,
-                                            // fillColor: Colors.grey[50],
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                width: 1,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width * 0.25) -
-                                        10,
+                                width: 250,
                                 child: Row(
                                   children: [
                                     Text(
-                                      "Collaborate",
-                                      style: GoogleFonts.inter(
+                                      "Invite",
+                                      style: GoogleFonts.archivo(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    Transform.scale(
-                                      scale: 0.5,
-                                      child: ColorFiltered(
-                                        colorFilter: ColorFilter.mode(
-                                          Theme.of(context).colorScheme.primary,
-                                          BlendMode.srcIn,
-                                        ),
-                                        child: CupertinoSwitch(
-                                          value: collaborationSwitch,
-                                          onChanged: (bool value) {
-                                            dialogState(() {
-                                              collaborationSwitch = value;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              // SizedBox(
-                              //   width:
-                              //       (MediaQuery.of(context).size.width * 0.25) -
-                              //           10,
-                              //   child: Padding(
-                              //     padding: const EdgeInsets.all(8.0),
-                              //     child: Row(
-                              //       mainAxisAlignment: MainAxisAlignment.start,
-                              //       children: [
-                              //         Text(
-                              //           "Topics",
-                              //           style: GoogleFonts.inter(
-                              //             fontSize: 16,
-                              //             fontWeight: FontWeight.bold,
-                              //             color: Colors.black,
-                              //           ),
-                              //         ),
-                              //         const SizedBox(width: 4),
-                              //         const Padding(
-                              //           padding: EdgeInsets.all(8.0),
-                              //           child: Expanded(
-                              //             child: Wrap(
-                              //               alignment: WrapAlignment.center,
-                              //               children: [
-                              //                 HashTagWidget1('twitter'),
-                              //                 HashTagWidget1('srm'),
-                              //                 HashTagWidget1('ig'),
-                              //                 HashTagWidget1('srmist'),
-                              //               ],
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
-                              SizedBox(
-                                height: 50,
-                                width:
-                                    (MediaQuery.of(context).size.width * 0.25) -
-                                        10,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Duration",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
                                     SizedBox(
-                                      height: 60,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.15,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: TextField(
-                                          controller: durationController,
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.only(left: 8),
-                                            hintText: 'Enter duration',
-                                            filled: true,
-                                            fillColor: Colors.grey[50],
-                                            hintStyle: GoogleFonts.archivo(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.black,
-                                            ),
-                                            // filled: true,
-                                            // fillColor: Colors.grey[50],
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                width: 1,
-                                              ),
+                                      height: 30,
+                                      width: 200,
+                                      child: TextField(
+                                        textAlign: TextAlign.left,
+                                        style: GoogleFonts.inter(fontSize: 14),
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
+                                        controller: invitesController,
+                                        decoration: InputDecoration(
+                                          suffix: IconButton(
+                                            icon: const Icon(Icons.add),
+                                            onPressed: () {
+                                              dialogState(() {
+                                                invities.add(
+                                                    invitesController.text);
+                                              });
+                                            },
+                                          ),
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 8, bottom: 2),
+                                          hintText: 'Add collaborator',
+                                          // hintTextDirection: Directionality.,
+                                          filled: true,
+                                          fillColor: Colors.grey[50],
+                                          hintStyle: GoogleFonts.archivo(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          ),
+                                          // filled: true,
+                                          // fillColor: Colors.grey[50],
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              width: 1,
                                             ),
                                           ),
                                         ),
@@ -409,9 +290,174 @@ postDialog(BuildContext context) {
                                     ),
                                   ],
                                 ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                  width: (MediaQuery.of(context).size.width *
+                                          0.25) -
+                                      10,
+                                  height: 40,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: invities.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        height: 25,
+                                        width: 50,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Text(
+                                            invities[index],
+                                            style: GoogleFonts.inter(
+                                                fontSize: 14,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  )),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Collaborate",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Transform.scale(
+                                    scale: 0.5,
+                                    child: ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                        Theme.of(context).colorScheme.primary,
+                                        BlendMode.srcIn,
+                                      ),
+                                      child: CupertinoSwitch(
+                                        value: collaborationSwitch,
+                                        onChanged: (bool value) {
+                                          dialogState(() {
+                                            collaborationSwitch = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               )
                             ],
                           ),
+                          // Row(
+                          //   children: [
+                          //     // SizedBox(
+                          //     //   width:
+                          //     //       (MediaQuery.of(context).size.width * 0.25) -
+                          //     //           10,
+                          //     //   child: Padding(
+                          //     //     padding: const EdgeInsets.all(8.0),
+                          //     //     child: Row(
+                          //     //       mainAxisAlignment: MainAxisAlignment.start,
+                          //     //       children: [
+                          //     //         Text(
+                          //     //           "Topics",
+                          //     //           style: GoogleFonts.inter(
+                          //     //             fontSize: 16,
+                          //     //             fontWeight: FontWeight.bold,
+                          //     //             color: Colors.black,
+                          //     //           ),
+                          //     //         ),
+                          //     //         const SizedBox(width: 4),
+                          //     //         const Padding(
+                          //     //           padding: EdgeInsets.all(8.0),
+                          //     //           child: Expanded(
+                          //     //             child: Wrap(
+                          //     //               alignment: WrapAlignment.center,
+                          //     //               children: [
+                          //     //                 HashTagWidget1('twitter'),
+                          //     //                 HashTagWidget1('srm'),
+                          //     //                 HashTagWidget1('ig'),
+                          //     //                 HashTagWidget1('srmist'),
+                          //     //               ],
+                          //     //             ),
+                          //     //           ),
+                          //     //         ),
+                          //     //       ],
+                          //     //     ),
+                          //     //   ),
+                          //     // ),
+                          //     SizedBox(
+                          //       height: 50,
+                          //       width:
+                          //           (MediaQuery.of(context).size.width * 0.25) -
+                          //               10,
+                          //       child: Row(
+                          //         children: [
+                          //           Text(
+                          //             "Duration",
+                          //             style: GoogleFonts.inter(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.bold,
+                          //               color: Colors.black,
+                          //             ),
+                          //           ),
+                          //           SizedBox(
+                          //             height: 60,
+                          //             width: MediaQuery.of(context).size.width *
+                          //                 0.15,
+                          //             child: Padding(
+                          //               padding: const EdgeInsets.all(8.0),
+                          //               child: TextField(
+                          //                 controller: durationController,
+                          //                 decoration: InputDecoration(
+                          //                   contentPadding:
+                          //                       const EdgeInsets.only(left: 8),
+                          //                   hintText: 'Enter duration',
+                          //                   filled: true,
+                          //                   fillColor: Colors.grey[50],
+                          //                   hintStyle: GoogleFonts.archivo(
+                          //                     fontSize: 10,
+                          //                     fontWeight: FontWeight.normal,
+                          //                     color: Colors.black,
+                          //                   ),
+                          //                   // filled: true,
+                          //                   // fillColor: Colors.grey[50],
+                          //                   border: OutlineInputBorder(
+                          //                     borderSide: BorderSide(
+                          //                       color: Theme.of(context)
+                          //                           .colorScheme
+                          //                           .primary,
+                          //                       width: 1,
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     )
+                          //   ],
+                          // ),
                           const SizedBox(
                             height: 20,
                           ),
