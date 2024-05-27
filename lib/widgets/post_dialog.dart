@@ -16,12 +16,14 @@ postDialog(BuildContext context) {
   TextEditingController abstractController = TextEditingController();
   TextEditingController invitesController = TextEditingController();
   TextEditingController durationController = TextEditingController();
+  // ignore: unused_local_variable
   TextEditingController collaboratorController = TextEditingController();
   List invities = [];
   return showDialog(
       context: context,
       builder: (BuildContext context) {
         List images = [];
+        // ignore: unused_local_variable
         bool mediaUploaded = false;
         List<String> mediaUrl = [];
         bool collaborationSwitch = false;

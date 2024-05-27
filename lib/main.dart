@@ -7,6 +7,7 @@ import 'package:srm_curious_bug/pages/feed/feed.dart';
 // import 'package:srm_curious_bug/pages/feed/sidebar.dart';
 import 'package:srm_curious_bug/pages/landing.dart';
 import 'package:srm_curious_bug/pages/onboard.dart';
+import 'package:srm_curious_bug/pages/post_page.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 
 void main() async {
@@ -46,10 +47,8 @@ class MyApp extends StatelessWidget {
         '/auth': (context) => const Auth(),
         '/onboard': (context) => const OnBoard(),
         '/feed': (context) => const Feed(),
-        // '/sidebar': (context) => const SideBar(),
-        // '/events': (context) => const Events(),
         '/profile': (context) => const Profile(),
-        // '/create': (context) => const Create(),
+        '/postpage': (context) => const PostPage(),
       },
     );
   }
