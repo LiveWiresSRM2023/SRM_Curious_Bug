@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:srm_curious_bug/widgets/appbar.dart';
@@ -357,85 +356,62 @@ class _PostPageState extends State<PostPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: NetworkImage(
-                                                            FirebaseAuth
-                                                                .instance
-                                                                .currentUser!
-                                                                .photoURL!))),
-                                              ),
+                                            Container(
+                                              height: 36,
+                                              width: 36,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                          FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .photoURL!))),
                                             ),
                                             const Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 4.0, bottom: 4),
+                                              padding: EdgeInsets.all(4),
                                               child: VerticalDivider(
                                                   width: 1,
                                                   color: Color.fromARGB(
                                                       255, 212, 208, 208)),
                                             ),
-                                            SizedBox(
-                                                width: 480,
-                                                height: 40,
-                                                child: TextField(
-                                                  controller: commentController,
-                                                  decoration: InputDecoration(
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                                const BorderSide(
-                                                                    color:
-                                                                        Colors
-                                                                            .black),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                                const BorderSide(
-                                                                    color:
-                                                                        Colors
-                                                                            .black),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                    disabledBorder:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                                const BorderSide(
-                                                                    color: Colors
-                                                                        .black),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-
-                                                    contentPadding:
-                                                        const EdgeInsets.all(5),
-                                                    hintText:
-                                                        'Add a comment...',
-                                                    hintStyle: const TextStyle(
-                                                        color: Colors.grey),
-
-                                                    // fillColor: Colors
-                                                    //     .transparent,
-                                                    // filled:
-                                                    //     true,
-                                                  ),
-                                                  maxLines: 4,
-                                                  textAlign: TextAlign.justify,
-                                                )),
+                                            Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.black),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: SizedBox(
+                                                  width: 480,
+                                                  height: 30,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: TextField(
+                                                      controller:
+                                                          commentController,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        border:
+                                                            InputBorder.none,
+                                                        hintText:
+                                                            'Add a comment...',
+                                                        hintStyle: TextStyle(
+                                                            color: Colors.grey),
+                                                      ),
+                                                      maxLines: 4,
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                    ),
+                                                  )),
+                                            ),
                                             const SizedBox(
                                               width: 10,
                                             ),
@@ -447,7 +423,8 @@ class _PostPageState extends State<PostPage> {
                                                       .collection("comments")
                                                       .doc()
                                                       .set({
-                                                    "comment": commentController.text,
+                                                    "comment":
+                                                        commentController.text,
                                                     "date": DateTime.now().day,
                                                     "month":
                                                         DateTime.now().month,

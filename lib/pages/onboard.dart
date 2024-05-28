@@ -49,7 +49,7 @@ class _OnBoardState extends State<OnBoard> {
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
+                          height: MediaQuery.of(context).size.width * 0.032,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -62,25 +62,29 @@ class _OnBoardState extends State<OnBoard> {
                               ),
                             ],
                           ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
+                          child: Center(
+                            child: TextField(
+                              textAlign: TextAlign.justify,
+                              textAlignVertical: TextAlignVertical.top,
+                              decoration: const InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                border: InputBorder.none,
+                              ),
+
+                              autofocus: true,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                              // cursorHeight: 15,
+                              cursorWidth: screenSize.width * 0.001,
+                              cursorColor: Theme.of(context)
+                                  .colorScheme
+                                  .secondary
+                                  .withOpacity(0.5),
                             ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
                           ),
                         ),
                       ),
@@ -99,7 +103,7 @@ class _OnBoardState extends State<OnBoard> {
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
+                          height: MediaQuery.of(context).size.width * 0.032,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -112,25 +116,29 @@ class _OnBoardState extends State<OnBoard> {
                               ),
                             ],
                           ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
+                          child: Center(
+                            child: TextField(
+                              textAlign: TextAlign.justify,
+                              textAlignVertical: TextAlignVertical.top,
+                              decoration: const InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                border: InputBorder.none,
+                              ),
+
+                              autofocus: true,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                              // cursorHeight: 15,
+                              cursorWidth: screenSize.width * 0.001,
+                              cursorColor: Theme.of(context)
+                                  .colorScheme
+                                  .secondary
+                                  .withOpacity(0.5),
                             ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
                           ),
                         ),
                       ),
@@ -149,7 +157,7 @@ class _OnBoardState extends State<OnBoard> {
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
+                          height: MediaQuery.of(context).size.width * 0.032,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -162,25 +170,29 @@ class _OnBoardState extends State<OnBoard> {
                               ),
                             ],
                           ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
+                          child: Center(
+                            child: TextField(
+                              textAlign: TextAlign.justify,
+                              textAlignVertical: TextAlignVertical.top,
+                              decoration: const InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                border: InputBorder.none,
+                              ),
+
+                              autofocus: true,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                              // cursorHeight: 15,
+                              cursorWidth: screenSize.width * 0.001,
+                              cursorColor: Theme.of(context)
+                                  .colorScheme
+                                  .secondary
+                                  .withOpacity(0.5),
                             ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
                           ),
                         ),
                       ),
@@ -199,7 +211,7 @@ class _OnBoardState extends State<OnBoard> {
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
+                          height: MediaQuery.of(context).size.width * 0.032,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -212,25 +224,29 @@ class _OnBoardState extends State<OnBoard> {
                               ),
                             ],
                           ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
+                          child: Center(
+                            child: TextField(
+                              textAlign: TextAlign.justify,
+                              textAlignVertical: TextAlignVertical.top,
+                              decoration: const InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                border: InputBorder.none,
+                              ),
+
+                              autofocus: true,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                              // cursorHeight: 15,
+                              cursorWidth: screenSize.width * 0.001,
+                              cursorColor: Theme.of(context)
+                                  .colorScheme
+                                  .secondary
+                                  .withOpacity(0.5),
                             ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
                           ),
                         ),
                       ),
@@ -249,7 +265,7 @@ class _OnBoardState extends State<OnBoard> {
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.03,
+                          height: MediaQuery.of(context).size.width * 0.032,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -262,25 +278,29 @@ class _OnBoardState extends State<OnBoard> {
                               ),
                             ],
                           ),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: InputBorder.none,
+                          child: Center(
+                            child: TextField(
+                              textAlign: TextAlign.justify,
+                              textAlignVertical: TextAlignVertical.top,
+                              decoration: const InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                border: InputBorder.none,
+                              ),
+
+                              autofocus: true,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                              // cursorHeight: 15,
+                              cursorWidth: screenSize.width * 0.001,
+                              cursorColor: Theme.of(context)
+                                  .colorScheme
+                                  .secondary
+                                  .withOpacity(0.5),
                             ),
-                            autofocus: true,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                color: Theme.of(context).colorScheme.secondary),
-                            // cursorHeight: 15,
-                            cursorWidth: screenSize.width * 0.001,
-                            cursorColor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.5),
                           ),
                         ),
                       ),
