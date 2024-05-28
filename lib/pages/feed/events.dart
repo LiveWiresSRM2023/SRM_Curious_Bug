@@ -22,10 +22,12 @@ class _EventsState extends State<Events> {
     await FirebaseFirestore.instance
         .collection("events")
         .get()
-        .then((value) => setState(() {
-              events.addAll(value.docs);
-              eventsLoaded = true;
-            }));
+        .then((value) {
+          events.addAll(value.docs);
+        });
+    setState(() {
+      eventsLoaded = true;
+    });
   }
 
   @override

@@ -21,98 +21,19 @@ class _FeedState extends State<Feed> {
   TextEditingController durationController = TextEditingController();
   bool loadingPosts = true;
 
-  List posts = [
-    // {
-    //   "title": "Sample project",
-    //   "upvote": "10",
-    //   "post": "Automating legal document analysis with Python libraries",
-    //   "timestamp": "2024-03-28T22:33:00+05:30",
-    //   "op_name": "Data Analyst",
-    //   "n_comments": 5,
-    //   "hashtags": ["legaltech", "python", "nlp"],
-    //   "op_email": "data.analyst@yourcompany.com",
-    //   "op_profile":
-    //       "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
-    //   "comments": "/collection/{docID}",
-    //   "post_images": [
-    //     "https://picsum.photos/600/300",
-    //     "https://picsum.photos/600/300"
-    //   ],
-    //   "duration": "1 month",
-    //   "expertise": ["Python", "Natural Language Processing (NLP)"]
-    // },
-    // {
-    //   "title": "Sample project",
-    //   "upvote": "10",
-    //   "post": "Open-source legal case management tools - Seeking ML engineers",
-    //   "timestamp": "2024-03-28T22:33:00+05:30",
-    //   "op_name": "Law Firm Manager",
-    //   "n_comments": 1,
-    //   "hashtags": ["opensource", "legaltech", "law", "linux"],
-    //   "op_email": "manager@lawfirm.com",
-    //   "op_profile":
-    //       "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
-    //   "comments": "/collection/{docID}",
-    //   "post_images": [
-    //     "https://picsum.photos/600/300",
-    //     "https://picsum.photos/600/300"
-    //   ],
-    //   "duration": "3 months",
-    //   "expertise": ["Law", "Open Source Software (OSS)"]
-    // },
-    // {
-    //   "title": "Sample project",
-    //   "upvote": "10",
-    //   "post":
-    //       "Visualizing legal data trends: Exploring Python libraries for data analysis",
-    //   "timestamp": "2024-03-28T22:33:00+05:30",
-    //   "op_name": "Data Scientist",
-    //   "n_comments": 3,
-    //   "hashtags": ["law", "datavisualization", "python"],
-    //   "op_email": "data.scientist@yourcompany.com",
-    //   "op_profile":
-    //       "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
-    //   "comments": "/collection/{docID}",
-    //   "post_images": [
-    //     "https://picsum.photos/600/300",
-    //     "https://picsum.photos/600/300"
-    //   ],
-    //   "duration": "2 weeks",
-    //   "expertise": ["Python", "Data Visualization"]
-    // }
-  ];
+  List<DocumentSnapshot> posts = [];
 
-  Future<void> getAllPosts() async {
+  getAllPosts() async {
     await FirebaseFirestore.instance
         .collection("posts")
         .get()
         .then((QuerySnapshot doc) {
       posts.addAll(doc.docs);
-      // doc.docs.map((e) => posts.add({
-      //       "title": e.get("posts"),
-      //       "upvote": e.get("upvote").toString(),
-      //       "post": e.get("posts"),
-      //       "timestamp": "2024-03-28T22:33:00+05:30",
-      //       "op_name": "Data Analyst",
-      //       "n_comments": e.get("n_comments"),
-      //       "hashtags": e.get("hashtags"),
-      //       "op_email": e.get("op_email"),
-      //       "op_profile":
-      //           "https://srmeureka.pages.dev/assets/assets/images/srm_logo.png",
-      //       "comments": "/collection/{docID}",
-      //       "post_images": [
-      //         "https://picsum.photos/600/300",
-      //         "https://picsum.photos/600/300"
-      //       ],
-      //       "duration": "1 month",
-      //       "expertise": ["Python", "Natural Language Processing (NLP)"]
-      //     }));
     });
 
     setState(() {
       loadingPosts = false;
     });
-    print(posts);
   }
 
   @override

@@ -1,10 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:srm_curious_bug/pages/post_page.dart';
 
 class Post extends StatefulWidget {
-  final List posts;
+  final List<DocumentSnapshot> posts;
   const Post({super.key, required this.posts});
 
   @override
@@ -23,7 +24,10 @@ class _PostState extends State<Post> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const PostPage(),
+                builder: (context) => PostPage(
+                  post: widget.posts[index],
+                  documentID: widget.posts[index].id,
+                ),
               ),
             );
           },
