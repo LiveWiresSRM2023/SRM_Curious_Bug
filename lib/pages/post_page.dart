@@ -29,6 +29,7 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isUserJoined = false;
     return Scaffold(
       appBar: appBar(context),
       backgroundColor: const Color(0xffF7F9FA),
@@ -42,30 +43,18 @@ class _PostPageState extends State<PostPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      // const Expanded(
-                      //   flex: 1,
-                      //   child: Padding(
-                      //     padding: EdgeInsets.all(8.0),
-                      //     child: SideBar(),
-                      //   ),
-                      // ),
-                      // const VerticalDivider(
-                      //   color: Color(0xffdcdcdc),
-                      //   width: 1,
-                      // ),
-                      //post page.............................................
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.65,
                         height: MediaQuery.of(context).size.height - 56,
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                                top: 8.0, left: 15, right: 15),
+                                top: 8.0, left: 25, right: 15),
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,7 +377,7 @@ class _PostPageState extends State<PostPage> {
                                                     BorderRadius.circular(10),
                                               ),
                                               child: SizedBox(
-                                                  width: 480,
+                                                  width: 640,
                                                   height: 30,
                                                   child: Padding(
                                                     padding:
@@ -476,6 +465,92 @@ class _PostPageState extends State<PostPage> {
                       //     child: Events(),
                       //   ),
                       // )
+                      const Spacer(),
+                      Container(
+                          decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage("assets/images/post.png")),
+                              color: Color.fromARGB(255, 201, 200, 200),
+                              borderRadius: BorderRadius.circular(10)),
+                          width: MediaQuery.of(context).size.width * 0.30,
+                          height: MediaQuery.of(context).size.height - 56,
+                          child: Center(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color:
+                                          Colors.grey.shade200.withOpacity(0.5),
+                                      border: Border.all(
+                                        width: 2,
+                                        color: Colors.white30,
+                                      ),
+                                      gradient: const LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Colors.white60,
+                                            Colors.white30
+                                          ]),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.30,
+                                  height:
+                                      MediaQuery.of(context).size.height - 56,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset("assets/icons/padlock.png",
+                                          height: 120, width: 120),
+                                      const SizedBox(height: 40),
+                                      Text(
+                                          "Be The Missing Piece\nRequest to join & contribute",
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.archivo(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black))),
+                                      const SizedBox(height: 10),
+                                      InkWell(
+                                        onTap: () {},
+                                        splashColor:
+                                            Colors.white.withOpacity(0.9),
+                                        highlightColor: Colors.transparent,
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.06,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.12,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: const Color(0xffDe9a3a),
+                                          ),
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(2.0),
+                                              child: Text(
+                                                "JOIN",
+                                                style: GoogleFonts.archivo(
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ))))
                     ],
                   ),
                 ),
