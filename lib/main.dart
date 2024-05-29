@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
         '/onboard': (context) => const OnBoard(),
         '/feed': (context) => const Feed(),
         '/profile': (context) => const Profile(),
-        // '/postpage': (context) => const PostPage(),
       },
     );
   }

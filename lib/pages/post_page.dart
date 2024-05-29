@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:srm_curious_bug/widgets/appbar.dart';
+import 'package:srm_curious_bug/widgets/gantt_chart.dart';
 
 class PostPage extends StatefulWidget {
   final DocumentSnapshot post;
@@ -35,6 +36,26 @@ class _PostPageState extends State<PostPage> {
     commentController.dispose();
     // TODO: implement dispose
     super.dispose();
+  }
+
+  List<String> _invites = [
+    'John Doe',
+    'Jane Smith',
+    'Bob Johnson',
+    'Alice Brown',
+  ];
+  List<String> meet = [
+    'Upcoming Meet',
+    'Schedule Meet',
+  ];
+  void _acceptInvite(int index) {
+    print('Accepted invite from ${_invites[index]}');
+  }
+
+  void _denyInvite(int index) {
+    setState(() {
+      _invites.removeAt(index);
+    });
   }
 
   @override
@@ -462,19 +483,6 @@ class _PostPageState extends State<PostPage> {
                           ),
                         ),
                       ),
-                      //end of post page................................
-                      // const VerticalDivider(
-                      //   color: Color(0xffdcdcdc),
-                      //   width: 1,
-                      // ),
-                      // const Expanded(
-                      //   flex: 1,
-                      //   child: Padding(
-                      //     padding: EdgeInsets.all(8.0),
-                      //     child: Events(),
-                      //   ),
-                      // )
-                      // const SizedBox(width: 20),
                       FirebaseAuth.instance.currentUser!.email! ==
                               widget.post["op_email"]
                           ? Padding(
@@ -513,10 +521,22 @@ class _PostPageState extends State<PostPage> {
                                         Container(
                                           height: 300,
                                           decoration: BoxDecoration(
-                                              color: Colors.white,
+                                              color: Colors.grey.shade200
+                                                  .withOpacity(0.7),
+                                              border: Border.all(
+                                                width: 2,
+                                                color: Colors.white30,
+                                              ),
+                                              gradient: const LinearGradient(
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                  colors: [
+                                                    Colors.white60,
+                                                    Colors.white30
+                                                  ]),
                                               borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          //child: GanttChart(events: events)
+                                                  BorderRadius.circular(10)),
+                                          child: const GanttChart(),
                                         ),
                                         const SizedBox(
                                           height: 20,
@@ -533,34 +553,85 @@ class _PostPageState extends State<PostPage> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Text(
-                                          "Meeting from Monday to Saturday. 3PM - 4PM",
-                                          style: GoogleFonts.inter(
-                                              color: Colors.black),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 10.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: 240,
+                                                child: Text(
+                                                  "Meeting from Monday to Saturday. 3PM - 4PM",
+                                                  style: GoogleFonts.inter(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              const Spacer(
+                                                  // width: 5,
+                                                  ),
+                                              TextButton(
+                                                onPressed: () {},
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        WidgetStateProperty.all(
+                                                            Colors.black),
+                                                    shape: WidgetStateProperty.all(
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10))),
+                                                    fixedSize:
+                                                        WidgetStateProperty.all(
+                                                            const Size(
+                                                                100, 30))),
+                                                child: Text(
+                                                  "Join",
+                                                  style: GoogleFonts.inter(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 10,
                                         ),
                                         // use if else condition to display schedule meeting or join meeting
-                                        TextButton(
-                                          onPressed: () {},
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  WidgetStateProperty.all(
-                                                      Colors.blue),
-                                              shape: WidgetStateProperty.all(
-                                                  RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10))),
-                                              fixedSize:
-                                                  WidgetStateProperty.all(
-                                                      const Size(100, 30))),
-                                          child: Text(
-                                            "Join",
-                                            style: GoogleFonts.inter(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 10.0),
+                                          child: TextButton(
+                                            onPressed: () {},
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    WidgetStateProperty.all(
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                shape: WidgetStateProperty.all(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10))),
+                                                fixedSize:
+                                                    WidgetStateProperty.all(Size(
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                        30))),
+                                            child: Text(
+                                              "Schedule a new meeting",
+                                              style: GoogleFonts.inter(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(
@@ -579,13 +650,78 @@ class _PostPageState extends State<PostPage> {
                                           height: 10,
                                         ),
                                         Container(
-                                          height: 300,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          //child: ListViewBuilder()
-                                        )
+                                            height: 300,
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey.shade200,
+                                                borderRadius:
+                                                    BorderRadius.circular(15)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: ListView.separated(
+                                                itemCount: _invites.length,
+                                                separatorBuilder: (context,
+                                                        index) =>
+                                                    const Divider(height: 5),
+                                                itemBuilder: (context, index) {
+                                                  return ListTile(
+                                                    leading: CircleAvatar(
+                                                      backgroundColor:
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .primary,
+                                                      child: Text(
+                                                          _invites[index][0]),
+                                                    ),
+                                                    title: Text(_invites[index],
+                                                        style: GoogleFonts.inter(
+                                                            textStyle: const TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                    subtitle: InkWell(
+                                                      onTap: () {},
+                                                      child: Text('Invite + ',
+                                                          style: GoogleFonts.inter(
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 12,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal))),
+                                                    ),
+                                                    trailing: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        IconButton(
+                                                          icon: Icon(
+                                                              Icons.check,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .primary),
+                                                          onPressed: () {
+                                                            _acceptInvite(
+                                                                index);
+                                                          },
+                                                        ),
+                                                        IconButton(
+                                                          icon: const Icon(
+                                                              Icons.close),
+                                                          onPressed: () {
+                                                            _denyInvite(index);
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ))
                                       ],
                                     ),
                                   ),
@@ -594,9 +730,10 @@ class _PostPageState extends State<PostPage> {
                             )
                           : Container(
                               decoration: BoxDecoration(
-                                  // image: const DecorationImage(
-                                  //     fit: BoxFit.cover,
-                                  //     image: AssetImage("assets/images/post.png")),
+                                  image: const DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image:
+                                          AssetImage("assets/images/post.png")),
                                   color:
                                       const Color.fromARGB(255, 201, 200, 200),
                                   borderRadius: BorderRadius.circular(10)),
