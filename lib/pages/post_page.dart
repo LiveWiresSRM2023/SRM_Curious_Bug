@@ -19,6 +19,16 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   TextEditingController commentController = TextEditingController();
+  bool isUserJoined = false;
+  // List events = []
+
+  getEventsForProject(String id) {}
+
+  @override
+  void initState() {
+    // getEventsForProject(widget.post.id);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -29,7 +39,6 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isUserJoined = false;
     return Scaffold(
       appBar: appBar(context),
       backgroundColor: const Color(0xffF7F9FA),
@@ -41,20 +50,20 @@ class _PostPageState extends State<PostPage> {
               Expanded(
                 flex: 5,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width * 0.65,
+                        width: (MediaQuery.of(context).size.width * 0.7) - 16,
                         height: MediaQuery.of(context).size.height - 56,
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                                top: 8.0, left: 25, right: 15),
+                                top: 8.0, left: 25, right: 0),
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -465,92 +474,219 @@ class _PostPageState extends State<PostPage> {
                       //     child: Events(),
                       //   ),
                       // )
-                      const Spacer(),
-                      Container(
-                          decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage("assets/images/post.png")),
-                              color: Color.fromARGB(255, 201, 200, 200),
-                              borderRadius: BorderRadius.circular(10)),
-                          width: MediaQuery.of(context).size.width * 0.30,
-                          height: MediaQuery.of(context).size.height - 56,
-                          child: Center(
+                      // const SizedBox(width: 20),
+                      FirebaseAuth.instance.currentUser!.email! ==
+                              widget.post["op_email"]
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 8.0, top: 0, bottom: 0),
                               child: Container(
-                                  decoration: BoxDecoration(
-                                      color:
-                                          Colors.grey.shade200.withOpacity(0.5),
-                                      border: Border.all(
-                                        width: 2,
-                                        color: Colors.white30,
-                                      ),
-                                      gradient: const LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            Colors.white60,
-                                            Colors.white30
-                                          ]),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.30,
-                                  height:
-                                      MediaQuery.of(context).size.height - 56,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset("assets/icons/padlock.png",
-                                          height: 120, width: 120),
-                                      const SizedBox(height: 40),
-                                      Text(
-                                          "Be The Missing Piece\nRequest to join & contribute",
-                                          textAlign: TextAlign.center,
+                                width:
+                                    (MediaQuery.of(context).size.width * 0.30) -
+                                        8,
+                                height: MediaQuery.of(context).size.height - 56,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.grey.shade200),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Timeline",
                                           style: GoogleFonts.archivo(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black))),
-                                      const SizedBox(height: 10),
-                                      InkWell(
-                                        onTap: () {},
-                                        splashColor:
-                                            Colors.white.withOpacity(0.9),
-                                        highlightColor: Colors.transparent,
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.06,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.12,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 300,
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: const Color(0xffDe9a3a),
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          //child: GanttChart(events: events)
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          "Meetings",
+                                          style: GoogleFonts.archivo(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "Meeting from Monday to Saturday. 3PM - 4PM",
+                                          style: GoogleFonts.inter(
+                                              color: Colors.black),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        // use if else condition to display schedule meeting or join meeting
+                                        TextButton(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  WidgetStateProperty.all(
+                                                      Colors.blue),
+                                              shape: WidgetStateProperty.all(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10))),
+                                              fixedSize:
+                                                  WidgetStateProperty.all(
+                                                      const Size(100, 30))),
+                                          child: Text(
+                                            "Join",
+                                            style: GoogleFonts.inter(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          child: Center(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(2.0),
-                                              child: Text(
-                                                "JOIN",
-                                                style: GoogleFonts.archivo(
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black)),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          "Collaboration requests",
+                                          style: GoogleFonts.archivo(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 300,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          //child: ListViewBuilder()
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(
+                              decoration: BoxDecoration(
+                                  // image: const DecorationImage(
+                                  //     fit: BoxFit.cover,
+                                  //     image: AssetImage("assets/images/post.png")),
+                                  color:
+                                      const Color.fromARGB(255, 201, 200, 200),
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: MediaQuery.of(context).size.width * 0.30,
+                              height: MediaQuery.of(context).size.height - 56,
+                              child: Center(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.shade200
+                                              .withOpacity(0.5),
+                                          border: Border.all(
+                                            width: 2,
+                                            color: Colors.white30,
+                                          ),
+                                          gradient: const LinearGradient(
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                              colors: [
+                                                Colors.white60,
+                                                Colors.white30
+                                              ]),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.30,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              56,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                              "assets/icons/padlock.png",
+                                              height: 120,
+                                              width: 120),
+                                          const SizedBox(height: 40),
+                                          Text(
+                                              "Be The Missing Piece\nRequest to join, contribute and collaborate",
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.archivo(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black))),
+                                          const SizedBox(height: 10),
+                                          InkWell(
+                                            onTap: () {},
+                                            splashColor:
+                                                Colors.white.withOpacity(0.9),
+                                            highlightColor: Colors.transparent,
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.06,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.12,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: const Color(0xffDe9a3a),
+                                              ),
+                                              child: Center(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: Text(
+                                                    "JOIN",
+                                                    style: GoogleFonts.archivo(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black)),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ))))
+                                        ],
+                                      ))))
                     ],
                   ),
                 ),

@@ -7,7 +7,7 @@ import 'package:srm_curious_bug/pages/feed/feed.dart';
 // import 'package:srm_curious_bug/pages/feed/sidebar.dart';
 import 'package:srm_curious_bug/pages/landing.dart';
 import 'package:srm_curious_bug/pages/onboard.dart';
-import 'package:srm_curious_bug/pages/post_page.dart';
+// import 'package:srm_curious_bug/pages/post_page.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 
 void main() async {
