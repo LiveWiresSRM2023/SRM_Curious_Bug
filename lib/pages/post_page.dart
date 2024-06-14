@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/gantt_chart.dart';
 
@@ -21,20 +22,77 @@ class PostPage extends StatefulWidget {
 class _PostPageState extends State<PostPage> {
   TextEditingController commentController = TextEditingController();
   bool isUserJoined = false;
+  List<Map<String, dynamic>> comments = [];
+  List tasks = [];
+  List<DateTime> dates = [];
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
   // List events = []
 
-  getEventsForProject(String id) {}
+  Future<void> getAllEvents() async {
+    await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(widget.documentID)
+        .collection("events")
+        .get()
+        .then((docs) {
+      for (int i = 0; i < docs.docs.length; i++) {
+        tasks.add({
+          "taskName": docs.docs[i].get("taskName"),
+          "subTasks": docs.docs[i].get("subTasks"),
+          "currentDate": docs.docs[i].get("currentDate"),
+          "endDate": docs.docs[i].get("endDate"),
+          "status": docs.docs[i].get("status"),
+          "assignedTeam": docs.docs[i].get("assignedTeam"),
+          "id": docs.docs[i].id
+        });
+        DateTime start = DateTime.parse(docs.docs[i].get("currentDate"));
+        DateTime end = DateTime.parse(docs.docs[i].get("endDate"));
+
+        // update the startDate and endDate or the initial and last date of the task
+        if (startDate.difference(start).inDays.abs() >
+            startDate.difference(DateTime.now()).inDays.abs()) {
+          startDate = start;
+        }
+        if (end.difference(endDate).inDays >
+            endDate.difference(DateTime.now()).inDays) {
+          endDate = end;
+        }
+      }
+    });
+  }
+
+  Future<void> getAllComments() async {
+    await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(widget.documentID)
+        .collection("comments")
+        .get()
+        .then((docs) {
+      for (int i = 0; i < docs.docs.length; i++) {
+        comments.add({
+          "comment": docs.docs[i].get("comment"),
+          "date": docs.docs[i].get("date"),
+          "month": docs.docs[i].get("month"),
+          "year": docs.docs[i].get("year"),
+          "username": docs.docs[i].get("username"),
+          "imageUrl": docs.docs[i].get("imageUrl"),
+          "isReply": docs.docs[i].get("isReply")
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
-    // getEventsForProject(widget.post.id);
+    getAllEvents();
+    getAllComments();
     super.initState();
   }
 
   @override
   void dispose() {
     commentController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -44,10 +102,12 @@ class _PostPageState extends State<PostPage> {
     'Bob Johnson',
     'Alice Brown',
   ];
+
   List<String> meet = [
     'Upcoming Meet',
     'Schedule Meet',
   ];
+
   void _acceptInvite(int index) {
     print('Accepted invite from ${_invites[index]}');
   }
@@ -359,7 +419,8 @@ class _PostPageState extends State<PostPage> {
                                   ),
                                   const SizedBox(height: 10),
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.7,
                                     height: 50,
                                     // decoration: BoxDecoration(
                                     //     borderRadius: BorderRadius.circular(8),
@@ -391,14 +452,15 @@ class _PostPageState extends State<PostPage> {
                                                               .currentUser!
                                                               .photoURL!))),
                                             ),
-                                            const Padding(
-                                              padding: EdgeInsets.all(4),
-                                              child: VerticalDivider(
-                                                  width: 1,
-                                                  color: Color.fromARGB(
-                                                      255, 212, 208, 208)),
+                                            const SizedBox(
+                                              width: 20,
                                             ),
                                             Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.7) -
+                                                  220,
                                               height: 40,
                                               decoration: BoxDecoration(
                                                 border: Border.all(
@@ -407,7 +469,7 @@ class _PostPageState extends State<PostPage> {
                                                     BorderRadius.circular(10),
                                               ),
                                               child: SizedBox(
-                                                  width: 640,
+                                                  // width: double.maxFinite,
                                                   height: 30,
                                                   child: Padding(
                                                     padding:
@@ -435,20 +497,31 @@ class _PostPageState extends State<PostPage> {
                                               width: 10,
                                             ),
                                             TextButton(
-                                                onPressed: () {
-                                                  FirebaseFirestore.instance
-                                                      .collection("posts")
-                                                      .doc(widget.documentID)
-                                                      .collection("comments")
-                                                      .doc()
-                                                      .set({
+                                                onPressed: () async {
+                                                  SharedPreferences prefs =
+                                                      await SharedPreferences
+                                                          .getInstance();
+                                                  Map<String, dynamic>
+                                                      commentData = {
                                                     "comment":
                                                         commentController.text,
                                                     "date": DateTime.now().day,
                                                     "month":
                                                         DateTime.now().month,
                                                     "year": DateTime.now().year,
-                                                  });
+                                                    "username": prefs
+                                                        .getString("username"),
+                                                    "imageUrl": prefs
+                                                        .getString("imageUrl"),
+                                                    "isReply": false
+                                                  };
+                                                  FirebaseFirestore.instance
+                                                      .collection("posts")
+                                                      .doc(widget.documentID)
+                                                      .collection("comments")
+                                                      .doc(DateTime.now()
+                                                          .toString())
+                                                      .set(commentData);
                                                   FirebaseFirestore.instance
                                                       .collection("posts")
                                                       .doc(widget.documentID)
@@ -457,21 +530,29 @@ class _PostPageState extends State<PostPage> {
                                                             "n_comments"] +
                                                         1
                                                   });
+                                                  setState(() {
+                                                    comments.add(commentData);
+                                                  });
                                                 },
                                                 style: ButtonStyle(
                                                     backgroundColor:
                                                         WidgetStateProperty.all(
                                                             Colors.black),
+                                                    fixedSize:
+                                                        WidgetStateProperty.all(
+                                                            const Size(
+                                                                100, 50)),
                                                     shape: WidgetStateProperty.all(
                                                         RoundedRectangleBorder(
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        10)))),
+                                                                        20)))),
                                                 child: Text(
                                                   "Add",
                                                   style: GoogleFonts.inter(
-                                                      fontSize: 16,
+                                                      color: Colors.white,
+                                                      fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ))
@@ -479,6 +560,90 @@ class _PostPageState extends State<PostPage> {
                                     ),
                                   ),
                                   const SizedBox(height: 15),
+                                  SizedBox(
+                                    height: 300,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ListView.builder(
+                                        itemCount: comments.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(5),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.7,
+                                              // height: 50,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    height: 36,
+                                                    width: 36,
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            image: NetworkImage(
+                                                                comments[index][
+                                                                    "imageUrl"]))),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.6,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          comments[index]
+                                                              ["username"],
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          comments[index]
+                                                              ["comment"],
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  )
                                 ]),
                           ),
                         ),
@@ -506,14 +671,102 @@ class _PostPageState extends State<PostPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "Timeline",
-                                          style: GoogleFonts.archivo(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Timeline",
+                                              style: GoogleFonts.archivo(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                TextEditingController
+                                                    taskNameController =
+                                                    TextEditingController();
+                                                TextEditingController
+                                                    subTaskNameController =
+                                                    TextEditingController();
+                                                String startDate = "";
+                                                if (DateTime.now().month < 10) {
+                                                  startDate =
+                                                      "${DateTime.now().day}-0${DateTime.now().month}-${DateTime.now().year}";
+                                                } else {
+                                                  startDate =
+                                                      "${DateTime.now().day}-0${DateTime.now().month}-${DateTime.now().year}";
+                                                }
+                                                String endDate = "";
+                                                bool status = false;
+
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: Text("Add a task", style: GoogleFonts.inter(
+                                                          color: Theme.of(context).colorScheme.primary,
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.bold
+                                                        ),),
+                                                        content: Container(
+                                                          height: MediaQuery.of(context).size.height * 0.7,
+                                                          width: MediaQuery.of(context).size.width * 0.5,
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              // TODO: build the dialog UI
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }).then((v) {
+                                                  print(v);
+                                                });
+                                                await FirebaseFirestore.instance
+                                                    .collection("posts")
+                                                    .doc(widget.documentID)
+                                                    .collection("events")
+                                                    .doc(DateTime.now()
+                                                        .toString())
+                                                    .set({
+                                                  "taskName": taskNameController.text,
+                                                  "subTasks": subTaskNameController.text,
+                                                  "currentDate": DateTime.now(),
+                                                  "endDate": endDate,
+                                                  "status": status,
+                                                  "id": ""
+                                                });
+                                              },
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      WidgetStateProperty.all(
+                                                          Colors.black),
+                                                  fixedSize:
+                                                      WidgetStateProperty.all(
+                                                          const Size(100, 40)),
+                                                  shape: WidgetStateProperty.all(
+                                                      RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20)))),
+                                              child: Text(
+                                                "Add Task",
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                         const SizedBox(
                                           height: 10,
@@ -536,7 +789,12 @@ class _PostPageState extends State<PostPage> {
                                                   ]),
                                               borderRadius:
                                                   BorderRadius.circular(10)),
-                                          child: const GanttChart(),
+                                          child: GanttChart(
+                                            tasks: tasks,
+                                            dates: dates,
+                                            startDate: startDate,
+                                            endDate: endDate,
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 20,

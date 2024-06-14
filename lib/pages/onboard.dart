@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoard extends StatefulWidget {
   const OnBoard({super.key});
@@ -9,6 +11,43 @@ class OnBoard extends StatefulWidget {
 }
 
 class _OnBoardState extends State<OnBoard> {
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController collegeController = TextEditingController();
+  TextEditingController departmentController = TextEditingController();
+  TextEditingController positionContoller = TextEditingController();
+
+  void checkOnboard() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    WidgetsBinding.instance.addPostFrameCallback((timestamp) {
+      if (prefs.containsKey("onboard")) {
+        Navigator.pushReplacementNamed(context, "/feed");
+      }
+    });
+  }
+
+  setData() {
+    firstNameController.text = FirebaseAuth.instance.currentUser!.displayName!;
+  }
+
+  @override
+  void initState() {
+    checkOnboard();
+    setData();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    collegeController.dispose();
+    departmentController.dispose();
+    positionContoller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -64,6 +103,7 @@ class _OnBoardState extends State<OnBoard> {
                           ),
                           child: Center(
                             child: TextField(
+                              controller: firstNameController,
                               textAlign: TextAlign.justify,
                               textAlignVertical: TextAlignVertical.top,
                               decoration: const InputDecoration(
@@ -118,6 +158,7 @@ class _OnBoardState extends State<OnBoard> {
                           ),
                           child: Center(
                             child: TextField(
+                              controller: lastNameController,
                               textAlign: TextAlign.justify,
                               textAlignVertical: TextAlignVertical.top,
                               decoration: const InputDecoration(
@@ -172,6 +213,7 @@ class _OnBoardState extends State<OnBoard> {
                           ),
                           child: Center(
                             child: TextField(
+                              controller: collegeController,
                               textAlign: TextAlign.justify,
                               textAlignVertical: TextAlignVertical.top,
                               decoration: const InputDecoration(
@@ -226,6 +268,7 @@ class _OnBoardState extends State<OnBoard> {
                           ),
                           child: Center(
                             child: TextField(
+                              controller: departmentController,
                               textAlign: TextAlign.justify,
                               textAlignVertical: TextAlignVertical.top,
                               decoration: const InputDecoration(
@@ -280,6 +323,7 @@ class _OnBoardState extends State<OnBoard> {
                           ),
                           child: Center(
                             child: TextField(
+                              controller: positionContoller,
                               textAlign: TextAlign.justify,
                               textAlignVertical: TextAlignVertical.top,
                               decoration: const InputDecoration(
@@ -333,8 +377,16 @@ class _OnBoardState extends State<OnBoard> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/feed');
+                  onTap: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setString("username",
+                        FirebaseAuth.instance.currentUser!.displayName!);
+                    await prefs.setString("imageUrl",
+                        FirebaseAuth.instance.currentUser!.photoURL!);
+                    await prefs.setBool("onboard", true);
+                    checkOnboard();
+                    // Navigator.pushReplacementNamed(context, '/feed');
                   },
                   splashColor: Colors.white.withOpacity(0.5),
                   highlightColor: Colors.transparent,

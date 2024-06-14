@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -13,10 +14,15 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   void checkAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (FirebaseAuth.instance.currentUser != null) {
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, '/onboard');
+        if (prefs.containsKey("onboard")) {
+          Navigator.pushReplacementNamed(context, "/feed");
+        } else {
+          Navigator.pushReplacementNamed(context, '/onboard');
+        }
       }
     });
   }
