@@ -24,7 +24,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-//using stateless widget here.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

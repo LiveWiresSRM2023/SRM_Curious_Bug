@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class GanttChart extends StatelessWidget {
   final List tasks; // list of task and its specficiations
   final List<DateTime> dates; // list of days to display on top
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
+  DateTime startDate;
+  DateTime endDate;
   GanttChart(
       {super.key,
       required this.tasks,
@@ -34,6 +34,9 @@ class GanttChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("gantttt");
+    print(startDate);
+    print(endDate);
     return tasks.isEmpty
         ? Center(
             child: Text(
@@ -47,9 +50,9 @@ class GanttChart extends StatelessWidget {
           )
         : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Container(
+            child: SizedBox(
               height: 300,
-              width: dates.length * 50 + 20,
+              width: (dates.length * 50) + 20,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
@@ -69,7 +72,9 @@ class GanttChart extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
-                                        color: Colors.white60,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
                                         style: BorderStyle.solid),
                                   ),
                                   child: Column(
@@ -79,14 +84,19 @@ class GanttChart extends StatelessWidget {
                                     children: [
                                       Text(
                                         getDayOfTheWeek(dates[index]),
-                                        style: const TextStyle(
-                                            fontSize: 13, color: Colors.white),
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
                                       ),
                                       Text(
                                         dates[index].day.toString(),
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 11,
-                                            color: Colors.white,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
                                             fontWeight: FontWeight.w600),
                                       )
                                     ],
@@ -101,44 +111,47 @@ class GanttChart extends StatelessWidget {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           int barWidth = DateTime.parse(tasks[index]['endDate'])
-                              .difference(
-                                  DateTime.parse(tasks[index]['currentDate']))
-                              .inDays;
+                                  .difference(DateTime.parse(
+                                      tasks[index]['currentDate']))
+                                  .inDays
+                                  .abs() +
+                              1;
                           int paddingSize = startDate
                               .difference(
                                   DateTime.parse(tasks[index]['currentDate']))
                               .inDays
                               .abs();
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                color: Colors.red,
-                                width: paddingSize * 50,
-                              ),
-                              Container(
-                                width: barWidth * 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    gradient: LinearGradient(colors: [
-                                      Colors.indigo.shade400,
-                                      Colors.purpleAccent.shade400
-                                    ])),
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    tasks[index]['taskName'],
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600),
-                                  ),
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: paddingSize * 50,
                                 ),
-                              )
-                            ],
+                                Container(
+                                  width: barWidth * 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      tasks[index]['taskName'],
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           );
                         },
                       ),
