@@ -1,10 +1,10 @@
 // ignore_for_file: avoid_print
 
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,12 +16,15 @@ postDialog(BuildContext context) {
   TextEditingController abstractController = TextEditingController();
   TextEditingController invitesController = TextEditingController();
   TextEditingController durationController = TextEditingController();
+  TextEditingController literatureStudyController = TextEditingController();
   // ignore: unused_local_variable
   TextEditingController collaboratorController = TextEditingController();
   List invities = [];
   return showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (
+        BuildContext context,
+      ) {
         List images = [];
         // ignore: unused_local_variable
         bool mediaUploaded = false;
@@ -54,6 +57,17 @@ postDialog(BuildContext context) {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
+                              "Create a new Post ",
+                              style: GoogleFonts.archivo(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
                               "Title",
                               style: GoogleFonts.archivo(
                                 fontSize: 16,
@@ -69,6 +83,10 @@ postDialog(BuildContext context) {
                               controller: titleController,
                               maxLines: 1,
                               decoration: InputDecoration(
+                                suffixIcon: Icon(
+                                  Icons.title,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                                 hintText: 'Enter your text here',
                                 filled: true,
                                 fillColor: Colors.grey[50],
@@ -100,6 +118,45 @@ postDialog(BuildContext context) {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 hintText: 'Enter abstract here',
+                                filled: true,
+                                fillColor: Colors.grey[50],
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 1,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Literature study",
+                              style: GoogleFonts.archivo(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              controller: literatureStudyController,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                suffixIcon: Transform.rotate(
+                                  angle: 90,
+                                  child: Icon(
+                                    Icons.link,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                                hintText: 'Enter link here',
                                 filled: true,
                                 fillColor: Colors.grey[50],
                                 border: OutlineInputBorder(
@@ -384,39 +441,53 @@ postDialog(BuildContext context) {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Collaborate",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
+                                Text(
+                                  "Collaborate",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                const SizedBox(width: 300),
+                                AnimatedToggleSwitch<bool>.dual(
+                                  current: collaborationSwitch,
+                                  first: true,
+                                  second: false,
+                                  spacing: 50.0,
+                                  style: const ToggleStyle(
+                                    borderColor: Colors.transparent,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: Offset(0, 1.5),
                                       ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Transform.scale(
-                                      scale: 0.5,
-                                      child: ColorFiltered(
-                                        colorFilter: ColorFilter.mode(
-                                          Theme.of(context).colorScheme.primary,
-                                          BlendMode.srcIn,
-                                        ),
-                                        child: CupertinoSwitch(
-                                          value: collaborationSwitch,
-                                          onChanged: (bool value) {
-                                            dialogState(() {
-                                              collaborationSwitch = value;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
+                                    ],
+                                  ),
+                                  borderWidth: 1.0,
+                                  height: 33,
+                                  onChanged: (b) => dialogState(
+                                      () => collaborationSwitch = b),
+                                  styleBuilder: (b) => ToggleStyle(
+                                      indicatorColor: b
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .secondary
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                  iconBuilder: (value) => value
+                                      ? const Icon(Icons.close)
+                                      : const Icon(Icons.check),
+                                  textBuilder: (value) => value
+                                      ? const Center(child: Text('Decline'))
+                                      : const Center(child: Text('Invite')),
+                                ),
                               ],
                             ),
                           ),
@@ -558,13 +629,13 @@ postDialog(BuildContext context) {
                                 highlightColor: Colors.transparent,
                                 child: Container(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.08,
+                                      MediaQuery.of(context).size.width * 0.085,
                                   height:
-                                      MediaQuery.of(context).size.height * 0.05,
+                                      MediaQuery.of(context).size.height * 0.06,
                                   decoration: BoxDecoration(
                                     color:
                                         Theme.of(context).colorScheme.primary,
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

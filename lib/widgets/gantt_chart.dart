@@ -132,7 +132,7 @@ class GanttChart extends StatelessWidget {
                                 ),
                                 Container(
                                   width: barWidth * 50,
-                                  height: 50,
+                                  height: 30,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Theme.of(context)
