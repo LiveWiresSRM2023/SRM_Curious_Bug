@@ -1,10 +1,12 @@
 // ignore_for_file: avoid_print
 
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/widgets/appbar.dart';
@@ -21,6 +23,8 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   TextEditingController commentController = TextEditingController();
+  TextEditingController startDatePicker = TextEditingController();
+  TextEditingController endDatePicker = TextEditingController();
   bool isUserJoined = false;
   List<Map<String, dynamic>> comments = [];
   List tasks = [];
@@ -709,19 +713,389 @@ class _PostPageState extends State<PostPage> {
                                                     context: context,
                                                     builder: (context) {
                                                       return AlertDialog(
-                                                        title: Text("Add a task", style: GoogleFonts.inter(
-                                                          color: Theme.of(context).colorScheme.primary,
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.bold
-                                                        ),),
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        title: Text(
+                                                          "Add a task",
+                                                          style: GoogleFonts.inter(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
                                                         content: Container(
-                                                          height: MediaQuery.of(context).size.height * 0.7,
-                                                          width: MediaQuery.of(context).size.width * 0.5,
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.7,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.42,
                                                           child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
-                                                              // TODO: build the dialog UI
+                                                              // Text('TaskName',
+                                                              //     style: GoogleFonts.inter(
+                                                              //         textStyle: TextStyle(
+                                                              //             fontSize:
+                                                              //                 16,
+                                                              //             fontWeight:
+                                                              //                 FontWeight.bold,
+                                                              //             color: Theme.of(context).colorScheme.secondary))),
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              SizedBox(
+                                                                height: 40,
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.4,
+                                                                child:
+                                                                    TextField(
+                                                                  controller:
+                                                                      taskNameController,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText:
+                                                                        'Enter task name',
+                                                                    border:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15.0),
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                              color: Theme.of(context).primaryColor),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          color: Theme.of(context)
+                                                                              .colorScheme
+                                                                              .primary),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        const OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              179,
+                                                                              177,
+                                                                              177)),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.4,
+                                                                child:
+                                                                    TextField(
+                                                                  maxLines: 4,
+                                                                  controller:
+                                                                      subTaskNameController,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText:
+                                                                        'Enter task abstract',
+                                                                    border:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15.0),
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                              color: Theme.of(context).primaryColor),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          color: Theme.of(context)
+                                                                              .colorScheme
+                                                                              .primary),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        const OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              179,
+                                                                              177,
+                                                                              177)),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    // height:
+                                                                    //     32,
+                                                                    width: 220,
+                                                                    child:
+                                                                        TextField(
+                                                                      controller:
+                                                                          startDatePicker,
+                                                                      onTap:
+                                                                          () async {
+                                                                        DateTime? datetime = await showDatePicker(
+                                                                            context:
+                                                                                context,
+                                                                            initialDate:
+                                                                                DateTime.now(),
+                                                                            firstDate: DateTime(2024),
+                                                                            lastDate: DateTime(2050));
+                                                                        if (datetime !=
+                                                                            null) {
+                                                                          String
+                                                                              formattedDate =
+                                                                              DateFormat('dd/MM/yyyy').format(datetime);
+                                                                          setState(
+                                                                              () {
+                                                                            startDatePicker.text =
+                                                                                formattedDate;
+                                                                            startDate =
+                                                                                formattedDate;
+                                                                          });
+                                                                        }
+                                                                      },
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            'Start date',
+                                                                        border:
+                                                                            OutlineInputBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(15.0),
+                                                                          borderSide:
+                                                                              BorderSide(color: Theme.of(context).primaryColor),
+                                                                        ),
+                                                                        focusedBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderSide:
+                                                                              BorderSide(color: Theme.of(context).colorScheme.primary),
+                                                                        ),
+                                                                        enabledBorder:
+                                                                            const OutlineInputBorder(
+                                                                          borderSide:
+                                                                              BorderSide(color: Color.fromARGB(255, 179, 177, 177)),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                      width: 5),
+
+                                                                  // Icon(
+                                                                  //     Icons
+                                                                  //         .date_range,
+                                                                  //     color: Theme.of(context)
+                                                                  //         .colorScheme
+                                                                  //         .primary,
+                                                                  //     size:
+                                                                  //         32),
+                                                                  Image.asset(
+                                                                    "assets/icons/schedule.png",
+                                                                    height: 30,
+                                                                    width: 30,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                      width: 5),
+                                                                  SizedBox(
+                                                                    // height:
+                                                                    //     32,
+                                                                    width: 220,
+                                                                    child:
+                                                                        TextField(
+                                                                      controller:
+                                                                          endDatePicker,
+                                                                      onTap:
+                                                                          () async {
+                                                                        DateTime? datetime = await showDatePicker(
+                                                                            context:
+                                                                                context,
+                                                                            initialDate:
+                                                                                DateTime.now(),
+                                                                            firstDate: DateTime(2024),
+                                                                            lastDate: DateTime(2050));
+                                                                        if (datetime !=
+                                                                            null) {
+                                                                          String
+                                                                              formattedDate =
+                                                                              DateFormat('dd/MM/yyyy').format(datetime);
+                                                                          setState(
+                                                                              () {
+                                                                            endDatePicker.text =
+                                                                                formattedDate;
+                                                                            endDate =
+                                                                                formattedDate;
+                                                                          });
+                                                                        }
+                                                                      },
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            'End date',
+                                                                        border:
+                                                                            OutlineInputBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(15.0),
+                                                                          borderSide:
+                                                                              BorderSide(color: Theme.of(context).primaryColor),
+                                                                        ),
+                                                                        focusedBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderSide:
+                                                                              BorderSide(color: Theme.of(context).colorScheme.primary),
+                                                                        ),
+                                                                        enabledBorder:
+                                                                            const OutlineInputBorder(
+                                                                          borderSide:
+                                                                              BorderSide(color: Color.fromARGB(255, 179, 177, 177)),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                      width: 5),
+                                                                  Image.asset(
+                                                                      "assets/icons/schedule.png",
+                                                                      height:
+                                                                          30,
+                                                                      width:
+                                                                          30),
+                                                                ],
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 20),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                      "Status of the Project",
+                                                                      style: GoogleFonts.archivo(
+                                                                          textStyle: TextStyle(
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: Theme.of(context).colorScheme.secondary))),
+                                                                  const Spacer(),
+                                                                  AnimatedToggleSwitch<
+                                                                      bool>.dual(
+                                                                    current:
+                                                                        status,
+                                                                    first:
+                                                                        false,
+                                                                    second:
+                                                                        true,
+                                                                    spacing:
+                                                                        50.0,
+                                                                    style:
+                                                                        const ToggleStyle(
+                                                                      borderColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      boxShadow: const [
+                                                                        BoxShadow(
+                                                                          color:
+                                                                              Colors.black26,
+                                                                          spreadRadius:
+                                                                              1,
+                                                                          blurRadius:
+                                                                              2,
+                                                                          offset: Offset(
+                                                                              0,
+                                                                              1.5),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    borderWidth:
+                                                                        2.0,
+                                                                    height: 35,
+                                                                    onChanged: (b) =>
+                                                                        setState(() =>
+                                                                            status =
+                                                                                b),
+                                                                    styleBuilder: (b) => ToggleStyle(
+                                                                        indicatorColor: b
+                                                                            ? Colors.red
+                                                                            : Colors.green),
+                                                                    iconBuilder: (value) => value
+                                                                        ? const Icon(Icons
+                                                                            .close)
+                                                                        : const Icon(
+                                                                            Icons.tag_faces_rounded),
+                                                                    textBuilder: (value) => value
+                                                                        ? const Center(
+                                                                            child: Text(
+                                                                                'Not Done :('))
+                                                                        : const Center(
+                                                                            child:
+                                                                                Text('Completed')),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                      width: 25)
+                                                                ],
+                                                              ),
+                                                              const Spacer(),
+                                                              Center(
+                                                                child:
+                                                                    TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    //TODO: add the task
+                                                                  },
+                                                                  style: ButtonStyle(
+                                                                      backgroundColor: WidgetStateProperty.all(Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .primary),
+                                                                      shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              10))),
+                                                                      fixedSize: WidgetStateProperty.all(Size(
+                                                                          MediaQuery.of(context).size.width *
+                                                                              0.15,
+                                                                          30))),
+                                                                  child: Text(
+                                                                    "Add Task",
+                                                                    style: GoogleFonts.inter(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 50),
                                                             ],
                                                           ),
                                                         ),
@@ -736,8 +1110,11 @@ class _PostPageState extends State<PostPage> {
                                                     .doc(DateTime.now()
                                                         .toString())
                                                     .set({
-                                                  "taskName": taskNameController.text,
-                                                  "subTasks": subTaskNameController.text,
+                                                  "taskName":
+                                                      taskNameController.text,
+                                                  "subTasks":
+                                                      subTaskNameController
+                                                          .text,
                                                   "currentDate": DateTime.now(),
                                                   "endDate": endDate,
                                                   "status": status,
@@ -760,10 +1137,9 @@ class _PostPageState extends State<PostPage> {
                                               child: Text(
                                                 "Add Task",
                                                 style: GoogleFonts.inter(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white
-                                                ),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
                                               ),
                                             )
                                           ],

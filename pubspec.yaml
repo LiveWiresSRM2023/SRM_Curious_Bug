@@ -10,23 +10,25 @@ dependencies:
   flutter:
     sdk: flutter
   carousel_slider: ^4.2.1
-  firebase_auth: ^4.19.0
-  firebase_core: ^2.28.0
+  firebase_auth: ^5.1.0
+  firebase_core: ^3.1.0
   google_fonts: ^6.2.1
   file_picker: ^8.0.0+1
-  firebase_storage: ^11.7.0
+  firebase_storage: ^12.0.1
   uuid: ^4.3.3
-  cloud_firestore: ^4.16.0
+  cloud_firestore: ^5.0.1
   readmore: ^3.0.0
   pie_chart: ^5.4.0
   url_launcher: ^6.2.6
   gantt_chart: ^0.3.0
   shared_preferences: ^2.2.3
+  intl: ^0.19.0
+  animated_toggle_switch: ^0.8.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.2
+  flutter_lints: ^4.0.0
   
 flutter:
   uses-material-design: true

@@ -34,115 +34,119 @@ class GanttChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return tasks.isEmpty ? Center(
-      child: Text(
-        "No tasks pending\n Click Add to create a task",
-        textAlign: TextAlign.center,
-        style: GoogleFonts.inter(
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).colorScheme.primary
-        ),
-      ),
-    ) : SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        height: 300,
-        width: dates.length * 50 + 20,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: List.generate(
-                    dates.length,
-                    (index) => Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                  color: Colors.white60,
-                                  style: BorderStyle.solid),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  getDayOfTheWeek(dates[index]),
-                                  style: const TextStyle(
-                                      fontSize: 13, color: Colors.white),
-                                ),
-                                Text(
-                                  dates[index].day.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            ),
-                          ),
-                        )),
-              ),
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                  itemCount: tasks.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    int barWidth = DateTime.parse(tasks[index]['endDate'])
-                        .difference(DateTime.parse(tasks[index]['currentDate']))
-                        .inDays;
-                    int paddingSize = startDate
-                        .difference(DateTime.parse(tasks[index]['currentDate']))
-                        .inDays
-                        .abs();
-                    return Row(
+    return tasks.isEmpty
+        ? Center(
+            child: Text(
+              "No tasks pending\n Click Add to create a task",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary),
+            ),
+          )
+        : SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Container(
+              height: 300,
+              width: dates.length * 50 + 20,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          color: Colors.red,
-                          width: paddingSize * 50,
-                        ),
-                        Container(
-                          width: barWidth * 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(colors: [
-                                Colors.indigo.shade400,
-                                Colors.purpleAccent.shade400
-                              ])),
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              tasks[index]['taskName'],
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        )
-                      ],
-                    );
-                  },
+                      children: List.generate(
+                          dates.length,
+                          (index) => Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: Colors.white60,
+                                        style: BorderStyle.solid),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        getDayOfTheWeek(dates[index]),
+                                        style: const TextStyle(
+                                            fontSize: 13, color: Colors.white),
+                                      ),
+                                      Text(
+                                        dates[index].day.toString(),
+                                        style: const TextStyle(
+                                            fontSize: 11,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )),
+                    ),
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount: tasks.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          int barWidth = DateTime.parse(tasks[index]['endDate'])
+                              .difference(
+                                  DateTime.parse(tasks[index]['currentDate']))
+                              .inDays;
+                          int paddingSize = startDate
+                              .difference(
+                                  DateTime.parse(tasks[index]['currentDate']))
+                              .inDays
+                              .abs();
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                color: Colors.red,
+                                width: paddingSize * 50,
+                              ),
+                              Container(
+                                width: barWidth * 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    gradient: LinearGradient(colors: [
+                                      Colors.indigo.shade400,
+                                      Colors.purpleAccent.shade400
+                                    ])),
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    tasks[index]['taskName'],
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            ),
+          );
   }
 }
