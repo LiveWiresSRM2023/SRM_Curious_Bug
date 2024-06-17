@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:srm_curious_bug/pages/feed/create.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 PreferredSizeWidget appBar(BuildContext context) {
