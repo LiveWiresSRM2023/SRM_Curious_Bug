@@ -266,23 +266,32 @@ class _ProfileState extends State<Profile> {
                                                   height: 20,
                                                 ),
                                                 TextButton(
-                                                    onPressed: () {
-                                                      editProfile(context);
-                                                    },
-                                                    style: ButtonStyle(
-                                                        fixedSize: WidgetStateProperty.all(const Size(
-                                                            150, 35)),
-                                                        backgroundColor:
-                                                            WidgetStateProperty.all(
-                                                                Colors.black),
-                                                        shape: WidgetStateProperty.all(
-                                                            RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(
-                                                                    20)))),
-                                                    child: Text("Edit Profile",
-                                                        style: GoogleFonts.inter(
-                                                            color: Colors.white,
-                                                            fontWeight: FontWeight.bold)))
+                                                  onPressed: () {
+                                                    editProfile(context);
+                                                  },
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          WidgetStateProperty
+                                                              .all(
+                                                                  Colors.black),
+                                                      shape: WidgetStateProperty.all(
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10))),
+                                                      fixedSize:
+                                                          WidgetStateProperty
+                                                              .all(const Size(
+                                                                  100, 30))),
+                                                  child: Text(
+                                                    "Edit Profile",
+                                                    style: GoogleFonts.inter(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
                                               ],
                                             )
                                           ],
@@ -594,25 +603,30 @@ class _ProfileState extends State<Profile> {
                                                 ))),
                                             const Spacer(),
                                             TextButton(
-                                                onPressed: () {
-                                                  postDialog(context);
-                                                },
-                                                style: ButtonStyle(
-                                                    fixedSize: WidgetStateProperty.all(
-                                                        const Size(100, 35)),
-                                                    backgroundColor:
-                                                        WidgetStateProperty.all(
-                                                            Colors.black),
-                                                    shape: WidgetStateProperty.all(
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius.circular(
-                                                                    20)))),
-                                                child: Text("Create +",
-                                                    style: GoogleFonts.inter(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold))),
+                                              onPressed: () {
+                                                postDialog(context);
+                                              },
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      WidgetStateProperty.all(
+                                                          Colors.black),
+                                                  shape: WidgetStateProperty.all(
+                                                      RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10))),
+                                                  fixedSize:
+                                                      WidgetStateProperty.all(
+                                                          const Size(100, 30))),
+                                              child: Text(
+                                                "Create +",
+                                                style: GoogleFonts.inter(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),

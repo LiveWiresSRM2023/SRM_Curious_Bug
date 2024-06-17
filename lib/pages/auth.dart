@@ -102,11 +102,11 @@ class _AuthState extends State<Auth> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      width: 159,
-                      height: 35,
+                      width: 148,
+                      height: 32,
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: InkWell(
                         onTap: () async {

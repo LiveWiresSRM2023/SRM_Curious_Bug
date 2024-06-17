@@ -756,14 +756,6 @@ class _PostPageState extends State<PostPage> {
                                                                   CrossAxisAlignment
                                                                       .center,
                                                               children: [
-                                                                // Text('TaskName',
-                                                                //     style: GoogleFonts.inter(
-                                                                //         textStyle: TextStyle(
-                                                                //             fontSize:
-                                                                //                 16,
-                                                                //             fontWeight:
-                                                                //                 FontWeight.bold,
-                                                                //             color: Theme.of(context).colorScheme.secondary))),
                                                                 const SizedBox(
                                                                     height: 5),
                                                                 SizedBox(
@@ -1091,7 +1083,7 @@ class _PostPageState extends State<PostPage> {
                                                                             100,
                                                                             30))),
                                                                     child: Text(
-                                                                      "Add Task",
+                                                                      "Add task",
                                                                       style: GoogleFonts.inter(
                                                                           color: Colors
                                                                               .white,
@@ -1115,23 +1107,23 @@ class _PostPageState extends State<PostPage> {
                                                   backgroundColor:
                                                       WidgetStateProperty.all(
                                                           Colors.black),
-                                                  fixedSize:
-                                                      WidgetStateProperty.all(
-                                                          const Size(100, 40)),
                                                   shape: WidgetStateProperty.all(
                                                       RoundedRectangleBorder(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
-                                                                      20)))),
+                                                                      10))),
+                                                  fixedSize:
+                                                      WidgetStateProperty.all(
+                                                          const Size(100, 30))),
                                               child: Text(
-                                                "Add Task",
+                                                "Add task",
                                                 style: GoogleFonts.inter(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         const SizedBox(
@@ -1407,43 +1399,25 @@ class _PostPageState extends State<PostPage> {
                                                           FontWeight.bold,
                                                       color: Colors.black))),
                                           const SizedBox(height: 10),
-                                          InkWell(
-                                            onTap: () {},
-                                            splashColor:
-                                                Colors.white.withOpacity(0.9),
-                                            highlightColor: Colors.transparent,
-                                            child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.06,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.12,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: const Color(0xffDe9a3a),
-                                              ),
-                                              child: Center(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(2.0),
-                                                  child: Text(
-                                                    "JOIN",
-                                                    style: GoogleFonts.archivo(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black)),
-                                                  ),
-                                                ),
-                                              ),
+                                          TextButton(
+                                            onPressed: () {},
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    WidgetStateProperty.all(
+                                                        Colors.black),
+                                                shape: WidgetStateProperty.all(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10))),
+                                                fixedSize:
+                                                    WidgetStateProperty.all(
+                                                        const Size(100, 30))),
+                                            child: Text(
+                                              "Join",
+                                              style: GoogleFonts.inter(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ],

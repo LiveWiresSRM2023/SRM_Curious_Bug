@@ -627,27 +627,22 @@ postDialog(BuildContext context) {
                                 },
                                 splashColor: Colors.white.withOpacity(0.5),
                                 highlightColor: Colors.transparent,
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.085,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.06,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'SUBMIT',
-                                        style: GoogleFonts.archivo(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
+                                child: TextButton(
+                                  onPressed: () {},
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateProperty.all(Colors.black),
+                                      shape: WidgetStateProperty.all(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                      fixedSize: WidgetStateProperty.all(
+                                          const Size(100, 30))),
+                                  child: Text(
+                                    "Submit",
+                                    style: GoogleFonts.inter(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),

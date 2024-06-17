@@ -45,43 +45,20 @@ PreferredSizeWidget appBar(BuildContext context) {
     ),
     actions: [
       TextButton(
-          onPressed: () {
-            postDialog(context);
-          },
-          style: ButtonStyle(
-              fixedSize: WidgetStateProperty.all(const Size(100, 35)),
-              backgroundColor: WidgetStateProperty.all(Colors.black),
-              shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)))),
-          child: Text("Create +",
-              style: GoogleFonts.inter(
-                  color: Colors.white, fontWeight: FontWeight.bold))),
-      // Container(
-      //   alignment: Alignment.center,
-      //   height: 35,
-      //   width: 100,
-      //   child: FloatingActionButton.extended(
-      //     label:
-      //         Text("Create +", style: GoogleFonts.inter(color: Colors.white)),
-      //     backgroundColor: Colors.black,
-      //     onPressed: () {
-      //       postDialog(context);
-      //       // showDialog(
-      //       //     context: context,
-      //       //     builder: (BuildContext context) {
-      //       //       // List images = [];
-      //       //       // bool mediaUploaded = false;
-      //       //       // List<String> mediaUrl = [];
-      //       //       return
-      //       //     });
-      //     },
-      //     //mini: true,
-      //     shape: RoundedRectangleBorder(
-      //       borderRadius: BorderRadius.circular(30.0),
-      //     ),
-      //     // icon: const Icon(Icons.add),
-      //   ),
-      // ),
+        onPressed: () {
+          postDialog(context);
+        },
+        style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.black),
+            shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10))),
+            fixedSize: WidgetStateProperty.all(const Size(100, 30))),
+        child: Text(
+          "Create +",
+          style: GoogleFonts.inter(
+              color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
       const SizedBox(width: 20),
       InkWell(
         onTap: () {},

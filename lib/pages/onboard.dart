@@ -376,8 +376,8 @@ class _OnBoardState extends State<OnBoard> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () async {
+                child: TextButton(
+                  onPressed: () async {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.setString("username",
@@ -388,28 +388,15 @@ class _OnBoardState extends State<OnBoard> {
                     checkOnboard();
                     // Navigator.pushReplacementNamed(context, '/feed');
                   },
-                  splashColor: Colors.white.withOpacity(0.5),
-                  highlightColor: Colors.transparent,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: const Color(0xffDe9a3a),
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Text(
-                          "Continue",
-                          style: GoogleFonts.archivo(
-                              textStyle: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black)),
-                        ),
-                      ),
-                    ),
+                  style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(Colors.black),
+                      shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                      fixedSize: WidgetStateProperty.all(const Size(100, 30))),
+                  child: Text(
+                    "Continue",
+                    style: GoogleFonts.inter(
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
