@@ -261,36 +261,6 @@ postDialog(BuildContext context) {
                                   }
                                 }),
                           ),
-                          // SizedBox(
-                          //     height: 120,
-                          //     child: SizedBox(
-                          //       width: (MediaQuery.of(context)
-                          //                   .size
-                          //                   .width *
-                          //               0.4) -
-                          //           100,
-                          //       child: Row(
-                          //         mainAxisAlignment:
-                          //             MainAxisAlignment.spaceBetween,
-                          //         crossAxisAlignment:
-                          //             CrossAxisAlignment.center,
-                          //         children: [
-                          //           images.isEmpty
-                          //               ? const SizedBox(width: 0)
-                          //               : Row(
-                          //                   mainAxisAlignment:
-                          //                       MainAxisAlignment
-                          //                           .start,
-                          //                   crossAxisAlignment:
-                          //                       CrossAxisAlignment
-                          //                           .center,
-                          //                   children: List.generate(
-                          //                       images.length,
-                          //                       (index) => )),
-
-                          //         ],
-                          //       ),
-                          //     )),
                           const SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
@@ -491,97 +461,6 @@ postDialog(BuildContext context) {
                               ],
                             ),
                           ),
-                          // Row(
-                          //   children: [
-                          //     // SizedBox(
-                          //     //   width:
-                          //     //       (MediaQuery.of(context).size.width * 0.25) -
-                          //     //           10,
-                          //     //   child: Padding(
-                          //     //     padding: const EdgeInsets.all(8.0),
-                          //     //     child: Row(
-                          //     //       mainAxisAlignment: MainAxisAlignment.start,
-                          //     //       children: [
-                          //     //         Text(
-                          //     //           "Topics",
-                          //     //           style: GoogleFonts.inter(
-                          //     //             fontSize: 16,
-                          //     //             fontWeight: FontWeight.bold,
-                          //     //             color: Colors.black,
-                          //     //           ),
-                          //     //         ),
-                          //     //         const SizedBox(width: 4),
-                          //     //         const Padding(
-                          //     //           padding: EdgeInsets.all(8.0),
-                          //     //           child: Expanded(
-                          //     //             child: Wrap(
-                          //     //               alignment: WrapAlignment.center,
-                          //     //               children: [
-                          //     //                 HashTagWidget1('twitter'),
-                          //     //                 HashTagWidget1('srm'),
-                          //     //                 HashTagWidget1('ig'),
-                          //     //                 HashTagWidget1('srmist'),
-                          //     //               ],
-                          //     //             ),
-                          //     //           ),
-                          //     //         ),
-                          //     //       ],
-                          //     //     ),
-                          //     //   ),
-                          //     // ),
-                          //     SizedBox(
-                          //       height: 50,
-                          //       width:
-                          //           (MediaQuery.of(context).size.width * 0.25) -
-                          //               10,
-                          //       child: Row(
-                          //         children: [
-                          //           Text(
-                          //             "Duration",
-                          //             style: GoogleFonts.inter(
-                          //               fontSize: 16,
-                          //               fontWeight: FontWeight.bold,
-                          //               color: Colors.black,
-                          //             ),
-                          //           ),
-                          //           SizedBox(
-                          //             height: 60,
-                          //             width: MediaQuery.of(context).size.width *
-                          //                 0.15,
-                          //             child: Padding(
-                          //               padding: const EdgeInsets.all(8.0),
-                          //               child: TextField(
-                          //                 controller: durationController,
-                          //                 decoration: InputDecoration(
-                          //                   contentPadding:
-                          //                       const EdgeInsets.only(left: 8),
-                          //                   hintText: 'Enter duration',
-                          //                   filled: true,
-                          //                   fillColor: Colors.grey[50],
-                          //                   hintStyle: GoogleFonts.archivo(
-                          //                     fontSize: 10,
-                          //                     fontWeight: FontWeight.normal,
-                          //                     color: Colors.black,
-                          //                   ),
-                          //                   // filled: true,
-                          //                   // fillColor: Colors.grey[50],
-                          //                   border: OutlineInputBorder(
-                          //                     borderSide: BorderSide(
-                          //                       color: Theme.of(context)
-                          //                           .colorScheme
-                          //                           .primary,
-                          //                       width: 1,
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     )
-                          //   ],
-                          // ),
                           const SizedBox(
                             height: 20,
                           ),

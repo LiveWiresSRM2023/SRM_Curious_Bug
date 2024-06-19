@@ -10,10 +10,10 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
   int selectedIndex = 0;
-  Map<String, IconData> el = {
-    'Home': Icons.home_rounded,
-    'Events': Icons.event_seat_sharp,
-    'Calendar': Icons.calendar_month,
+  Map<String, AssetImage> el = {
+    'Business': const AssetImage("assets/icons/business.png"),
+    'Science': const AssetImage("assets/icons/science.png"),
+    'Law': const AssetImage("assets/icons/law.png"),
   };
 
   @override
@@ -27,7 +27,7 @@ class _SideBarState extends State<SideBar> {
             itemCount: 3,
             itemBuilder: (context, index) {
               String txt = el.keys.elementAt(index);
-              IconData iconData = el[txt]!;
+              AssetImage assetImage = el[txt]!;
               return GestureDetector(
                 onTap: () {
                   setState(() {
@@ -59,8 +59,10 @@ class _SideBarState extends State<SideBar> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Icon(
-                        iconData,
+                      Image(
+                        image: assetImage,
+                        height: 20,
+                        width: 20,
                         color: index == selectedIndex
                             ? Colors.black
                             : Theme.of(context).colorScheme.primary,
