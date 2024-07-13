@@ -29,8 +29,10 @@ class _PostPageState extends State<PostPage> {
   List<Map<String, dynamic>> comments = [];
   List tasks = [];
   List<DateTime> dates = [];
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
+  // DateTime startDate = DateTime.now();
+  // DateTime endDate = DateTime.now();
+  DateTime startDate = DateTime(9999); // max value
+  DateTime endDate = DateTime(0); //min
   // List events = []
 
   Future<void> getAllTasks() async {
@@ -51,18 +53,34 @@ class _PostPageState extends State<PostPage> {
             "status": docs.docs[i].get("status"),
             "id": docs.docs[i].id
           });
-          DateTime start = DateTime.parse(docs.docs[i].get("currentDate"));
-          DateTime end = DateTime.parse(docs.docs[i].get("endDate"));
-
+          // DateTime start = DateTime.parse(docs.docs[i].get("currentDate"));
+          // DateTime end = DateTime.parse(docs.docs[i].get("endDate"));
+          // print(
+          //     "start= ${start}, startdate=${startDate} stardate-start= ${startDate.difference(start).inDays} startdate-now=${startDate.difference(DateTime.now()).inDays.abs()}}");
           // update the startDate and endDate or the initial and last date of the task
-          if (startDate.difference(start).inDays.abs() <
-              startDate.difference(DateTime.now()).inDays.abs()) {
-            startDate = start;
+          // if (startDate.difference(start).inDays <
+          //     startDate.difference(DateTime.now()).inDays) {
+          //   startDate = start;
+          // }
+          // if (end.difference(endDate).inDays >
+          //     endDate.difference(DateTime.now()).inDays) {
+          //   endDate = end;
+          // }
+
+          DateTime taskStartDate =
+              DateTime.parse(docs.docs[i].get("currentDate"));
+          DateTime taskEndDate = DateTime.parse(docs.docs[i].get("endDate"));
+          print(
+              "Before updating : start : $taskStartDate end: $taskEndDate  startdate: $startDate enddate: $endDate");
+          if (taskStartDate.isBefore(startDate)) {
+            startDate = taskStartDate;
           }
-          if (end.difference(endDate).inDays >
-              endDate.difference(DateTime.now()).inDays) {
-            endDate = end;
+          if (taskEndDate.isAfter(endDate)) {
+            endDate = taskEndDate;
           }
+
+          print(
+              "After updating : start : $taskStartDate end: $taskEndDate  startdate: $startDate enddate: $endDate");
         }
         for (int i = 0; i <= endDate.difference(startDate).inDays + 1; i++) {
           dates.add(startDate.add(Duration(days: i)));
