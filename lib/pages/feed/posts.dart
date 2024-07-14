@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:srm_curious_bug/pages/post_page.dart';
 
 class Post extends StatefulWidget {
-  final List<DocumentSnapshot> posts;
-  const Post({super.key, required this.posts});
+  List posts;
+  Post({super.key, required this.posts});
 
   @override
   State<Post> createState() => _PostState();
@@ -26,7 +26,7 @@ class _PostState extends State<Post> {
               MaterialPageRoute(
                 builder: (context) => PostPage(
                   post: widget.posts[index],
-                  documentID: widget.posts[index].id,
+                  documentID: widget.posts[index]["id"],
                 ),
               ),
             );
@@ -137,8 +137,16 @@ class _PostState extends State<Post> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           InkWell(
-                            onTap: () {
-                              //TODO: Implement firestore update
+                            onTap: () async {
+                              int updatedUpvote =
+                                  widget.posts[index]["upvote"] + 1;
+                              await FirebaseFirestore.instance
+                                  .collection("posts")
+                                  .doc(widget.posts[index]["id"])
+                                  .update({"upvote": updatedUpvote});
+                              setState(() {
+                                widget.posts[index]["upvote"] = updatedUpvote;
+                              });
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
@@ -150,8 +158,18 @@ class _PostState extends State<Post> {
                           ),
                           Text(widget.posts[index]["upvote"].toString()),
                           InkWell(
-                            onTap: () {
-                              // TODO: Implement firestore update
+                            onTap: () async {
+                              if (widget.posts[index]["upvote"] > 0) {
+                                int updatedUpvote =
+                                    widget.posts[index]["upvote"] - 1;
+                                await FirebaseFirestore.instance
+                                    .collection("posts")
+                                    .doc(widget.posts[index]["id"])
+                                    .update({"upvote": updatedUpvote});
+                                setState(() {
+                                  widget.posts[index]["upvote"] = updatedUpvote;
+                                });
+                              }
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),

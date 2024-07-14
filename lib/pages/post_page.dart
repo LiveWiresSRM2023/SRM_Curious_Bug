@@ -13,7 +13,7 @@ import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/gantt_chart.dart';
 
 class PostPage extends StatefulWidget {
-  final DocumentSnapshot post;
+  final Map post;
   final String documentID;
   const PostPage({super.key, required this.post, required this.documentID});
 
@@ -70,17 +70,12 @@ class _PostPageState extends State<PostPage> {
           DateTime taskStartDate =
               DateTime.parse(docs.docs[i].get("currentDate"));
           DateTime taskEndDate = DateTime.parse(docs.docs[i].get("endDate"));
-          print(
-              "Before updating : start : $taskStartDate end: $taskEndDate  startdate: $startDate enddate: $endDate");
           if (taskStartDate.isBefore(startDate)) {
             startDate = taskStartDate;
           }
           if (taskEndDate.isAfter(endDate)) {
             endDate = taskEndDate;
           }
-
-          print(
-              "After updating : start : $taskStartDate end: $taskEndDate  startdate: $startDate enddate: $endDate");
         }
         for (int i = 0; i <= endDate.difference(startDate).inDays + 1; i++) {
           dates.add(startDate.add(Duration(days: i)));

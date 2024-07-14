@@ -21,14 +21,33 @@ class _FeedState extends State<Feed> {
   TextEditingController durationController = TextEditingController();
   bool loadingPosts = true;
 
-  List<DocumentSnapshot> posts = [];
+  List posts = [];
 
   getAllPosts() async {
     await FirebaseFirestore.instance
         .collection("posts")
         .get()
-        .then((QuerySnapshot doc) {
-      posts.addAll(doc.docs);
+        .then((QuerySnapshot docs) {
+      for (var doc in docs.docs) {
+        posts.add({
+          "id": doc.id,
+          "collaborator": doc.get("collaborator"),
+          "duration": doc.get("duration"),
+          "expertise": doc.get("expertise"),
+          "hashtags": doc.get("hashtags"),
+          "meetingDetails": doc.get("meetingDetails"),
+          "meetingLink": doc.get("meetingLink"),
+          "n_comments": doc.get("n_comments"),
+          "op_email": doc.get("op_email"),
+          "op_name": doc.get("op_name"),
+          "op_profile": doc.get("op_profile"),
+          "post": doc.get("post"),
+          "post_images": doc.get("post_images"),
+          "timestamp": doc.get("timestamp"),
+          "title": doc.get("title"),
+          "upvote": doc.get("upvote")
+        });
+      }
     });
 
     setState(() {

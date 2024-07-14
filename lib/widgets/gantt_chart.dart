@@ -34,9 +34,6 @@ class GanttChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("gantttt");
-    print("$startDate: startdate");
-    print("$endDate : enddate");
     return tasks.isEmpty
         ? Center(
             child: Text(
@@ -127,12 +124,12 @@ class GanttChart extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                // Container(
-                                //   width: paddingSize * 50,
-                                // ),
+                                Container(
+                                  width: paddingSize * 50,
+                                ),
                                 Container(
                                   width: barWidth * 50,
-                                  height: 20,
+                                  height: 30,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Theme.of(context)
