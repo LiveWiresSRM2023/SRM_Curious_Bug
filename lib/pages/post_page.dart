@@ -25,6 +25,7 @@ class _PostPageState extends State<PostPage> {
   TextEditingController commentController = TextEditingController();
   TextEditingController startDatePicker = TextEditingController();
   TextEditingController endDatePicker = TextEditingController();
+  TextEditingController shortNoteController = TextEditingController();
   bool isUserJoined = false;
   List<Map<String, dynamic>> comments = [];
   List tasks = [];
@@ -1413,7 +1414,136 @@ class _PostPageState extends State<PostPage> {
                                                       color: Colors.black))),
                                           const SizedBox(height: 10),
                                           TextButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              //Collaboration form page
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      content: Container(
+                                                          width: 400,
+                                                          height: 300,
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        top:
+                                                                            8.0,
+                                                                        left: 8,
+                                                                        right:
+                                                                            8,
+                                                                        bottom:
+                                                                            25),
+                                                                child: Text(
+                                                                  "How can your expertise contribute to this research endeavor?",
+                                                                  style: GoogleFonts
+                                                                      .archivo(
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .secondary,
+                                                                    width: 1,
+                                                                  ),
+                                                                ),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .all(
+                                                                          15.0),
+                                                                      child:
+                                                                          TextField(
+                                                                        controller:
+                                                                            shortNoteController,
+                                                                        maxLines:
+                                                                            2,
+                                                                        decoration:
+                                                                            InputDecoration(
+                                                                          hintText:
+                                                                              'Tell us about you...',
+                                                                          filled:
+                                                                              false,
+                                                                          fillColor:
+                                                                              Colors.grey[50],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 20),
+                                                              TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                style: ButtonStyle(
+                                                                    backgroundColor:
+                                                                        WidgetStateProperty.all(Colors
+                                                                            .black),
+                                                                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10))),
+                                                                    fixedSize: WidgetStateProperty.all(
+                                                                        const Size(
+                                                                            100,
+                                                                            30))),
+                                                                child: Text(
+                                                                  "Submit",
+                                                                  style: GoogleFonts.inter(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )),
+                                                    );
+                                                  });
+                                            },
                                             style: ButtonStyle(
                                                 backgroundColor:
                                                     WidgetStateProperty.all(
