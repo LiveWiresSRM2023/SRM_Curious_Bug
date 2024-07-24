@@ -537,7 +537,7 @@ class _ProfileState extends State<Profile> {
                                     color: Colors.white,
                                   )),
                               child: Padding(
-                                padding: const EdgeInsets.all(15.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,

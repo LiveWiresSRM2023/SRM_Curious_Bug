@@ -1469,6 +1469,7 @@ class _PostPageState extends State<PostPage> {
                                                                 ),
                                                               ),
                                                               Container(
+                                                                height: 400,
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   borderRadius:

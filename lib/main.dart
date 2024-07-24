@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         '/auth': (context) => const Auth(),
         '/onboard': (context) => const OnBoard(),
         '/feed': (context) => const Feed(),
-        '/profile': (context) => const Profile(), 
+        '/profile': (context) => const Profile(),
       },
     );
   }
