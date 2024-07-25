@@ -27,7 +27,7 @@ void editProfile(BuildContext context) {
     [Image.asset('assets/icons/degree.png'), "Degree"],
     [Image.asset('assets/icons/github_yellow.png'), "Github"],
     [Image.asset('assets/icons/mail.png'), "Gmail"],
-    [Image.asset('assets/icons/scholar.png'), "Google Scholar"],
+    [Image.asset('assets/icons/googlescholar.png'), "Google Scholar"],
     [Image.asset('assets/icons/website.png'), "Website"],
   ];
   final List<String> departmentNames = [
