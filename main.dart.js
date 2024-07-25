@@ -29661,7 +29661,7 @@ awj:function awj(){},
 awk:function awk(){},
 awl:function awl(a){this.a=a},
 aZm(a){var s=null,r=$.ap(),q=A.am(["About",new A.cn(B.aa,r),"Degree",new A.cn(B.aa,r),"Github",new A.cn(B.aa,r),"Gmail",new A.cn(B.aa,r),"GoogleScholar",new A.cn(B.aa,r),"Website",new A.cn(B.aa,r)],t.N,t.QX)
-A.a0e(s,s,!0,s,new A.awK(A.b([[A.fR("assets/icons/about.png",s,s,s),"About"],[A.fR("assets/icons/degree.png",s,s,s),"Degree"],[A.fR("assets/icons/github_yellow.png",s,s,s),"Github"],[A.fR("assets/icons/mail.png",s,s,s),"Gmail"],[A.fR("assets/icons/scholar.png",s,s,s),"Google Scholar"],[A.fR("assets/icons/website.png",s,s,s),"Website"]],t.X6),q,A.b(["Humanities","Computer Science","Law","Computer Applications","Mathematics"],t.s)),a,s,!0,t.z)},
+A.a0e(s,s,!0,s,new A.awK(A.b([[A.fR("assets/icons/about.png",s,s,s),"About"],[A.fR("assets/icons/degree.png",s,s,s),"Degree"],[A.fR("assets/icons/github_yellow.png",s,s,s),"Github"],[A.fR("assets/icons/mail.png",s,s,s),"Gmail"],[A.fR("assets/icons/googlescholar.png",s,s,s),"Google Scholar"],[A.fR("assets/icons/website.png",s,s,s),"Website"]],t.X6),q,A.b(["Humanities","Computer Science","Law","Computer Applications","Mathematics"],t.s)),a,s,!0,t.z)},
 awK:function awK(a,b,c){this.a=a
 this.b=b
 this.c=c},
