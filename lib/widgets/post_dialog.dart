@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
@@ -8,8 +10,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:srm_curious_bug/utils/constants.dart';
 // import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 postDialog(BuildContext context) {
   TextEditingController titleController = TextEditingController();
@@ -467,8 +471,9 @@ postDialog(BuildContext context) {
                           Center(
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
-                              child: InkWell(
-                                onTap: () async {
+                              child: TextButton(
+                                onPressed: () async {
+                                  String id = const Uuid().v4();
                                   Map<String, dynamic> storeData = {
                                     "title": titleController.text,
                                     "upvote": "0",
@@ -495,7 +500,7 @@ postDialog(BuildContext context) {
                                   };
                                   FirebaseFirestore.instance
                                       .collection("srmeureka")
-                                      .doc(const Uuid().v4())
+                                      .doc(id)
                                       .set(storeData);
                                   // await getAllPosts();
                                   dialogState(() {
@@ -503,26 +508,34 @@ postDialog(BuildContext context) {
 
                                     Navigator.pop(context);
                                   });
+
+                                  // upload to qdrant
+                                  http.Response res =
+                                      await http.post(Uri.parse(url),
+                                          body: jsonEncode({
+                                            "user_id": "123",
+                                            "task": "post",
+                                            "content":
+                                                "${titleController.text}\n${abstractController.text}",
+                                            "id": id
+                                          }));
+                                  print(res.body);
+                                  Navigator.pop(context);
                                 },
-                                splashColor: Colors.white.withOpacity(0.5),
-                                highlightColor: Colors.transparent,
-                                child: TextButton(
-                                  onPressed: () {},
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          WidgetStateProperty.all(Colors.black),
-                                      shape: WidgetStateProperty.all(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                      fixedSize: WidgetStateProperty.all(
-                                          const Size(100, 30))),
-                                  child: Text(
-                                    "Submit",
-                                    style: GoogleFonts.inter(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        WidgetStateProperty.all(Colors.black),
+                                    shape: WidgetStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                    fixedSize: WidgetStateProperty.all(
+                                        const Size(100, 30))),
+                                child: Text(
+                                  "Submit",
+                                  style: GoogleFonts.inter(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),

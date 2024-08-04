@@ -396,35 +396,135 @@ class _PostPageState extends State<PostPage> {
                                         itemCount:
                                             widget.post["hashtags"].length,
                                         itemBuilder: ((context, index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                border: Border.all(
-                                                    color: Colors.black),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: Text(
-                                                    widget.post["hashtags"]
-                                                        [index],
-                                                    textAlign: TextAlign.center,
-                                                    style: GoogleFonts.archivo(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                                fontSize: 10,
+                                          return InkWell(
+                                            onTap: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      title: Text(
+                                                        "Add to favourite topics?",
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary,
+                                                                fontSize: 20,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black))),
+                                                                        .bold),
+                                                      ),
+                                                      content: SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.2,
+                                                          child: TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                SharedPreferences
+                                                                    prefs =
+                                                                    await SharedPreferences
+                                                                        .getInstance();
+                                                                List<String>
+                                                                    followedTopics =
+                                                                    [];
+                                                                // print(prefs
+                                                                //     .getStringList(
+                                                                //         "topics"));
+                                                                if (prefs
+                                                                    .containsKey(
+                                                                        "topics")) {
+                                                                  followedTopics =
+                                                                      prefs.getStringList(
+                                                                          "topics")!;
+                                                                  await prefs
+                                                                      .setStringList(
+                                                                          "topics",
+                                                                          followedTopics)
+                                                                      .then(
+                                                                          (v) {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  });
+                                                                } else {
+                                                                  followedTopics
+                                                                      .add(widget
+                                                                              .post["hashtags"]
+                                                                          [
+                                                                          index]);
+                                                                  await prefs
+                                                                      .setStringList(
+                                                                          "topics",
+                                                                          followedTopics)
+                                                                      .then(
+                                                                          (v) {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  });
+                                                                }
+                                                              },
+                                                              style: ButtonStyle(
+                                                                  backgroundColor:
+                                                                      WidgetStateProperty.all(
+                                                                          Colors
+                                                                              .black),
+                                                                  fixedSize: WidgetStateProperty.all(Size(
+                                                                      MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.2,
+                                                                      40)),
+                                                                  shape: WidgetStateProperty.all(
+                                                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+                                                              child: Text(
+                                                                "Add",
+                                                                style: GoogleFonts.inter(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ))),
+                                                    );
+                                                  });
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Text(
+                                                      widget.post["hashtags"]
+                                                          [index],
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: GoogleFonts.archivo(
+                                                          textStyle:
+                                                              const TextStyle(
+                                                                  letterSpacing:
+                                                                      0.8,
+                                                                  fontSize: 12,
+                                                                  color: Colors
+                                                                      .white))),
+                                                ),
                                               ),
                                             ),
                                           );
