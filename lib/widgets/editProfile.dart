@@ -54,14 +54,27 @@ void editProfile(BuildContext context) {
                 SizedBox(
                   width: 450,
                   height: 40,
-                  child: Text(
-                    "Edit Your Profile here...",
-                    textAlign: TextAlign.left,
-                    style: GoogleFonts.archivo(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Edit Your Profile here...",
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.archivo(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.close,
+                              size: 15,
+                              color: Theme.of(context).colorScheme.primary))
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10),

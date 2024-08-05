@@ -10,10 +10,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:srm_curious_bug/utils/constants.dart';
 // import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
 
 postDialog(BuildContext context) {
   TextEditingController titleController = TextEditingController();
@@ -60,13 +60,29 @@ postDialog(BuildContext context) {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Create a new Post ",
-                              style: GoogleFonts.archivo(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Create a new Post ",
+                                  style: GoogleFonts.archivo(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: Icon(Icons.close,
+                                        size: 15,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary))
+                              ],
                             ),
                           ),
                           Padding(
@@ -431,7 +447,7 @@ postDialog(BuildContext context) {
                                   current: collaborationSwitch,
                                   first: true,
                                   second: false,
-                                  spacing: 50.0,
+                                  spacing: 20.0,
                                   style: const ToggleStyle(
                                     borderColor: Colors.transparent,
                                     boxShadow: [

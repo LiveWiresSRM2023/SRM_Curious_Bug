@@ -948,17 +948,42 @@ class _PostPageState extends State<PostPage> {
                                                         return AlertDialog(
                                                           backgroundColor:
                                                               Colors.white,
-                                                          title: Text(
-                                                            "Add a task",
-                                                            style: GoogleFonts.inter(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .primary,
-                                                                fontSize: 20,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
+                                                          title: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                "Add a task",
+                                                                style: GoogleFonts.inter(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary,
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      size: 15,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .primary))
+                                                            ],
                                                           ),
                                                           content: SizedBox(
                                                             height: MediaQuery.of(
@@ -1659,7 +1684,7 @@ class _PostPageState extends State<PostPage> {
                                                       backgroundColor:
                                                           Colors.white,
                                                       content: Container(
-                                                          width: 400,
+                                                          width: 450,
                                                           height: 350,
                                                           decoration: BoxDecoration(
                                                               color:
@@ -1687,20 +1712,41 @@ class _PostPageState extends State<PostPage> {
                                                                             8,
                                                                         bottom:
                                                                             25),
-                                                                child: Text(
-                                                                  "How can your expertise contribute to this research endeavor?",
-                                                                  style: GoogleFonts
-                                                                      .archivo(
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .colorScheme
-                                                                        .primary,
-                                                                  ),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      "How can your expertise contribute to this \nresearch endeavor?",
+                                                                      style: GoogleFonts
+                                                                          .archivo(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        color: Theme.of(context)
+                                                                            .colorScheme
+                                                                            .primary,
+                                                                      ),
+                                                                    ),
+                                                                    IconButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        icon: Icon(
+                                                                            Icons
+                                                                                .close,
+                                                                            size:
+                                                                                15,
+                                                                            color:
+                                                                                Theme.of(context).colorScheme.primary))
+                                                                  ],
                                                                 ),
                                                               ),
                                                               Container(
