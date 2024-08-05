@@ -27,7 +27,7 @@ void editProfile(BuildContext context) {
     [Image.asset('assets/icons/degree.png'), "Degree"],
     [Image.asset('assets/icons/github_yellow.png'), "Github"],
     [Image.asset('assets/icons/mail.png'), "Gmail"],
-    [Image.asset('assets/icons/googlescholar.png'), "Google Scholar"],
+    [Image.asset('assets/icons/googlescholar_bg.png'), "Google Scholar"],
     [Image.asset('assets/icons/website.png'), "Website"],
   ];
   final List<String> departmentNames = [
@@ -85,7 +85,7 @@ void editProfile(BuildContext context) {
                               controller: controller,
                               decoration: InputDecoration(
                                 prefixIcon: Padding(
-                                  padding: const EdgeInsets.only(right: 10),
+                                  padding: const EdgeInsets.all(8),
                                   child: profileIcons[index][0],
                                 ),
                                 labelText: profileIcons[index][1],

@@ -26,6 +26,7 @@ class _PostPageState extends State<PostPage> {
   TextEditingController startDatePicker = TextEditingController();
   TextEditingController endDatePicker = TextEditingController();
   TextEditingController shortNoteController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
   bool isUserJoined = false;
   List<Map<String, dynamic>> comments = [];
   List tasks = [];
@@ -703,9 +704,10 @@ class _PostPageState extends State<PostPage> {
                                               // height: 50,
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     height: 36,
@@ -717,50 +719,84 @@ class _PostPageState extends State<PostPage> {
                                                                 comments[index][
                                                                     "imageUrl"]))),
                                                   ),
-                                                  const SizedBox(
-                                                    width: 10,
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        height: 60,
+                                                        decoration: BoxDecoration(
+                                                            color: const Color
+                                                                .fromARGB(175,
+                                                                189, 189, 189),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15)),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.6,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    comments[
+                                                                            index]
+                                                                        [
+                                                                        "username"],
+                                                                    style: GoogleFonts.inter(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            15,
+                                                                        color: Colors
+                                                                            .black),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 5,
+                                                                  ),
+                                                                  Text(
+                                                                    comments[
+                                                                            index]
+                                                                        [
+                                                                        "comment"],
+                                                                    style: GoogleFonts.inter(
+                                                                        fontSize:
+                                                                            14,
+                                                                        color: Colors
+                                                                            .black),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.6,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          comments[index]
-                                                              ["username"],
-                                                          style:
-                                                              GoogleFonts.inter(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15,
-                                                                  color: Colors
-                                                                      .black),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          comments[index]
-                                                              ["comment"],
-                                                          style:
-                                                              GoogleFonts.inter(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .black),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
                                                 ],
                                               ),
                                             ),
@@ -1460,10 +1496,10 @@ class _PostPageState extends State<PostPage> {
                             )
                           : Container(
                               decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image:
-                                          AssetImage("assets/images/post.png")),
+                                  // image: const DecorationImage(
+                                  //     fit: BoxFit.cover,
+                                  //     image:
+                                  //         AssetImage("assets/images/post.png")),
                                   color:
                                       const Color.fromARGB(255, 201, 200, 200),
                                   borderRadius: BorderRadius.circular(10)),
@@ -1498,21 +1534,45 @@ class _PostPageState extends State<PostPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Image.asset(
-                                              "assets/icons/padlock.png",
-                                              height: 120,
-                                              width: 120),
+                                          Image.asset("assets/icons/team.png",
+                                              height: 120, width: 120),
                                           const SizedBox(height: 40),
                                           Text(
                                               "Be The Missing Piece\nRequest to join, contribute and collaborate",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.archivo(
                                                   textStyle: const TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: Colors.black))),
                                           const SizedBox(height: 10),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8,
+                                                bottom: 8,
+                                                left: 15.0,
+                                                right: 15),
+                                            child: TextField(
+                                              controller: noteController,
+                                              maxLines: 5,
+                                              decoration: InputDecoration(
+                                                hintText:
+                                                    'Enter your note here...',
+                                                filled: true,
+                                                fillColor: const Color.fromARGB(
+                                                    183, 216, 215, 215),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                           TextButton(
                                             onPressed: () {
                                               //Collaboration form page

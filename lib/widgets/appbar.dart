@@ -3,12 +3,16 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:srm_curious_bug/widgets/post_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 PreferredSizeWidget appBar(BuildContext context) {
   TextEditingController searchController = TextEditingController();
   String url = "http://10.9.31.214:80";
+  final List<String> filterNames = [
+    'Hashtags',
+    'Posts',
+  ];
   return AppBar(
     elevation: 0,
     leading: InkWell(
@@ -39,10 +43,53 @@ PreferredSizeWidget appBar(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: 100,
-                  height: 35,
-                  color: Colors.red,
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Icon(Icons.sort,
+                        //     color: Theme.of(context).colorScheme.primary),
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            icon: Padding(
+                              padding: const EdgeInsets.only(left: 1),
+                              child: Icon(Icons.sort,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                            ),
+                            iconSize: 20,
+                            elevation: 10,
+                            style: GoogleFonts.inter(
+                                textStyle:
+                                    const TextStyle(color: Colors.black)),
+                            dropdownColor: Colors.grey[200],
+                            hint: Text('filter',
+                                style: GoogleFonts.inter(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
+                                )),
+                            value: null, // Initially selected value or null
+                            onChanged: (String? newValue) {
+                              // Handle dropdown value change
+                            },
+                            items: filterNames.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: GoogleFonts.inter(
+                                      textStyle: const TextStyle(fontSize: 16)),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ]),
                 ),
                 IconButton(
                     onPressed: () async {
