@@ -727,208 +727,148 @@ class _PostPageState extends State<PostPage> {
                                                                       "imageUrl"]))),
                                                     ),
                                                   ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        height: 135,
-                                                        decoration: BoxDecoration(
-                                                            color: const Color
-                                                                .fromARGB(200,
-                                                                228, 228, 228),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12)),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.6,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        10.0),
-                                                                child: Column(
+                                                  Container(
+                                                    height: 135,
+                                                    decoration: BoxDecoration(
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            200, 228, 228, 228),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.6,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Row(
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
+                                                                          .spaceBetween,
                                                                   children: [
                                                                     Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
                                                                       children: [
-                                                                        Row(
-                                                                          children: [
-                                                                            Text(
-                                                                              comments[index]["username"],
-                                                                              style: GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 13, color: Colors.black),
-                                                                            ),
-                                                                            const SizedBox(width: 10),
-                                                                            Text(
-                                                                              '•',
-                                                                              style: GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 12, color: Theme.of(context).colorScheme.secondary),
-                                                                            ),
-                                                                            const SizedBox(width: 10),
-                                                                            Text(
-                                                                              '2nd',
-                                                                              style: GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 12, color: Theme.of(context).colorScheme.secondary),
-                                                                            ),
-                                                                          ],
+                                                                        InkWell(
+                                                                          onTap:
+                                                                              () {},
+                                                                          child:
+                                                                              Text(
+                                                                            comments[index]["username"],
+                                                                            style: GoogleFonts.inter(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 13,
+                                                                                color: Colors.black),
+                                                                          ),
                                                                         ),
-                                                                        IconButton(
-                                                                            onPressed:
-                                                                                () {},
-                                                                            icon: const Icon(Icons.more_vert_outlined,
-                                                                                size: 14,
-                                                                                color: Colors.black))
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                10),
+                                                                        Text(
+                                                                          '•',
+                                                                          style: GoogleFonts.inter(
+                                                                              fontWeight: FontWeight.w400,
+                                                                              fontSize: 12,
+                                                                              color: Theme.of(context).colorScheme.secondary),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                10),
+                                                                        Text(
+                                                                          '2nd',
+                                                                          style: GoogleFonts.inter(
+                                                                              fontWeight: FontWeight.w400,
+                                                                              fontSize: 12,
+                                                                              color: Theme.of(context).colorScheme.secondary),
+                                                                        ),
                                                                       ],
                                                                     ),
-                                                                    ReadMoreText(
-                                                                      'Head of AI/ML at RazorPay | Ex- Amazon Worker|Open Source | Research',
-                                                                      trimLines:
-                                                                          1,
-                                                                      trimCollapsedText:
-                                                                          '...',
-                                                                      style: GoogleFonts.inter(
-                                                                          fontWeight: FontWeight
-                                                                              .w400,
-                                                                          fontSize:
-                                                                              12,
-                                                                          color: Theme.of(context)
-                                                                              .colorScheme
-                                                                              .secondary),
-                                                                    ),
-                                                                    Text(
-                                                                      '34 m',
-                                                                      style: GoogleFonts.inter(
-                                                                          fontWeight: FontWeight
-                                                                              .w400,
-                                                                          fontSize:
-                                                                              12,
-                                                                          color: Theme.of(context)
-                                                                              .colorScheme
-                                                                              .secondary),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            8),
-                                                                    ReadMoreText(
-                                                                      "This is awesome..How can i try this? ",
-                                                                      trimLines:
-                                                                          2,
-                                                                      trimCollapsedText:
-                                                                          ' Show More',
-                                                                      style: GoogleFonts.inter(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontSize:
-                                                                              13,
-                                                                          color:
-                                                                              Colors.black),
-                                                                    ),
+                                                                    IconButton(
+                                                                        onPressed:
+                                                                            () {},
+                                                                        icon: const Icon(
+                                                                            Icons
+                                                                                .more_vert_outlined,
+                                                                            size:
+                                                                                14,
+                                                                            color:
+                                                                                Colors.black))
                                                                   ],
                                                                 ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          TextButton(
-                                                            onPressed: () {},
-                                                            style: ButtonStyle(
-                                                              backgroundColor:
-                                                                  WidgetStateProperty
-                                                                      .all(Colors
-                                                                          .transparent),
-                                                              overlayColor:
-                                                                  WidgetStateProperty
-                                                                      .all(Colors
-                                                                          .transparent),
-                                                              elevation:
-                                                                  WidgetStateProperty
-                                                                      .all(2),
-                                                              textStyle:
-                                                                  WidgetStateProperty
-                                                                      .all(
-                                                                GoogleFonts
-                                                                    .inter(
-                                                                  textStyle:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                  ),
+                                                                ReadMoreText(
+                                                                  'Head of AI/ML at RazorPay | Ex- Amazon Worker|Open Source | Research',
+                                                                  trimLines: 1,
+                                                                  trimCollapsedText:
+                                                                      '...',
+                                                                  style: GoogleFonts.inter(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .secondary),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                            child: const Text(
-                                                                "Like"),
-                                                          ),
-                                                          const VerticalDivider(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    126,
-                                                                    126,
-                                                                    126),
-                                                            thickness: 2,
-                                                          ),
-                                                          TextButton(
-                                                            onPressed: () {},
-                                                            style: ButtonStyle(
-                                                              backgroundColor:
-                                                                  WidgetStateProperty
-                                                                      .all(Colors
-                                                                          .transparent),
-                                                              overlayColor:
-                                                                  WidgetStateProperty
-                                                                      .all(Colors
-                                                                          .transparent),
-                                                              elevation:
-                                                                  WidgetStateProperty
-                                                                      .all(2),
-                                                              textStyle:
-                                                                  WidgetStateProperty
-                                                                      .all(
-                                                                GoogleFonts
-                                                                    .inter(
-                                                                  textStyle:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                  ),
+                                                                Text(
+                                                                  '34 m',
+                                                                  style: GoogleFonts.inter(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .secondary),
                                                                 ),
-                                                              ),
+                                                                const SizedBox(
+                                                                    height: 8),
+                                                                ReadMoreText(
+                                                                  "This is awesome..How can i try this? ",
+                                                                  trimLines: 2,
+                                                                  trimCollapsedText:
+                                                                      ' Show More',
+                                                                  style: GoogleFonts.inter(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize:
+                                                                          13,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            child: const Text(
-                                                                "Reply"),
                                                           ),
-                                                        ],
-                                                      )
-                                                    ],
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -1720,7 +1660,7 @@ class _PostPageState extends State<PostPage> {
                                                           Colors.white,
                                                       content: Container(
                                                           width: 400,
-                                                          height: 300,
+                                                          height: 350,
                                                           decoration: BoxDecoration(
                                                               color:
                                                                   Colors.white,
@@ -1764,7 +1704,7 @@ class _PostPageState extends State<PostPage> {
                                                                 ),
                                                               ),
                                                               Container(
-                                                                height: 400,
+                                                                height: 200,
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   borderRadius:
