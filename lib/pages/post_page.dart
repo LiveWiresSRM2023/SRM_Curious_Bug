@@ -709,15 +709,23 @@ class _PostPageState extends State<PostPage> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    height: 36,
-                                                    width: 36,
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                comments[index][
-                                                                    "imageUrl"]))),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10.0),
+                                                    child: Container(
+                                                      height: 36,
+                                                      width: 36,
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          image: DecorationImage(
+                                                              image: NetworkImage(
+                                                                  comments[
+                                                                          index]
+                                                                      [
+                                                                      "imageUrl"]))),
+                                                    ),
                                                   ),
                                                   Column(
                                                     mainAxisAlignment:
@@ -727,15 +735,15 @@ class _PostPageState extends State<PostPage> {
                                                             .start,
                                                     children: [
                                                       Container(
-                                                        height: 60,
+                                                        height: 135,
                                                         decoration: BoxDecoration(
                                                             color: const Color
-                                                                .fromARGB(175,
-                                                                189, 189, 189),
+                                                                .fromARGB(200,
+                                                                228, 228, 228),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        15)),
+                                                                        12)),
                                                         child: Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -753,48 +761,173 @@ class _PostPageState extends State<PostPage> {
                                                                       .size
                                                                       .width *
                                                                   0.6,
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    comments[
-                                                                            index]
-                                                                        [
-                                                                        "username"],
-                                                                    style: GoogleFonts.inter(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Colors
-                                                                            .black),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    height: 5,
-                                                                  ),
-                                                                  Text(
-                                                                    comments[
-                                                                            index]
-                                                                        [
-                                                                        "comment"],
-                                                                    style: GoogleFonts.inter(
-                                                                        fontSize:
-                                                                            14,
-                                                                        color: Colors
-                                                                            .black),
-                                                                  ),
-                                                                ],
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        10.0),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Row(
+                                                                          children: [
+                                                                            Text(
+                                                                              comments[index]["username"],
+                                                                              style: GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 13, color: Colors.black),
+                                                                            ),
+                                                                            const SizedBox(width: 10),
+                                                                            Text(
+                                                                              '•',
+                                                                              style: GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 12, color: Theme.of(context).colorScheme.secondary),
+                                                                            ),
+                                                                            const SizedBox(width: 10),
+                                                                            Text(
+                                                                              '2nd',
+                                                                              style: GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 12, color: Theme.of(context).colorScheme.secondary),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        IconButton(
+                                                                            onPressed:
+                                                                                () {},
+                                                                            icon: const Icon(Icons.more_vert_outlined,
+                                                                                size: 14,
+                                                                                color: Colors.black))
+                                                                      ],
+                                                                    ),
+                                                                    ReadMoreText(
+                                                                      'Head of AI/ML at RazorPay | Ex- Amazon Worker|Open Source | Research',
+                                                                      trimLines:
+                                                                          1,
+                                                                      trimCollapsedText:
+                                                                          '...',
+                                                                      style: GoogleFonts.inter(
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Theme.of(context)
+                                                                              .colorScheme
+                                                                              .secondary),
+                                                                    ),
+                                                                    Text(
+                                                                      '34 m',
+                                                                      style: GoogleFonts.inter(
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Theme.of(context)
+                                                                              .colorScheme
+                                                                              .secondary),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                        height:
+                                                                            8),
+                                                                    ReadMoreText(
+                                                                      "This is awesome..How can i try this? ",
+                                                                      trimLines:
+                                                                          2,
+                                                                      trimCollapsedText:
+                                                                          ' Show More',
+                                                                      style: GoogleFonts.inter(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize:
+                                                                              13,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             )
                                                           ],
                                                         ),
                                                       ),
+                                                      Row(
+                                                        children: [
+                                                          TextButton(
+                                                            onPressed: () {},
+                                                            style: ButtonStyle(
+                                                              backgroundColor:
+                                                                  WidgetStateProperty
+                                                                      .all(Colors
+                                                                          .transparent),
+                                                              overlayColor:
+                                                                  WidgetStateProperty
+                                                                      .all(Colors
+                                                                          .transparent),
+                                                              elevation:
+                                                                  WidgetStateProperty
+                                                                      .all(2),
+                                                              textStyle:
+                                                                  WidgetStateProperty
+                                                                      .all(
+                                                                GoogleFonts
+                                                                    .inter(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            child: const Text(
+                                                                "Like"),
+                                                          ),
+                                                          const VerticalDivider(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    126,
+                                                                    126,
+                                                                    126),
+                                                            thickness: 2,
+                                                          ),
+                                                          TextButton(
+                                                            onPressed: () {},
+                                                            style: ButtonStyle(
+                                                              backgroundColor:
+                                                                  WidgetStateProperty
+                                                                      .all(Colors
+                                                                          .transparent),
+                                                              overlayColor:
+                                                                  WidgetStateProperty
+                                                                      .all(Colors
+                                                                          .transparent),
+                                                              elevation:
+                                                                  WidgetStateProperty
+                                                                      .all(2),
+                                                              textStyle:
+                                                                  WidgetStateProperty
+                                                                      .all(
+                                                                GoogleFonts
+                                                                    .inter(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            child: const Text(
+                                                                "Reply"),
+                                                          ),
+                                                        ],
+                                                      )
                                                     ],
                                                   ),
                                                 ],
@@ -1518,8 +1651,10 @@ class _PostPageState extends State<PostPage> {
                                               begin: Alignment.topLeft,
                                               end: Alignment.bottomRight,
                                               colors: [
-                                                Colors.white60,
-                                                Colors.white30
+                                                Color.fromARGB(
+                                                    255, 251, 251, 251),
+                                                Color.fromARGB(
+                                                    255, 255, 255, 255)
                                               ]),
                                           borderRadius:
                                               BorderRadius.circular(10)),
@@ -1555,7 +1690,7 @@ class _PostPageState extends State<PostPage> {
                                                 right: 15),
                                             child: TextField(
                                               controller: noteController,
-                                              maxLines: 5,
+                                              maxLines: 3,
                                               decoration: InputDecoration(
                                                 hintText:
                                                     'Enter your note here...',
