@@ -55,6 +55,7 @@ class _OnBoardState extends State<OnBoard> {
     await prefs.setString(
         "imageUrl", FirebaseAuth.instance.currentUser!.photoURL ?? '');
     await prefs.setBool("onboard", true);
+    // TODO: add user to users collection in firebase
     checkOnboard();
   }
 
@@ -169,14 +170,22 @@ class _OnBoardState extends State<OnBoard> {
               ),
               TextButton(
                 onPressed: () async {
+                  if (isChecked && firstNameController.text.isNotEmpty && lastNameController.text.isNotEmpty && collegeController.text.isNotEmpty && departmentController.text.isNotEmpty && positionController.text.isNotEmpty) {
+
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   await prefs.setString("username",
                       FirebaseAuth.instance.currentUser!.displayName!);
                   await prefs.setString(
                       "imageUrl", FirebaseAuth.instance.currentUser!.photoURL!);
+                  await prefs.setString(
+                      "department", departmentController.text);
+                  await prefs.setString("position", positionController.text);
                   await prefs.setBool("onboard", true);
                   checkOnboard();
+                  } else {
+                    
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(Colors.black),

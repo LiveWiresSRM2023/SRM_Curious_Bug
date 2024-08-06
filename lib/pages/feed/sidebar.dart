@@ -32,6 +32,7 @@ class _SideBarState extends State<SideBar> {
   }
 
   void loadRecentPosts() async {
+    print("Called recent posts");
     await FirebaseFirestore.instance
         .collection("posts")
         .where("op_email",
@@ -54,9 +55,9 @@ class _SideBarState extends State<SideBar> {
 
   @override
   void initState() {
-    super.initState();
     loadFollowedTopics();
     loadRecentPosts();
+    super.initState();
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:srm_curious_bug/pages/profile.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 PreferredSizeWidget appBar(BuildContext context) {
@@ -154,7 +155,8 @@ PreferredSizeWidget appBar(BuildContext context) {
       const SizedBox(width: 20),
       InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/profile');
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const Profile(user: "123")));
+          // Navigator.pushNamed(context, '/profile');
         },
         child: Row(
           children: [

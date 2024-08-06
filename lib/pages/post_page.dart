@@ -639,6 +639,7 @@ class _PostPageState extends State<PostPage> {
                                                         .getString("username"),
                                                     "imageUrl": prefs
                                                         .getString("imageUrl"),
+                                                    "bio": "${prefs.getString("position")} at ${prefs.getString("department")}",
                                                     "isReply": false
                                                   };
                                                   FirebaseFirestore.instance
@@ -1598,8 +1599,7 @@ class _PostPageState extends State<PostPage> {
                                   //     fit: BoxFit.cover,
                                   //     image:
                                   //         AssetImage("assets/images/post.png")),
-                                  color:
-                                      const Color.fromARGB(255, 201, 200, 200),
+                                  color: Colors.grey.shade200,
                                   borderRadius: BorderRadius.circular(10)),
                               width: MediaQuery.of(context).size.width * 0.30,
                               height: MediaQuery.of(context).size.height - 56,
@@ -1610,17 +1610,17 @@ class _PostPageState extends State<PostPage> {
                                               .withOpacity(0.5),
                                           border: Border.all(
                                             width: 2,
-                                            color: Colors.white30,
+                                            color: Colors.grey.shade200,
                                           ),
-                                          gradient: const LinearGradient(
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                              colors: [
-                                                Color.fromARGB(
-                                                    255, 251, 251, 251),
-                                                Color.fromARGB(
-                                                    255, 255, 255, 255)
-                                              ]),
+                                          // gradient: const LinearGradient(
+                                          //     begin: Alignment.topLeft,
+                                          //     end: Alignment.bottomRight,
+                                          //     colors: [
+                                          //       Color.fromARGB(
+                                          //           255, 251, 251, 251),
+                                          //       Color.fromARGB(
+                                          //           255, 255, 255, 255)
+                                          //     ]),
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       width: MediaQuery.of(context).size.width *

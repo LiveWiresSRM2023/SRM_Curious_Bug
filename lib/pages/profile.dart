@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ import 'package:srm_curious_bug/widgets/editProfile.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  final String? user;
+  const Profile({this.user, super.key});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -19,6 +21,23 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool showMore = false;
+  List interets = [];
+
+  void loadProfileDetails() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.user)
+        .get()
+        .then((doc) {
+      interets = doc.get("interests");
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
