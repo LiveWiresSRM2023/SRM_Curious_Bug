@@ -1,1 +1,1 @@
-String url = "http://10.9.31.214:80";
+String url = "http://10.9.31.214";

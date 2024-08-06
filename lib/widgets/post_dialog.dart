@@ -6,16 +6,23 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/utils/constants.dart';
 // import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:uuid/uuid.dart';
 
-postDialog(BuildContext context) {
+postDialog(BuildContext context,
+    {String? title,
+    String? abstractData,
+    List? invites,
+    List? mediaUrl,
+    String? literatureStudy}) {
   TextEditingController titleController = TextEditingController();
   TextEditingController abstractController = TextEditingController();
   TextEditingController invitesController = TextEditingController();
@@ -24,16 +31,26 @@ postDialog(BuildContext context) {
   // ignore: unused_local_variable
   TextEditingController collaboratorController = TextEditingController();
   List invities = [];
+  List images = [];
+  List<String> mediaUrl = [];
+  bool collaborationSwitch = false;
+
+  if (title != null ||
+      abstractData != null ||
+      invities.isNotEmpty ||
+      literatureStudy != null) {
+    titleController.text = title!;
+    abstractController.text = abstractData!;
+    invities = invities;
+    literatureStudyController.text = literatureStudy!;
+  }
   return showDialog(
       context: context,
       builder: (
         BuildContext context,
       ) {
-        List images = [];
-        // ignore: unused_local_variable
         bool mediaUploaded = false;
-        List<String> mediaUrl = [];
-        bool collaborationSwitch = false;
+        
         return AlertDialog(
             backgroundColor: Colors.white,
             elevation: 0.0,
@@ -229,7 +246,7 @@ postDialog(BuildContext context) {
                                                 images.add(image.bytes);
                                                 Reference storageRef =
                                                     FirebaseStorage.instance.ref(
-                                                        "/srmeureka/posts/${const Uuid().v4()}.png");
+                                                        "/curiousbees/posts/${const Uuid().v4()}.png");
                                                 await storageRef
                                                     .putData(image.bytes!);
                                                 mediaUrl.add(await storageRef
@@ -490,8 +507,15 @@ postDialog(BuildContext context) {
                               child: TextButton(
                                 onPressed: () async {
                                   String id = const Uuid().v4();
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+
                                   Map<String, dynamic> storeData = {
+                                    "Department": prefs.getString("department"),
                                     "title": titleController.text,
+                                    "collaborator": invities,
+                                    "meetingDetails": "",
+                                    "meetingLink": "",
                                     "upvote": "0",
                                     "post": abstractController.text,
                                     "timestamp": DateTime.now().toString(),
@@ -504,10 +528,7 @@ postDialog(BuildContext context) {
                                     "op_profile": FirebaseAuth
                                         .instance.currentUser!.photoURL,
                                     "comments": "/collection/{docID}",
-                                    "post_images": [
-                                      "https://picsum.photos/600/300",
-                                      "https://picsum.photos/600/300"
-                                    ],
+                                    "post_images": mediaUrl,
                                     "duration": durationController.text,
                                     "expertise": [
                                       "Python",
@@ -515,7 +536,7 @@ postDialog(BuildContext context) {
                                     ]
                                   };
                                   FirebaseFirestore.instance
-                                      .collection("srmeureka")
+                                      .collection("posts")
                                       .doc(id)
                                       .set(storeData);
                                   // await getAllPosts();
@@ -527,10 +548,11 @@ postDialog(BuildContext context) {
 
                                   // upload to qdrant
                                   http.Response res =
-                                      await http.post(Uri.parse(url),
+                                      await http.post(Uri.parse("$url/post"),
                                           body: jsonEncode({
-                                            "user_id": "123",
-                                            "task": "post",
+                                            "user_id": FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            "type": "post",
                                             "content":
                                                 "${titleController.text}\n${abstractController.text}",
                                             "id": id

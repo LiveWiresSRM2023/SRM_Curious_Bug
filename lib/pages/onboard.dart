@@ -170,21 +170,27 @@ class _OnBoardState extends State<OnBoard> {
               ),
               TextButton(
                 onPressed: () async {
-                  if (isChecked && firstNameController.text.isNotEmpty && lastNameController.text.isNotEmpty && collegeController.text.isNotEmpty && departmentController.text.isNotEmpty && positionController.text.isNotEmpty) {
-
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.setString("username",
-                      FirebaseAuth.instance.currentUser!.displayName!);
-                  await prefs.setString(
-                      "imageUrl", FirebaseAuth.instance.currentUser!.photoURL!);
-                  await prefs.setString(
-                      "department", departmentController.text);
-                  await prefs.setString("position", positionController.text);
-                  await prefs.setBool("onboard", true);
-                  checkOnboard();
+                  if (isChecked &&
+                      firstNameController.text.isNotEmpty &&
+                      lastNameController.text.isNotEmpty &&
+                      collegeController.text.isNotEmpty &&
+                      departmentController.text.isNotEmpty &&
+                      positionController.text.isNotEmpty) {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setString("username",
+                        FirebaseAuth.instance.currentUser!.displayName!);
+                    await prefs.setString("imageUrl",
+                        FirebaseAuth.instance.currentUser!.photoURL!);
+                    await prefs.setString(
+                        "department", departmentController.text);
+                    await prefs.setString("position", positionController.text);
+                    await prefs.setBool("onboard", true);
+                    checkOnboard();
                   } else {
-                    
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text("Error missing fields")));
                   }
                 },
                 style: ButtonStyle(

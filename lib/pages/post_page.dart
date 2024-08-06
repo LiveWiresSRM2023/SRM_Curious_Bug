@@ -11,6 +11,7 @@ import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/gantt_chart.dart';
+import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 class PostPage extends StatefulWidget {
   final Map post;
@@ -235,13 +236,22 @@ class _PostPageState extends State<PostPage> {
                                         ],
                                       ),
                                       const Spacer(),
-                                      IconButton(
+                                      FirebaseAuth.instance.currentUser!.email != widget.post["op_email"] ? const SizedBox() : IconButton(
                                         hoverColor: Theme.of(context)
                                             .colorScheme
                                             .primary,
                                         splashColor: Colors.transparent,
-                                        onPressed: () {},
-                                        icon: const Icon(Icons.more_horiz,
+                                        onPressed: () {
+                                          postDialog(
+                                            context,
+                                              title: widget.post["title"],
+                                              abstractData: widget.post["post"],
+                                              invites: widget.post["collaborator"],
+                                              mediaUrl: widget.post["post_images"],
+                                              literatureStudy: "widget.post[literatureStudy]"
+                                          );
+                                        },
+                                        icon: const Icon(Icons.edit,
                                             size: 17, color: Colors.black),
                                       ),
                                     ],
@@ -258,6 +268,7 @@ class _PostPageState extends State<PostPage> {
                                       textAlign: TextAlign.start,
                                       trimLines: 2,
                                       trimCollapsedText: ' Show More',
+                                      trimExpandedText: ' Show less',
                                       style: GoogleFonts.inter(
                                           textStyle: const TextStyle(
                                         fontSize: 14,
@@ -276,6 +287,7 @@ class _PostPageState extends State<PostPage> {
                                       textAlign: TextAlign.start,
                                       trimLines: 5,
                                       trimCollapsedText: ' Show More',
+                                      trimExpandedText: ' Show less',
                                       style: GoogleFonts.inter(
                                           textStyle: const TextStyle(
                                         fontSize: 14,
@@ -639,7 +651,8 @@ class _PostPageState extends State<PostPage> {
                                                         .getString("username"),
                                                     "imageUrl": prefs
                                                         .getString("imageUrl"),
-                                                    "bio": "${prefs.getString("position")} at ${prefs.getString("department")}",
+                                                    "bio":
+                                                        "${prefs.getString("position")} at ${prefs.getString("department")}",
                                                     "isReply": false
                                                   };
                                                   FirebaseFirestore.instance
@@ -715,8 +728,8 @@ class _PostPageState extends State<PostPage> {
                                                         const EdgeInsets.only(
                                                             top: 10.0),
                                                     child: Container(
-                                                      height: 36,
-                                                      width: 36,
+                                                      height: 50,
+                                                      width: 50,
                                                       decoration: BoxDecoration(
                                                           shape:
                                                               BoxShape.circle,
@@ -729,7 +742,7 @@ class _PostPageState extends State<PostPage> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    height: 135,
+                                                    // height: 135,
                                                     decoration: BoxDecoration(
                                                         color: const Color
                                                             .fromARGB(
@@ -765,6 +778,9 @@ class _PostPageState extends State<PostPage> {
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
                                                                       .start,
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
                                                               children: [
                                                                 Row(
                                                                   mainAxisAlignment:
@@ -775,86 +791,72 @@ class _PostPageState extends State<PostPage> {
                                                                       children: [
                                                                         InkWell(
                                                                           onTap:
-                                                                              () {},
+                                                                              () {
+                                                                            //TODO: go to profile screen
+                                                                          },
                                                                           child:
                                                                               Text(
                                                                             comments[index]["username"],
                                                                             style: GoogleFonts.inter(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontSize: 13,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 15,
                                                                                 color: Colors.black),
                                                                           ),
                                                                         ),
-                                                                        const SizedBox(
-                                                                            width:
-                                                                                10),
-                                                                        Text(
-                                                                          '•',
-                                                                          style: GoogleFonts.inter(
-                                                                              fontWeight: FontWeight.w400,
-                                                                              fontSize: 12,
-                                                                              color: Theme.of(context).colorScheme.secondary),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                            width:
-                                                                                10),
-                                                                        Text(
-                                                                          '2nd',
-                                                                          style: GoogleFonts.inter(
-                                                                              fontWeight: FontWeight.w400,
-                                                                              fontSize: 12,
-                                                                              color: Theme.of(context).colorScheme.secondary),
-                                                                        ),
+                                                                        // const SizedBox(
+                                                                        //     width:
+                                                                        //         10),
+                                                                        // Text(
+                                                                        //   '•',
+                                                                        //   style: GoogleFonts.inter(
+                                                                        //       fontWeight: FontWeight.w400,
+                                                                        //       fontSize: 12,
+                                                                        //       color: Theme.of(context).colorScheme.secondary),
+                                                                        // ),
+                                                                        // const SizedBox(
+                                                                        //     width:
+                                                                        //         10),
+                                                                        // Text(
+                                                                        //   '2nd',
+                                                                        //   style: GoogleFonts.inter(
+                                                                        //       fontWeight: FontWeight.w400,
+                                                                        //       fontSize: 12,
+                                                                        //       color: Theme.of(context).colorScheme.secondary),
+                                                                        // ),
                                                                       ],
                                                                     ),
-                                                                    IconButton(
-                                                                        onPressed:
-                                                                            () {},
-                                                                        icon: const Icon(
-                                                                            Icons
-                                                                                .more_vert_outlined,
-                                                                            size:
-                                                                                14,
-                                                                            color:
-                                                                                Colors.black))
+                                                                    Text(
+                                                                      "Posted at: ${comments[index]["date"]}-${comments[index]["month"]}-${comments[index]["year"]}",
+                                                                      style: GoogleFonts.inter(
+                                                                          fontSize:
+                                                                              13,
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                    )
+                                                                    // IconButton(
+                                                                    //     onPressed:
+                                                                    //         () {},
+                                                                    //     icon: const Icon(
+                                                                    //         Icons
+                                                                    //             .more_vert_outlined,
+                                                                    //         size:
+                                                                    //             14,
+                                                                    //         color:
+                                                                    //             Colors.black))
                                                                   ],
-                                                                ),
-                                                                ReadMoreText(
-                                                                  'Head of AI/ML at RazorPay | Ex- Amazon Worker|Open Source | Research',
-                                                                  trimLines: 1,
-                                                                  trimCollapsedText:
-                                                                      '...',
-                                                                  style: GoogleFonts.inter(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontSize:
-                                                                          12,
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .colorScheme
-                                                                          .secondary),
-                                                                ),
-                                                                Text(
-                                                                  '34 m',
-                                                                  style: GoogleFonts.inter(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontSize:
-                                                                          12,
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .colorScheme
-                                                                          .secondary),
                                                                 ),
                                                                 const SizedBox(
                                                                     height: 8),
                                                                 ReadMoreText(
-                                                                  "This is awesome..How can i try this? ",
+                                                                  comments[
+                                                                          index]
+                                                                      [
+                                                                      "comment"],
                                                                   trimLines: 2,
                                                                   trimCollapsedText:
                                                                       ' Show More',
+                                                                  trimExpandedText:
+                                                                      ' Show less',
                                                                   style: GoogleFonts.inter(
                                                                       fontWeight:
                                                                           FontWeight
@@ -987,11 +989,8 @@ class _PostPageState extends State<PostPage> {
                                                             ],
                                                           ),
                                                           content: SizedBox(
-                                                            height: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height *
-                                                                0.7,
+                                                            // height: double
+                                                            //     .minPositive,
                                                             width: MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -1004,6 +1003,9 @@ class _PostPageState extends State<PostPage> {
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
                                                                       .center,
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
                                                               children: [
                                                                 const SizedBox(
                                                                     height: 5),
@@ -1278,7 +1280,6 @@ class _PostPageState extends State<PostPage> {
                                                                     ],
                                                                   ),
                                                                 ),
-                                                                const Spacer(),
                                                                 Center(
                                                                   child:
                                                                       TextButton(
