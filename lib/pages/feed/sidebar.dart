@@ -44,7 +44,7 @@ class _SideBarState extends State<SideBar> {
         recentPosts.add({
           "id": doc.id,
           "title": doc.get("title"),
-          "photo": doc.get("post_images")[0],
+          "photo": doc.get("post_images"),
           "upvote": doc.get("upvote"),
           "n_comments": doc.get("n_comments")
         });
@@ -283,8 +283,8 @@ class _SideBarState extends State<SideBar> {
                                     height: MediaQuery.of(context).size.width *
                                         0.05,
                                     color: Colors.white,
-                                    child: Image.network(
-                                      recentPosts[index]["photo"],
+                                    child: recentPosts[index]["photo"].isEmpty ? Image.asset("assets/icons/gallery_Icon.png") : Image.network(
+                                      recentPosts[index]["photo"][0],
                                       fit: BoxFit.cover,
                                     ),
                                   ),

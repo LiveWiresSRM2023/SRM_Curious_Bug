@@ -190,8 +190,9 @@ class _FeedState extends State<Feed> {
         ),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               postDialog(context);
+              await getAllPosts();
             },
             style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.black),

@@ -44,13 +44,15 @@ postDialog(BuildContext context,
     invities = invities;
     literatureStudyController.text = literatureStudy!;
   }
+  bool showError = false;
+  bool mediaUploaded = false;
+  bool mediaExists = false;
+
   return showDialog(
       context: context,
       builder: (
         BuildContext context,
       ) {
-        bool mediaUploaded = false;
-        
         return AlertDialog(
             backgroundColor: Colors.white,
             elevation: 0.0,
@@ -243,18 +245,25 @@ postDialog(BuildContext context,
                                             if (picker != null) {
                                               for (PlatformFile image
                                                   in picker.files) {
+                                                mediaUploaded = false;
+                                                // dialogState(() =>
+                                                //     images.add(image.bytes));
                                                 images.add(image.bytes);
                                                 Reference storageRef =
                                                     FirebaseStorage.instance.ref(
                                                         "/curiousbees/posts/${const Uuid().v4()}.png");
                                                 await storageRef
-                                                    .putData(image.bytes!);
+                                                    .putData(image.bytes!)
+                                                    .onError((e, s) {
+                                                  print(e);
+                                                  throw "Error from uploading an image";
+                                                });
                                                 mediaUrl.add(await storageRef
                                                     .getDownloadURL());
+                                                mediaUploaded = true;
+                                                showError = false;
+                                                dialogState(() {});
                                               }
-                                              mediaUploaded = true;
-                                              dialogState(() {});
-                                              print(images);
                                             }
                                           },
                                           child: Container(
@@ -506,63 +515,80 @@ postDialog(BuildContext context,
                               padding: const EdgeInsets.all(2.0),
                               child: TextButton(
                                 onPressed: () async {
-                                  String id = const Uuid().v4();
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
+                                  if (mediaUploaded) {
+                                    String id = const Uuid().v4();
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
 
-                                  Map<String, dynamic> storeData = {
-                                    "Department": prefs.getString("department"),
-                                    "title": titleController.text,
-                                    "collaborator": invities,
-                                    "meetingDetails": "",
-                                    "meetingLink": "",
-                                    "upvote": "0",
-                                    "post": abstractController.text,
-                                    "timestamp": DateTime.now().toString(),
-                                    "op_name": FirebaseAuth
-                                        .instance.currentUser!.displayName,
-                                    "n_comments": 0,
-                                    "hashtags": ["legaltech", "python", "nlp"],
-                                    "op_email": FirebaseAuth
-                                        .instance.currentUser!.email,
-                                    "op_profile": FirebaseAuth
-                                        .instance.currentUser!.photoURL,
-                                    "comments": "/collection/{docID}",
-                                    "post_images": mediaUrl,
-                                    "duration": durationController.text,
-                                    "expertise": [
-                                      "Python",
-                                      "Natural Language Processing (NLP)"
-                                    ]
-                                  };
-                                  FirebaseFirestore.instance
-                                      .collection("posts")
-                                      .doc(id)
-                                      .set(storeData);
-                                  // await getAllPosts();
-                                  dialogState(() {
-                                    // posts.insert(0,storeData);
+                                    Map<String, dynamic> storeData = {
+                                      "Department":
+                                          prefs.getString("department"),
+                                      "title": titleController.text,
+                                      "collaborator": invities,
+                                      "meetingDetails": "",
+                                      "meetingLink": "",
+                                      "upvote": "0",
+                                      "post": abstractController.text,
+                                      "timestamp": DateTime.now().toString(),
+                                      "op_name": FirebaseAuth
+                                          .instance.currentUser!.displayName,
+                                      "n_comments": 0,
+                                      "hashtags": [
+                                        "legaltech",
+                                        "python",
+                                        "nlp"
+                                      ],
+                                      "op_email": FirebaseAuth
+                                          .instance.currentUser!.email,
+                                      "op_profile": FirebaseAuth
+                                          .instance.currentUser!.photoURL,
+                                      "comments": "/collection/{docID}",
+                                      "post_images": mediaUrl,
+                                      "duration": durationController.text,
+                                      "expertise": [
+                                        "Python",
+                                        "Natural Language Processing (NLP)"
+                                      ]
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection("posts")
+                                        .doc(id)
+                                        .set(storeData);
+                                    // await getAllPosts();
+                                    dialogState(() {
+                                      // posts.insert(0,storeData);
 
+                                      Navigator.pop(context);
+                                    });
+
+                                    // upload to qdrant
+                                    http.Response res = await http
+                                        .post(Uri.parse("$url/post"),
+                                            body: jsonEncode({
+                                              "user_id": FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              "type": "post",
+                                              "content":
+                                                  "${titleController.text}\n${abstractController.text}",
+                                              "id": id
+                                            }))
+                                        .onError((e, s) {
+                                      print(e);
+                                      throw "Error on sendin request to QDrant";
+                                    });
+                                    print(res.body);
                                     Navigator.pop(context);
-                                  });
-
-                                  // upload to qdrant
-                                  http.Response res =
-                                      await http.post(Uri.parse("$url/post"),
-                                          body: jsonEncode({
-                                            "user_id": FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            "type": "post",
-                                            "content":
-                                                "${titleController.text}\n${abstractController.text}",
-                                            "id": id
-                                          }));
-                                  print(res.body);
-                                  Navigator.pop(context);
+                                  } else {
+                                    dialogState(() => showError = true);
+                                  }
                                 },
                                 style: ButtonStyle(
                                     backgroundColor:
-                                        WidgetStateProperty.all(Colors.black),
+                                        WidgetStateProperty.all(images.isEmpty
+                                            ? Colors.black
+                                            : mediaUploaded
+                                                ? Colors.black
+                                                : Colors.grey),
                                     shape: WidgetStateProperty.all(
                                         RoundedRectangleBorder(
                                             borderRadius:
@@ -578,6 +604,24 @@ postDialog(BuildContext context,
                               ),
                             ),
                           ),
+                          showError
+                              ? Center(
+                                  child: Container(
+                                    width: 150,
+                                    height: 40,
+                                    decoration:
+                                        const BoxDecoration(color: Colors.red),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Media is being uploaded",
+                                      style: GoogleFonts.archivo(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox()
                         ],
                       ),
                     ),
