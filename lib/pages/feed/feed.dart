@@ -32,6 +32,7 @@ class _FeedState extends State<Feed> {
   List posts = [];
 
   getAllPosts() async {
+    posts = [];
     await FirebaseFirestore.instance
         .collection("posts")
         .get()

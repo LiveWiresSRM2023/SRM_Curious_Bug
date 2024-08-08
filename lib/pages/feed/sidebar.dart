@@ -32,6 +32,7 @@ class _SideBarState extends State<SideBar> {
   }
 
   void loadRecentPosts() async {
+    recentPosts = [];
     print("Called recent posts");
     await FirebaseFirestore.instance
         .collection("posts")
@@ -283,10 +284,13 @@ class _SideBarState extends State<SideBar> {
                                     height: MediaQuery.of(context).size.width *
                                         0.05,
                                     color: Colors.white,
-                                    child: recentPosts[index]["photo"].isEmpty ? Image.asset("assets/icons/gallery_Icon.png") : Image.network(
-                                      recentPosts[index]["photo"][0],
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: recentPosts[index]["photo"].isEmpty
+                                        ? Image.asset(
+                                            "assets/icons/gallery_Icon.png")
+                                        : Image.network(
+                                            recentPosts[index]["photo"][0],
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
                                 ),
                                 Padding(

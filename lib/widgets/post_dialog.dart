@@ -564,9 +564,17 @@ postDialog(BuildContext context,
                                     // upload to qdrant
                                     http.Response res = await http
                                         .post(Uri.parse("$url/post"),
+                                            headers: {
+                                              "Access-Control-Allow-Origin":
+                                                  "*",
+                                              'Content-Type':
+                                                  'application/json',
+                                              'Accept': '*/*'
+                                            },
                                             body: jsonEncode({
                                               "user_id": FirebaseAuth
-                                                  .instance.currentUser!.uid,
+                                                  .instance.currentUser!.uid
+                                                  .toString(),
                                               "type": "post",
                                               "content":
                                                   "${titleController.text}\n${abstractController.text}",
@@ -579,7 +587,7 @@ postDialog(BuildContext context,
                                     print(res.body);
                                     Navigator.pop(context);
                                   } else {
-                                    dialogState(() => showError = true);
+                                    // dialogState(() => showError = true);
                                   }
                                 },
                                 style: ButtonStyle(
