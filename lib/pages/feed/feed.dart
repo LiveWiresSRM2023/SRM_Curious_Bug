@@ -32,6 +32,9 @@ class _FeedState extends State<Feed> {
   List posts = [];
 
   getAllPosts() async {
+    setState(() {
+      loadingPosts = true;
+    });
     posts = [];
     await FirebaseFirestore.instance
         .collection("posts")
@@ -154,16 +157,34 @@ class _FeedState extends State<Feed> {
                     // ),
                     IconButton(
                         onPressed: () async {
-                          http.Response res = await http.post(
-                              Uri.parse("$url/post"),
-                              body: jsonEncode({
-                                "user_id": "123",
-                                "type": "search",
-                                "content": searchController.text,
-                                "id": ""
-                              }));
-                          print(res);
-                          //TODO: implement posts list update
+                          http.Response res = await http
+                              .post(Uri.parse("$url/post"),
+                                  headers: {
+                                    "Access-Control-Allow-Origin": "*",
+                                    'Content-Type': 'application/json',
+                                    'Accept': '*/*'
+                                  },
+                                  body: jsonEncode({
+                                    "user_id": "123",
+                                    "type": "search",
+                                    "content": searchController.text.toString(),
+                                    "id": "123"
+                                  }))
+                              .onError((e, s) {
+                            print(e);
+                            throw "Error on querying request to QDrant";
+                          });
+                          print(res.body);
+                          if (jsonDecode(res.body)["msg"] ==
+                              "There was an error") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text(
+                                        "There was an error, Please try again later")));
+                          } else {
+                            //TODO: implement posts list update
+                          }
                         },
                         icon: Icon(
                           Icons.search,

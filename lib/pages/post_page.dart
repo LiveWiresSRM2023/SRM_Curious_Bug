@@ -1474,7 +1474,10 @@ class _PostPageState extends State<PostPage> {
                                           padding: const EdgeInsets.only(
                                               right: 10.0),
                                           child: TextButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              // TODO: schedule a meeting
+                                              // TODO: Display a meeting scheduling dialog
+                                            },
                                             style: ButtonStyle(
                                                 backgroundColor:
                                                     WidgetStateProperty.all(
