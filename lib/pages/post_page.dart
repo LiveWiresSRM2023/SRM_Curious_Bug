@@ -236,24 +236,31 @@ class _PostPageState extends State<PostPage> {
                                         ],
                                       ),
                                       const Spacer(),
-                                      FirebaseAuth.instance.currentUser!.email != widget.post["op_email"] ? const SizedBox() : IconButton(
-                                        hoverColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        splashColor: Colors.transparent,
-                                        onPressed: () {
-                                          postDialog(
-                                            context,
-                                              title: widget.post["title"],
-                                              abstractData: widget.post["post"],
-                                              invites: widget.post["collaborator"],
-                                              mediaUrl: widget.post["post_images"],
-                                              literatureStudy: "widget.post[literatureStudy]"
-                                          );
-                                        },
-                                        icon: const Icon(Icons.edit,
-                                            size: 17, color: Colors.black),
-                                      ),
+                                      FirebaseAuth.instance.currentUser!
+                                                  .email !=
+                                              widget.post["op_email"]
+                                          ? const SizedBox()
+                                          : IconButton(
+                                              hoverColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              splashColor: Colors.transparent,
+                                              onPressed: () {
+                                                postDialog(context,
+                                                    title: widget.post["title"],
+                                                    abstractData:
+                                                        widget.post["post"],
+                                                    invites: widget
+                                                        .post["collaborator"],
+                                                    mediaUrl: widget
+                                                        .post["post_images"],
+                                                    literatureStudy:
+                                                        "widget.post[literatureStudy]");
+                                              },
+                                              icon: const Icon(Icons.edit,
+                                                  size: 17,
+                                                  color: Colors.black),
+                                            ),
                                     ],
                                   ),
                                   const SizedBox(height: 10),
@@ -1474,9 +1481,457 @@ class _PostPageState extends State<PostPage> {
                                           padding: const EdgeInsets.only(
                                               right: 10.0),
                                           child: TextButton(
-                                            onPressed: () {
-                                              // TODO: schedule a meeting
-                                              // TODO: Display a meeting scheduling dialog
+                                            // TODO: schedule a meeting
+                                            // TODO: Display a meeting scheduling dialog
+                                            onPressed: () async {
+                                              TextEditingController
+                                                  titleController =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  summaryController =
+                                                  TextEditingController();
+                                              TextEditingController
+                                                  startTimePicker =
+                                                  TextEditingController();
+                                              String meetStartTime = '';
+                                              String meetendTime = '';
+                                              String meetDate = '';
+
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return StatefulBuilder(
+                                                        builder:
+                                                            (context, dState) {
+                                                      return AlertDialog(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        title: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              "Schedule a new meeting",
+                                                              style: GoogleFonts.inter(
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary,
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                            IconButton(
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                icon: Icon(
+                                                                    Icons.close,
+                                                                    size: 15,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary))
+                                                          ],
+                                                        ),
+                                                        content: SizedBox(
+                                                          // height: double
+                                                          //     .minPositive,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.42,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              SizedBox(
+                                                                height: 40,
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.4,
+                                                                child:
+                                                                    TextField(
+                                                                  controller:
+                                                                      titleController,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText:
+                                                                        'Enter title here..',
+                                                                    border:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15.0),
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                              color: Theme.of(context).primaryColor),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          color: Theme.of(context)
+                                                                              .colorScheme
+                                                                              .primary),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        const OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              179,
+                                                                              177,
+                                                                              177)),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.4,
+                                                                child:
+                                                                    TextField(
+                                                                  maxLines: 4,
+                                                                  controller:
+                                                                      summaryController,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText:
+                                                                        'Summarie the purpose of the meet',
+                                                                    border:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15.0),
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                              color: Theme.of(context).primaryColor),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          color: Theme.of(context)
+                                                                              .colorScheme
+                                                                              .primary),
+                                                                    ),
+                                                                    enabledBorder:
+                                                                        const OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              179,
+                                                                              177,
+                                                                              177)),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.4,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Text(
+                                                                        "Date of the meet : ",
+                                                                        style: GoogleFonts.archivo(
+                                                                            textStyle: TextStyle(
+                                                                                fontSize: 15,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                color: Theme.of(context).colorScheme.secondary))),
+                                                                    const Spacer(),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          248,
+                                                                      child:
+                                                                          TextField(
+                                                                        controller:
+                                                                            startDatePicker,
+                                                                        onTap:
+                                                                            () async {
+                                                                          DateTime? datetime = await showDatePicker(
+                                                                              context: context,
+                                                                              initialDate: DateTime.now(),
+                                                                              firstDate: DateTime(2024),
+                                                                              lastDate: DateTime(2050));
+                                                                          if (datetime !=
+                                                                              null) {
+                                                                            String
+                                                                                formattedDate =
+                                                                                DateFormat('dd/MM/yyyy').format(datetime);
+                                                                            setState(() {
+                                                                              startDatePicker.text = formattedDate;
+                                                                              meetDate = datetime.toString();
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        decoration:
+                                                                            InputDecoration(
+                                                                          suffixIcon:
+                                                                              Icon(
+                                                                            Icons.date_range,
+                                                                            color:
+                                                                                Theme.of(context).colorScheme.primary,
+                                                                          ),
+                                                                          hintText:
+                                                                              'Start date',
+                                                                          border:
+                                                                              OutlineInputBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(15.0),
+                                                                            borderSide:
+                                                                                BorderSide(color: Theme.of(context).primaryColor),
+                                                                          ),
+                                                                          focusedBorder:
+                                                                              OutlineInputBorder(
+                                                                            borderSide:
+                                                                                BorderSide(color: Theme.of(context).colorScheme.primary),
+                                                                          ),
+                                                                          enabledBorder:
+                                                                              const OutlineInputBorder(
+                                                                            borderSide:
+                                                                                BorderSide(color: Color.fromARGB(255, 179, 177, 177)),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 10),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.4,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      // height:
+                                                                      //     32,
+                                                                      width: (MediaQuery.of(context).size.width *
+                                                                              0.2) -
+                                                                          10,
+                                                                      child:
+                                                                          TextField(
+                                                                        controller:
+                                                                            startTimePicker,
+                                                                        onTap:
+                                                                            () async {
+                                                                          TimeOfDay?
+                                                                              timeOfDay =
+                                                                              await showTimePicker(
+                                                                            context:
+                                                                                context,
+                                                                            initialTime:
+                                                                                TimeOfDay.now(),
+                                                                          );
+                                                                          if (timeOfDay !=
+                                                                              null) {
+                                                                            final now =
+                                                                                DateTime.now();
+                                                                            final dateTime = DateTime(
+                                                                                now.year,
+                                                                                now.month,
+                                                                                now.day,
+                                                                                timeOfDay.hour,
+                                                                                timeOfDay.minute);
+                                                                            String
+                                                                                formattedTime =
+                                                                                DateFormat('HH:mm').format(dateTime);
+                                                                            setState(() {
+                                                                              startTimePicker.text = formattedTime;
+                                                                              meetStartTime = timeOfDay.format(context);
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        decoration:
+                                                                            InputDecoration(
+                                                                          suffixIcon:
+                                                                              Icon(
+                                                                            Icons.access_time,
+                                                                            color:
+                                                                                Theme.of(context).colorScheme.primary,
+                                                                          ),
+                                                                          hintText:
+                                                                              'Start time',
+                                                                          border:
+                                                                              OutlineInputBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(15.0),
+                                                                            borderSide:
+                                                                                BorderSide(color: Theme.of(context).colorScheme.primary),
+                                                                          ),
+                                                                          focusedBorder:
+                                                                              OutlineInputBorder(
+                                                                            borderSide:
+                                                                                BorderSide(color: Theme.of(context).colorScheme.primary),
+                                                                          ),
+                                                                          enabledBorder:
+                                                                              const OutlineInputBorder(
+                                                                            borderSide:
+                                                                                BorderSide(color: Color.fromARGB(255, 179, 177, 177)),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      // height:
+                                                                      //     32,
+                                                                      width: (MediaQuery.of(context).size.width *
+                                                                              0.2) -
+                                                                          10,
+                                                                      child:
+                                                                          TextField(
+                                                                        controller:
+                                                                            startTimePicker,
+                                                                        onTap:
+                                                                            () async {
+                                                                          TimeOfDay?
+                                                                              timeOfDay =
+                                                                              await showTimePicker(
+                                                                            context:
+                                                                                context,
+                                                                            initialTime:
+                                                                                TimeOfDay.now(),
+                                                                          );
+                                                                          if (timeOfDay !=
+                                                                              null) {
+                                                                            final now =
+                                                                                DateTime.now();
+                                                                            final dateTime = DateTime(
+                                                                                now.year,
+                                                                                now.month,
+                                                                                now.day,
+                                                                                timeOfDay.hour,
+                                                                                timeOfDay.minute);
+                                                                            String
+                                                                                formattedTime =
+                                                                                DateFormat('HH:mm').format(dateTime);
+                                                                            setState(() {
+                                                                              startTimePicker.text = formattedTime;
+                                                                              meetendTime = timeOfDay.format(context);
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        decoration:
+                                                                            InputDecoration(
+                                                                          suffixIcon:
+                                                                              Icon(
+                                                                            Icons.access_time,
+                                                                            color:
+                                                                                Theme.of(context).colorScheme.primary,
+                                                                          ),
+                                                                          hintText:
+                                                                              'End time',
+                                                                          border:
+                                                                              OutlineInputBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(15.0),
+                                                                            borderSide:
+                                                                                BorderSide(color: Theme.of(context).colorScheme.primary),
+                                                                          ),
+                                                                          focusedBorder:
+                                                                              OutlineInputBorder(
+                                                                            borderSide:
+                                                                                BorderSide(color: Theme.of(context).colorScheme.primary),
+                                                                          ),
+                                                                          enabledBorder:
+                                                                              const OutlineInputBorder(
+                                                                            borderSide:
+                                                                                BorderSide(color: Color.fromARGB(255, 179, 177, 177)),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 10),
+                                                              const SizedBox(
+                                                                  height: 30),
+                                                              TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                style: ButtonStyle(
+                                                                    backgroundColor:
+                                                                        WidgetStateProperty.all(Colors
+                                                                            .black),
+                                                                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10))),
+                                                                    fixedSize: WidgetStateProperty.all(
+                                                                        const Size(
+                                                                            180,
+                                                                            30))),
+                                                                child: Text(
+                                                                  "Schedule Now",
+                                                                  style: GoogleFonts.inter(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 20),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    });
+                                                  }).then((v) {
+                                                print(v);
+                                              });
                                             },
                                             style: ButtonStyle(
                                                 backgroundColor:
