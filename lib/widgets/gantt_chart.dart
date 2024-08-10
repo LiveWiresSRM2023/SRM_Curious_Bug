@@ -186,9 +186,11 @@ class GanttChart extends StatelessWidget {
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
-                                                          .spaceAround,
+                                                          .spaceBetween,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
                                                   children: [
                                                     Text(
                                                       "Start Date:\n${DateFormat("EEE, M/d/y").format(DateTime.parse(tasks[index]["currentDate"]))}",
@@ -199,8 +201,18 @@ class GanttChart extends StatelessWidget {
                                                                   .primary,
                                                           fontSize: 15),
                                                     ),
-                                                    const Divider(
-                                                      color: Colors.black,
+                                                    const Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    10.0),
+                                                        child: Divider(
+                                                          thickness: 1.2,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
                                                     ),
                                                     Text(
                                                       "End Date:\n${DateFormat("EEE, M/d/y").format(DateTime.parse(tasks[index]["endDate"]))}",

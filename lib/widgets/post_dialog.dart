@@ -564,13 +564,7 @@ postDialog(BuildContext context,
                                     // upload to qdrant
                                     http.Response res = await http
                                         .post(Uri.parse("$url/post"),
-                                            headers: {
-                                              "Access-Control-Allow-Origin":
-                                                  "*",
-                                              'Content-Type':
-                                                  'application/json',
-                                              'Accept': '*/*'
-                                            },
+                                            headers: headers,
                                             body: jsonEncode({
                                               "user_id": FirebaseAuth
                                                   .instance.currentUser!.uid

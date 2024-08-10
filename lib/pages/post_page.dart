@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,9 +11,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:srm_curious_bug/utils/constants.dart';
 import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/gantt_chart.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
+import 'package:http/http.dart' as http;
 
 class PostPage extends StatefulWidget {
   final Map post;
@@ -1493,8 +1497,11 @@ class _PostPageState extends State<PostPage> {
                                               TextEditingController
                                                   startTimePicker =
                                                   TextEditingController();
+                                              TextEditingController
+                                                  endTimePicker =
+                                                  TextEditingController();
                                               String meetStartTime = '';
-                                              String meetendTime = '';
+                                              String meetEndTime = '';
                                               String meetDate = '';
 
                                               showDialog(
@@ -1694,7 +1701,7 @@ class _PostPageState extends State<PostPage> {
                                                                               null) {
                                                                             String
                                                                                 formattedDate =
-                                                                                DateFormat('dd/MM/yyyy').format(datetime);
+                                                                                DateFormat('yyyy-mm-dd').format(datetime);
                                                                             setState(() {
                                                                               startDatePicker.text = formattedDate;
                                                                               meetDate = datetime.toString();
@@ -1782,7 +1789,7 @@ class _PostPageState extends State<PostPage> {
                                                                                 timeOfDay.minute);
                                                                             String
                                                                                 formattedTime =
-                                                                                DateFormat('HH:mm').format(dateTime);
+                                                                                DateFormat('HH:mm:ss').format(dateTime);
                                                                             setState(() {
                                                                               startTimePicker.text = formattedTime;
                                                                               meetStartTime = timeOfDay.format(context);
@@ -1828,7 +1835,7 @@ class _PostPageState extends State<PostPage> {
                                                                       child:
                                                                           TextField(
                                                                         controller:
-                                                                            startTimePicker,
+                                                                            endTimePicker,
                                                                         onTap:
                                                                             () async {
                                                                           TimeOfDay?
@@ -1851,10 +1858,10 @@ class _PostPageState extends State<PostPage> {
                                                                                 timeOfDay.minute);
                                                                             String
                                                                                 formattedTime =
-                                                                                DateFormat('HH:mm').format(dateTime);
+                                                                                DateFormat('HH:mm:ss').format(dateTime);
                                                                             setState(() {
-                                                                              startTimePicker.text = formattedTime;
-                                                                              meetendTime = timeOfDay.format(context);
+                                                                              endTimePicker.text = formattedTime;
+                                                                              meetEndTime = timeOfDay.format(context);
                                                                             });
                                                                           }
                                                                         },
@@ -1896,7 +1903,35 @@ class _PostPageState extends State<PostPage> {
                                                               const SizedBox(
                                                                   height: 30),
                                                               TextButton(
-                                                                onPressed: () {
+                                                                onPressed:
+                                                                    () async {
+                                                                  http.Response res = await http.post(
+                                                                      Uri.parse(
+                                                                          "$url/create_event"),
+                                                                      headers:
+                                                                          headers,
+                                                                      body:
+                                                                          jsonEncode({
+                                                                        "user_id": FirebaseAuth
+                                                                            .instance
+                                                                            .currentUser!
+                                                                            .uid
+                                                                            .toString(),
+                                                                        "summary":
+                                                                            titleController.text,
+                                                                        "description":
+                                                                            summaryController.text,
+                                                                        "start_time":
+                                                                            "${meetDate}T$meetStartTime+05:30:00",
+                                                                        "end_time":
+                                                                            "${meetDate}T$meetEndTime+05:30:00",
+                                                                        "attendees":
+                                                                            widget.post["collaborator"].join(", ") +
+                                                                                widget.post["op_email"]
+                                                                      }));
+                                                                  print(
+                                                                      res.body);
+
                                                                   Navigator.pop(
                                                                       context);
                                                                 },
