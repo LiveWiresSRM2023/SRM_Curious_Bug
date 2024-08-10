@@ -1588,7 +1588,6 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                               right: 10.0),
                                           child: TextButton(
                                             // TODO: schedule a meeting
-                                            // TODO: Display a meeting scheduling dialog
                                             onPressed: () async {
                                               TextEditingController
                                                   titleController =
