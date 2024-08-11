@@ -242,7 +242,7 @@ class _SideBarState extends State<SideBar> {
                                 .collection("posts")
                                 .doc(recentPosts[index]["id"])
                                 .get()
-                                .then((doc) {
+                                .then((doc) async {
                               Map post = {
                                 "id": doc.id,
                                 "collaborator": doc.get("collaborator"),
@@ -265,6 +265,17 @@ class _SideBarState extends State<SideBar> {
                                 "title": doc.get("title"),
                                 "upvote": doc.get("upvote")
                               };
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+
+                              Map inviteDetails = {
+                                "name": FirebaseAuth
+                                    .instance.currentUser!.displayName,
+                                "bio":
+                                    "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}",
+                                "email":
+                                    FirebaseAuth.instance.currentUser!.email
+                              };
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -272,6 +283,7 @@ class _SideBarState extends State<SideBar> {
                                             post: post,
                                             documentID: recentPosts[index]
                                                 ["id"],
+                                            inviteDetails: inviteDetails,
                                           )));
                             });
                           },
