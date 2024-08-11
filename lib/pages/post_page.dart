@@ -897,8 +897,8 @@ class _PostPageState extends State<PostPage> {
                           ),
                         ),
                       ),
-                      FirebaseAuth.instance.currentUser!.email! ==
-                              widget.post["op_email"]
+                      FirebaseAuth.instance.currentUser!.email ==
+                              widget.post["op_email"] || widget.post["collaborator"].contains(FirebaseAuth.instance.currentUser!.email)
                           ? Padding(
                               padding: const EdgeInsets.only(
                                   right: 8.0, top: 0, bottom: 0),

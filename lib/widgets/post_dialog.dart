@@ -26,6 +26,7 @@ postDialog(BuildContext context,
   TextEditingController titleController = TextEditingController();
   TextEditingController abstractController = TextEditingController();
   TextEditingController invitesController = TextEditingController();
+  TextEditingController topicsController = TextEditingController();
   TextEditingController durationController = TextEditingController();
   TextEditingController literatureStudyController = TextEditingController();
   // ignore: unused_local_variable
