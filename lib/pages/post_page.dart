@@ -1702,8 +1702,9 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                                 color: Theme.of(context).colorScheme.secondary))),
                                                                     const Spacer(),
                                                                     SizedBox(
-                                                                      width:
-                                                                          248,
+                                                                      width: (MediaQuery.of(context).size.width *
+                                                                              0.2) -
+                                                                          10,
                                                                       child:
                                                                           TextField(
                                                                         controller:
@@ -2134,7 +2135,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                   separatorBuilder: (context,
                                                                           index) =>
                                                                       const Divider(
-                                                                        color: Colors.black,
+                                                                          color: Colors
+                                                                              .black,
                                                                           height:
                                                                               5),
                                                                   itemBuilder:
@@ -2218,7 +2220,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                               separatorBuilder: (context,
                                                                       index) =>
                                                                   const Divider(
-                                                                    color: Colors.black,
+                                                                      color: Colors
+                                                                          .black,
                                                                       height:
                                                                           5),
                                                               itemBuilder:
@@ -2238,20 +2241,22 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                   ),
                                                                   title: Text(
                                                                       invites[index]
-                                                                          ["name"],
+                                                                          [
+                                                                          "name"],
                                                                       style: GoogleFonts.inter(
                                                                           textStyle: const TextStyle(
                                                                               fontSize: 14,
                                                                               color: Colors.black,
                                                                               fontWeight: FontWeight.bold))),
-                                                                  subtitle:
-                                                                      Text(
-                                                                          invites[index]["bio"],
-                                                                          style: GoogleFonts.inter(
-                                                                              textStyle: const TextStyle(
-                                                                                  fontSize: 12,
-                                                                                  color: Colors.grey,
-                                                                                  fontWeight: FontWeight.normal))),
+                                                                  subtitle: Text(
+                                                                      invites[index]
+                                                                          [
+                                                                          "bio"],
+                                                                      style: GoogleFonts.inter(
+                                                                          textStyle: const TextStyle(
+                                                                              fontSize: 12,
+                                                                              color: Colors.grey,
+                                                                              fontWeight: FontWeight.normal))),
                                                                   trailing: Row(
                                                                     mainAxisSize:
                                                                         MainAxisSize
