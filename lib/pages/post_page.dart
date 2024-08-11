@@ -1,9 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
-
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +17,8 @@ import 'package:srm_curious_bug/widgets/post_dialog.dart';
 class PostPage extends StatefulWidget {
   final Map post;
   final String documentID;
-  const PostPage({super.key, required this.post, required this.documentID});
+  final Map inviteDetails;
+  const PostPage({super.key, required this.post, required this.documentID, required this.inviteDetails});
 
   @override
   State<PostPage> createState() => _PostPageState();
@@ -37,8 +36,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   List<DateTime> dates = [];
   List<Map> invites = [];
   List<Map> collaborators = [];
-  // DateTime startDate = DateTime.now();
-  // DateTime endDate = DateTime.now();
+  Map inviteDetails = {};
   DateTime startDate = DateTime(9999); // max value
   DateTime endDate = DateTime(0); //min
   // List events = []
@@ -90,8 +88,21 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
         }
       }
     });
-    setState(() {});
+    // setState(() {});
   }
+
+  // updateDetails() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   invites = List.from(widget.post["collaborator_req"]);
+  //   collaborators = List.from(widget.post["collaborator"]);
+  //   inviteDetails = {
+  //     "name": FirebaseAuth.instance.currentUser!.displayName,
+  //     "bio":
+  //         "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}",
+  //     "email": FirebaseAuth.instance.currentUser!.email
+  //   };
+    // setState(() {});
+  // }
 
   Future<void> getAllComments() async {
     await FirebaseFirestore.instance
@@ -112,16 +123,20 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
         });
       }
     });
-    setState(() {});
+    // setState(() {});
   }
 
   @override
   void initState() {
+    // updateDetails();
+        invites = List.from(widget.post["collaborator_req"]);
+    collaborators = List.from(widget.post["collaborator"]);
     getAllTasks();
     getAllComments();
-    invites = List.from(widget.post["collaborator_req"]);
-    collaborators = List.from(widget.post["collaborator"]);
     print(invites);
+    print(List.from(widget.post["collaborator_req"]));
+    print(List.from(widget.post["collaborator_req"]).contains(inviteDetails));
+    print(widget.inviteDetails);
     super.initState();
   }
 
@@ -151,8 +166,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
           .collection("posts")
           .doc(widget.documentID)
           .update({"collaborator_req": invites});
-      setState(() {
-      });
+      setState(() {});
     }
   }
 
@@ -334,8 +348,10 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                             SizedBox(
                                               width: 500,
                                               height: 200,
-                                              child: CarouselSlider(
-                                                  items: List.generate(
+                                              child: CarouselView(
+                                                  itemSnapping: true,
+                                                  itemExtent: 400,
+                                                  children: List.generate(
                                                       widget.post["post_images"]
                                                           .length,
                                                       (imageIndex) => Container(
@@ -351,11 +367,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                         widget.post["post_images"]
                                                                             [
                                                                             imageIndex]))),
-                                                          )),
-                                                  options: CarouselOptions(
-                                                      autoPlay: false,
-                                                      height: 200,
-                                                      enlargeCenterPage: true)),
+                                                          ))),
                                             ),
                                           ],
                                         )
@@ -2338,9 +2350,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                       height:
                                           MediaQuery.of(context).size.height -
                                               56,
-                                      child: widget.post["collaborator_req"]
-                                              .contains(FirebaseAuth
-                                                  .instance.currentUser!.email)
+                                      child: invites.contains(inviteDetails)
                                           ? Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -2421,30 +2431,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                 // ),
                                                 TextButton(
                                                   onPressed: () async {
-                                                    // await FirebaseFirestore
-                                                    //     .instance
-                                                    //     .collection("posts")
-                                                    //     .doc(id)
-                                                    //     .get()
-                                                    //     .then((doc) {
-                                                    //   collaboratorReq = doc.get(
-                                                    //       "collaborator_req");
-                                                    // });
-                                                    SharedPreferences prefs =
-                                                        await SharedPreferences
-                                                            .getInstance();
-                                                    invites.add({
-                                                      "name": FirebaseAuth
-                                                          .instance
-                                                          .currentUser!
-                                                          .displayName,
-                                                      "email": FirebaseAuth
-                                                          .instance
-                                                          .currentUser!
-                                                          .email,
-                                                      "bio":
-                                                          "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}"
-                                                    });
+                                                    invites.add(inviteDetails);
                                                     await FirebaseFirestore
                                                         .instance
                                                         .collection("posts")
@@ -2453,13 +2440,11 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                       "collaborator_req":
                                                           invites
                                                     });
-                                                    // setState(() {
-                                                    //   invites
-                                                    //       .add(FirebaseAuth
-                                                    //           .instance
-                                                    //           .currentUser!
-                                                    //           .email);
-                                                    // });
+                                                    setState(() {
+                                                      widget.post[
+                                                              "collaborator_req"]
+                                                          .add(inviteDetails);
+                                                    });
                                                   },
                                                   style: ButtonStyle(
                                                       backgroundColor:

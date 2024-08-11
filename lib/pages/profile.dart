@@ -1,34 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
-// import 'package:srm_curious_bug/pages/feed/create.dart';
-// import 'package:srm_curious_bug/pages/feed/feed.dart';
-import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/editProfile.dart';
-// import 'package:srm_curious_bug/widgets/custom_textfield.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 class Profile extends StatefulWidget {
-  final String? user;
-  const Profile({this.user, super.key});
+  final String? email;
+  const Profile({this.email, super.key});
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  String name = '';
+  String about = '';
+  List activity = [];
   bool showMore = false;
   List interets = [];
 
   void loadProfileDetails() async {
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(widget.user)
+        .doc(widget.email)
         .get()
         .then((doc) {
+      name = doc.get("name");
+      about = doc.get("about");
       interets = doc.get("interests");
     });
   }

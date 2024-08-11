@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -184,10 +186,25 @@ class _OnBoardState extends State<OnBoard> {
                         FirebaseAuth.instance.currentUser!.photoURL!);
                     await prefs.setString(
                         "department", departmentController.text);
-                    await prefs.setString(
-                        "college", collegeController.text);
+                    await prefs.setString("college", collegeController.text);
                     await prefs.setString("position", positionController.text);
+                    await prefs.setStringList("interests", []);
+                    await prefs.setString("about", "${positionController.text} at ${departmentController.text}, ${collegeController.text}");
                     await prefs.setBool("onboard", true);
+                    await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(FirebaseAuth.instance.currentUser!.email)
+                        .set({
+                      "name": FirebaseAuth.instance.currentUser!.displayName,
+                      "about":
+                          "${positionController.text} at ${departmentController.text}, ${collegeController.text}",
+                      "scholar": "",
+                      "researchgate": "",
+                      "x": "",
+                      "email": FirebaseAuth.instance.currentUser!.email,
+                      "github": "",
+                      "interests": []
+                    });
                     checkOnboard();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

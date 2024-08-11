@@ -1,7 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/pages/post_page.dart';
 
 class Post extends StatefulWidget {
@@ -19,14 +20,23 @@ class _PostState extends State<Post> {
       itemCount: widget.posts.length,
       itemBuilder: ((context, index) {
         return InkWell(
-          onTap: () {
+          onTap: () async {
             // print(widget.posts[index]);
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+
+            Map inviteDetails = {
+              "name": FirebaseAuth.instance.currentUser!.displayName,
+              "bio":
+                  "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}",
+              "email": FirebaseAuth.instance.currentUser!.email
+            };
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => PostPage(
                   post: widget.posts[index],
                   documentID: widget.posts[index]["id"],
+                  inviteDetails: inviteDetails,
                 ),
               ),
             );
@@ -102,8 +112,11 @@ class _PostState extends State<Post> {
                               SizedBox(
                                 width: 500,
                                 height: 200,
-                                child: CarouselSlider(
-                                    items: List.generate(
+                                child: CarouselView(
+                                    itemSnapping: false,
+                                    shrinkExtent: 10,
+                                    itemExtent: 400,
+                                    children: List.generate(
                                         widget
                                             .posts[index]["post_images"].length,
                                         (imageIndex) => Container(
@@ -116,11 +129,7 @@ class _PostState extends State<Post> {
                                                                   .posts[index]
                                                               ["post_images"]
                                                           [imageIndex]))),
-                                            )),
-                                    options: CarouselOptions(
-                                        autoPlay: false,
-                                        height: 200,
-                                        enlargeCenterPage: true)),
+                                            ))),
                               ),
                             ],
                           )

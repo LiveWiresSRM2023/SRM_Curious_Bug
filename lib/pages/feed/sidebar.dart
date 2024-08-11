@@ -15,8 +15,9 @@ class SideBar extends StatefulWidget {
 class _SideBarState extends State<SideBar> {
   int selectedIndex = 0;
   Map<String, AssetImage> el = {
-    'Business': const AssetImage("assets/icons/business.png"),
     'Science': const AssetImage("assets/icons/science.png"),
+    'Humanities': const AssetImage("assets/icons/business.png"),
+    'Business': const AssetImage("assets/icons/business.png"),
     'Law': const AssetImage("assets/icons/law.png"),
   };
   List followedTopics = [];
@@ -69,7 +70,7 @@ class _SideBarState extends State<SideBar> {
         SizedBox(
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: 3,
+            itemCount: el.length,
             itemBuilder: (context, index) {
               String txt = el.keys.elementAt(index);
               AssetImage assetImage = el[txt]!;

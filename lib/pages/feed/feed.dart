@@ -232,23 +232,23 @@ class _FeedState extends State<Feed> {
             ),
           ),
           const SizedBox(width: 20),
-          InkWell(
-            onTap: () {},
-            child: Image.asset("assets/icons/bell.png", height: 30, width: 30),
-          ),
-          const SizedBox(width: 20),
-          InkWell(
-            onTap: () {},
-            child:
-                Image.asset("assets/icons/message.png", height: 30, width: 30),
-          ),
-          const SizedBox(width: 20),
+          // InkWell(
+          //   onTap: () {},
+          //   child: Image.asset("assets/icons/bell.png", height: 30, width: 30),
+          // ),
+          // const SizedBox(width: 20),
+          // InkWell(
+          //   onTap: () {},
+          //   child:
+          //       Image.asset("assets/icons/message.png", height: 30, width: 30),
+          // ),
+          // const SizedBox(width: 20),
           InkWell(
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const Profile(user: "123")));
+                      builder: (context) => Profile(email: FirebaseAuth.instance.currentUser!.email)));
               // Navigator.pushNamed(context, '/profile');
             },
             child: Row(
