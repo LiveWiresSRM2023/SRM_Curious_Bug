@@ -8,14 +8,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/utils/constants.dart';
-import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/gantt_chart.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
-import 'package:http/http.dart' as http;
 
 class PostPage extends StatefulWidget {
   final Map post;
@@ -26,7 +25,7 @@ class PostPage extends StatefulWidget {
   State<PostPage> createState() => _PostPageState();
 }
 
-class _PostPageState extends State<PostPage> {
+class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   TextEditingController commentController = TextEditingController();
   TextEditingController startDatePicker = TextEditingController();
   TextEditingController endDatePicker = TextEditingController();
@@ -127,11 +126,16 @@ class _PostPageState extends State<PostPage> {
     super.dispose();
   }
 
-  List<String> _invites = [
+  final List<String> _invites = [
     'John Doe',
     'Jane Smith',
     'Bob Johnson',
     'Alice Brown',
+  ];
+  final List<String> _collaborators = [
+    'Roshan SK',
+    'Alex John',
+    'Bob Johnson',
   ];
 
   List<String> meet = [
@@ -151,6 +155,8 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
+    TabController tabController = TabController(length: 2, vsync: this);
+
     return Scaffold(
       // appBar: appBar(context),
       backgroundColor: const Color(0xffF7F9FA),
@@ -898,7 +904,9 @@ class _PostPageState extends State<PostPage> {
                         ),
                       ),
                       FirebaseAuth.instance.currentUser!.email ==
-                              widget.post["op_email"] || widget.post["collaborator"].contains(FirebaseAuth.instance.currentUser!.email)
+                                  widget.post["op_email"] ||
+                              widget.post["collaborator"].contains(
+                                  FirebaseAuth.instance.currentUser!.email)
                           ? Padding(
                               padding: const EdgeInsets.only(
                                   right: 8.0, top: 0, bottom: 0),
@@ -1998,7 +2006,7 @@ class _PostPageState extends State<PostPage> {
                                           height: 20,
                                         ),
                                         Text(
-                                          "Collaboration requests",
+                                          "Collaboration ",
                                           style: GoogleFonts.archivo(
                                               color: Theme.of(context)
                                                   .colorScheme
@@ -2009,79 +2017,262 @@ class _PostPageState extends State<PostPage> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Container(
-                                            height: 300,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade200,
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: ListView.separated(
-                                                itemCount: _invites.length,
-                                                separatorBuilder: (context,
-                                                        index) =>
-                                                    const Divider(height: 5),
-                                                itemBuilder: (context, index) {
-                                                  return ListTile(
-                                                    leading: CircleAvatar(
-                                                      backgroundColor:
-                                                          Theme.of(context)
-                                                              .colorScheme
-                                                              .primary,
-                                                      child: Text(
-                                                          _invites[index][0]),
+                                        SizedBox(
+                                          // height: 300,
+                                          // decoration: BoxDecoration(
+                                          //     color: Colors.grey.shade200,
+                                          //     borderRadius:
+                                          //         BorderRadius.circular(15)),
+                                          child: Column(children: [
+                                            const SizedBox(height: 15),
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.2),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                child: TabBar(
+                                                  indicatorColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                  // indicator: BoxDecoration(
+                                                  //   borderRadius:
+                                                  //       BorderRadius.circular(
+                                                  //           12),
+                                                  //   color: Theme.of(context)
+                                                  //       .colorScheme
+                                                  //       .primary,
+                                                  // ),
+                                                  controller: tabController,
+                                                  isScrollable: true,
+                                                  labelPadding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 30),
+                                                  tabs: [
+                                                    Tab(
+                                                        child: Text(
+                                                            'Collaborators',
+                                                            style: GoogleFonts.inter(
+                                                                textStyle: const TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Colors
+                                                                        .black)))),
+                                                    Tab(
+                                                        child: Text('Requests',
+                                                            style: GoogleFonts.inter(
+                                                                textStyle: const TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Colors
+                                                                        .black)))),
+                                                  ],
+                                                )),
+                                            SizedBox(
+                                                height: 500,
+                                                child: TabBarView(
+                                                  controller: tabController,
+                                                  children: [
+                                                    //colaborators
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: ListView.separated(
+                                                        itemCount:
+                                                            _collaborators
+                                                                .length,
+                                                        separatorBuilder:
+                                                            (context, index) =>
+                                                                const Divider(
+                                                                    height: 5),
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return ListTile(
+                                                            leading:
+                                                                CircleAvatar(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary,
+                                                              child: Text(
+                                                                  _collaborators[
+                                                                          index]
+                                                                      [0]),
+                                                            ),
+                                                            title: Text(
+                                                                _collaborators[
+                                                                    index],
+                                                                style: GoogleFonts.inter(
+                                                                    textStyle: const TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.bold))),
+                                                            subtitle: InkWell(
+                                                              onTap: () {},
+                                                              child: Text(
+                                                                  'this is my bio',
+                                                                  style: GoogleFonts.inter(
+                                                                      textStyle: const TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          fontWeight:
+                                                                              FontWeight.normal))),
+                                                            ),
+                                                            trailing: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                IconButton(
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .mail,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .primary),
+                                                                  onPressed:
+                                                                      () {
+                                                                    _acceptInvite(
+                                                                        index);
+                                                                  },
+                                                                ),
+
+                                                                //   IconButton(
+                                                                //     icon: Icon(
+                                                                //         Icons
+                                                                //             .check,
+                                                                //         color: Theme.of(
+                                                                //                 context)
+                                                                //             .colorScheme
+                                                                //             .primary),
+                                                                //     onPressed:
+                                                                //         () {
+                                                                //       _acceptInvite(
+                                                                //           index);
+                                                                //     },
+                                                                //   ),
+                                                                //   IconButton(
+                                                                //     icon: const Icon(
+                                                                //         Icons
+                                                                //             .close),
+                                                                //     onPressed:
+                                                                //         () {
+                                                                //       _denyInvite(
+                                                                //           index);
+                                                                //     },
+                                                                //   ),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
-                                                    title: Text(_invites[index],
-                                                        style: GoogleFonts.inter(
-                                                            textStyle: const TextStyle(
-                                                                fontSize: 14,
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold))),
-                                                    subtitle: InkWell(
-                                                      onTap: () {},
-                                                      child: Text('Invite + ',
-                                                          style: GoogleFonts.inter(
-                                                              textStyle: const TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal))),
+
+                                                    //Requests
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: ListView.separated(
+                                                        itemCount:
+                                                            _invites.length,
+                                                        separatorBuilder:
+                                                            (context, index) =>
+                                                                const Divider(
+                                                                    height: 5),
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return ListTile(
+                                                            leading:
+                                                                CircleAvatar(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary,
+                                                              child: Text(
+                                                                  _invites[
+                                                                          index]
+                                                                      [0]),
+                                                            ),
+                                                            title: Text(
+                                                                _invites[index],
+                                                                style: GoogleFonts.inter(
+                                                                    textStyle: const TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.bold))),
+                                                            subtitle: InkWell(
+                                                              onTap: () {},
+                                                              child: Text(
+                                                                  'Invite + ',
+                                                                  style: GoogleFonts.inter(
+                                                                      textStyle: const TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          fontWeight:
+                                                                              FontWeight.normal))),
+                                                            ),
+                                                            trailing: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                IconButton(
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .check,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .primary),
+                                                                  onPressed:
+                                                                      () {
+                                                                    _acceptInvite(
+                                                                        index);
+                                                                  },
+                                                                ),
+                                                                IconButton(
+                                                                  icon: const Icon(
+                                                                      Icons
+                                                                          .close),
+                                                                  onPressed:
+                                                                      () {
+                                                                    _denyInvite(
+                                                                        index);
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
-                                                    trailing: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        IconButton(
-                                                          icon: Icon(
-                                                              Icons.check,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                          onPressed: () {
-                                                            _acceptInvite(
-                                                                index);
-                                                          },
-                                                        ),
-                                                        IconButton(
-                                                          icon: const Icon(
-                                                              Icons.close),
-                                                          onPressed: () {
-                                                            _denyInvite(index);
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ))
+                                                  ],
+                                                ))
+                                          ]),
+                                        )
                                       ],
                                     ),
                                   ),
