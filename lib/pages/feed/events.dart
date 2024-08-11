@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Events extends StatefulWidget {
   const Events({super.key});
@@ -237,6 +238,7 @@ class _EventsState extends State<Events> {
                                                   0.2) -
                                               10,
                                           child: TextField(
+                                            readOnly: true,
                                             controller: eventStartDatePicker,
                                             onTap: () async {
                                               DateTime? datetime =
@@ -248,7 +250,7 @@ class _EventsState extends State<Events> {
                                                       lastDate: DateTime(2050));
                                               if (datetime != null) {
                                                 String formattedDate =
-                                                    DateFormat('dd-mm-yyyy')
+                                                    DateFormat('dd-MM-yyyy')
                                                         .format(datetime);
                                                 setState(() {
                                                   eventStartDatePicker.text =
@@ -310,6 +312,7 @@ class _EventsState extends State<Events> {
                                                   0.2) -
                                               10,
                                           child: TextField(
+                                            readOnly: true,
                                             controller: eventstartTimePicker,
                                             onTap: () async {
                                               TimeOfDay? timeOfDay =
@@ -376,6 +379,7 @@ class _EventsState extends State<Events> {
                                                   0.2) -
                                               10,
                                           child: TextField(
+                                            readOnly: true,
                                             controller: eventendTimePicker,
                                             onTap: () async {
                                               TimeOfDay? timeOfDay =
@@ -439,19 +443,32 @@ class _EventsState extends State<Events> {
                                   const SizedBox(height: 40),
                                   TextButton(
                                     onPressed: () async {
-                                      Map<String, String> eventDetails = {
-                                        "date": eventDate,
-                                        "time": eventStartTime,
-                                        "title": eventTitleController.text,
-                                        "venue": eventVenueController.text
-                                      };
-                                      await FirebaseFirestore.instance
-                                          .collection("events")
-                                          .doc()
-                                          .set(eventDetails);
-                                      setState(() {
-                                        events.add(eventDetails);
-                                      });
+                                      if (eventTitleController.text.isNotEmpty &&
+                                          eventVenueController
+                                              .text.isNotEmpty &&
+                                          eventRegistrationController
+                                              .text.isNotEmpty) {
+                                        Map<String, String> eventDetails = {
+                                          "date": eventDate,
+                                          "time": eventStartTime,
+                                          "registration":
+                                              eventRegistrationController.text,
+                                          "title": eventTitleController.text,
+                                          "venue": eventVenueController.text
+                                        };
+                                        print(eventDetails);
+                                        await FirebaseFirestore.instance
+                                            .collection("events")
+                                            .doc()
+                                            .set(eventDetails)
+                                            .whenComplete(() {
+                                          setState(() {
+                                            events.add(eventDetails);
+                                          });
+                                          Navigator.pop(context);
+                                          // getEventsFromDB();
+                                        });
+                                      } else {}
                                     },
                                     style: ButtonStyle(
                                         backgroundColor:
@@ -470,15 +487,12 @@ class _EventsState extends State<Events> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                  const SizedBox(height: 20),
                                 ],
                               ),
                             ),
                           );
                         });
-                      }).then((v) {
-                    print(v);
-                  });
+                      });
                 },
                 style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(
@@ -489,21 +503,19 @@ class _EventsState extends State<Events> {
                 child: Text(
                   "Create Events",
                   style: GoogleFonts.inter(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
+          const SizedBox(height: 20),
           SizedBox(
-            // height: screenSize.height * 0.5,
+            height: MediaQuery.of(context).size.height - 140,
             child: eventsLoaded
                 ? ListView.builder(
                     shrinkWrap: true,
-                    itemCount: 3,
+                    itemCount: events.length,
                     itemBuilder: (BuildContext context, int index) {
-                      String key = eV.keys.elementAt(index);
-                      int colorCode = eV[key]!;
-                      Color color = Color(colorCode);
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -637,6 +649,42 @@ class _EventsState extends State<Events> {
                                     ),
                                   ),
                                 ])),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextButton(
+                                    onPressed: () async {
+                                      Uri url = Uri.parse(
+                                          events[index]["registration"]);
+                                      if (await canLaunchUrl(url)) {
+                                        await launchUrl(url);
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content:
+                                              Text("Unable to open the link"),
+                                          backgroundColor: Colors.red,
+                                        ));
+                                      }
+                                    },
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            WidgetStateProperty.all(
+                                                Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                        shape: WidgetStateProperty.all(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                        fixedSize: WidgetStateProperty.all(
+                                            const Size(double.maxFinite, 25))),
+                                    child: Text(
+                                      "Open registration link",
+                                      style: GoogleFonts.inter(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ))
                               ],
                             ),
                           ),
