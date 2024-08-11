@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 
 class Events extends StatefulWidget {
   const Events({super.key});
@@ -11,6 +12,7 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
+  TextEditingController eventstartDatePicker = TextEditingController();
   List events = [];
   bool eventsLoaded = false;
   
@@ -21,12 +23,9 @@ class _EventsState extends State<Events> {
   };
 
   getEventsFromDB() async {
-    await FirebaseFirestore.instance
-        .collection("events")
-        .get()
-        .then((value) {
-          events.addAll(value.docs);
-        });
+    await FirebaseFirestore.instance.collection("events").get().then((value) {
+      events.addAll(value.docs);
+    });
     setState(() {
       eventsLoaded = true;
     });
@@ -58,7 +57,6 @@ class _EventsState extends State<Events> {
                     fontWeight: FontWeight.bold,
                     color: Colors.black))),
         TextButton(
-          //TODO : CREATE EVENTS DIALOGUEBOX
           onPressed: () async {
             TextEditingController eventtitleController =
                 TextEditingController();
