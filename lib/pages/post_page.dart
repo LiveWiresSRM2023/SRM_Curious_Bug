@@ -142,12 +142,16 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
           content: Text("User already exists"), backgroundColor: Colors.blue));
     } else {
       collaborators.add(invites[inviteIndex]);
+      invites.removeAt(inviteIndex);
       await FirebaseFirestore.instance
           .collection("posts")
           .doc(widget.documentID)
           .update({"collaborator": collaborators});
+      await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(widget.documentID)
+          .update({"collaborator_req": invites});
       setState(() {
-        invites.removeAt(inviteIndex);
       });
     }
   }
