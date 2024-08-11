@@ -20,7 +20,7 @@ import 'package:uuid/uuid.dart';
 postDialog(BuildContext context,
     {String? title,
     String? abstractData,
-    List? invites,
+    List? collaborator,
     List? mediaUrl,
     String? literatureStudy}) {
   TextEditingController titleController = TextEditingController();
@@ -38,11 +38,11 @@ postDialog(BuildContext context,
 
   if (title != null ||
       abstractData != null ||
-      invities.isNotEmpty ||
+      collaborator != null ||
       literatureStudy != null) {
     titleController.text = title!;
     abstractController.text = abstractData!;
-    invities = invities;
+    invities = collaborator!;
     literatureStudyController.text = literatureStudy!;
   }
   bool showError = false;

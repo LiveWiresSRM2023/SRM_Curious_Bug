@@ -35,6 +35,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   List<Map<String, dynamic>> comments = [];
   List tasks = [];
   List<DateTime> dates = [];
+  List<String> invites = [];
+  List<String> collaborators = [];
   // DateTime startDate = DateTime.now();
   // DateTime endDate = DateTime.now();
   DateTime startDate = DateTime(9999); // max value
@@ -117,6 +119,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   void initState() {
     getAllTasks();
     getAllComments();
+    invites = List.from(widget.post["collaborator_req"]);
+    collaborators = List.from(widget.post["collaborator"]);
     super.initState();
   }
 
@@ -126,31 +130,29 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  final List<String> _invites = [
-    'John Doe',
-    'Jane Smith',
-    'Bob Johnson',
-    'Alice Brown',
-  ];
-  final List<String> _collaborators = [
-    'Roshan SK',
-    'Alex John',
-    'Bob Johnson',
-  ];
-
   List<String> meet = [
     'Upcoming Meet',
     'Schedule Meet',
   ];
 
-  void _acceptInvite(int index) {
-    print('Accepted invite from ${_invites[index]}');
+  acceptInvite(int inviteIndex) async {
+    collaborators.add(invites[inviteIndex]);
+    await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(widget.documentID)
+        .update({"collaborator": collaborators});
+    setState(() {
+      invites.removeAt(inviteIndex);
+    });
   }
 
-  void _denyInvite(int index) {
-    setState(() {
-      _invites.removeAt(index);
-    });
+  denyInvite(int index) async {
+    invites.removeAt(index);
+    await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(widget.documentID)
+        .update({"collaborator_req": invites});
+    setState(() {});
   }
 
   @override
@@ -261,12 +263,12 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                     title: widget.post["title"],
                                                     abstractData:
                                                         widget.post["post"],
-                                                    invites: widget
+                                                    collaborator: widget
                                                         .post["collaborator"],
                                                     mediaUrl: widget
                                                         .post["post_images"],
                                                     literatureStudy:
-                                                        "widget.post[literatureStudy]");
+                                                        widget.post["literatureStudy"]);
                                               },
                                               icon: const Icon(Icons.edit,
                                                   size: 17,
@@ -2077,7 +2079,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                   ],
                                                 )),
                                             SizedBox(
-                                                height: 500,
+                                                height: 300,
                                                 child: TabBarView(
                                                   controller: tabController,
                                                   children: [
@@ -2087,9 +2089,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                           const EdgeInsets.all(
                                                               10),
                                                       child: ListView.separated(
-                                                        itemCount:
-                                                            _collaborators
-                                                                .length,
+                                                        itemCount: collaborators
+                                                            .length,
                                                         separatorBuilder:
                                                             (context, index) =>
                                                                 const Divider(
@@ -2105,12 +2106,12 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                       .colorScheme
                                                                       .primary,
                                                               child: Text(
-                                                                  _collaborators[
+                                                                  collaborators[
                                                                           index]
                                                                       [0]),
                                                             ),
                                                             title: Text(
-                                                                _collaborators[
+                                                                collaborators[
                                                                     index],
                                                                 style: GoogleFonts.inter(
                                                                     textStyle: const TextStyle(
@@ -2120,64 +2121,28 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                             .black,
                                                                         fontWeight:
                                                                             FontWeight.bold))),
-                                                            subtitle: InkWell(
-                                                              onTap: () {},
-                                                              child: Text(
-                                                                  'this is my bio',
-                                                                  style: GoogleFonts.inter(
-                                                                      textStyle: const TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color: Colors
-                                                                              .grey,
-                                                                          fontWeight:
-                                                                              FontWeight.normal))),
-                                                            ),
-                                                            trailing: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
+                                                            subtitle: Text(
+                                                                'this is my bio',
+                                                                style: GoogleFonts.inter(
+                                                                    textStyle: const TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: Colors
+                                                                            .grey,
+                                                                        fontWeight:
+                                                                            FontWeight.normal))),
+                                                            trailing:
                                                                 IconButton(
-                                                                  icon: Icon(
-                                                                      Icons
-                                                                          .mail,
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .colorScheme
-                                                                          .primary),
-                                                                  onPressed:
-                                                                      () {
-                                                                    _acceptInvite(
-                                                                        index);
-                                                                  },
-                                                                ),
-
-                                                                //   IconButton(
-                                                                //     icon: Icon(
-                                                                //         Icons
-                                                                //             .check,
-                                                                //         color: Theme.of(
-                                                                //                 context)
-                                                                //             .colorScheme
-                                                                //             .primary),
-                                                                //     onPressed:
-                                                                //         () {
-                                                                //       _acceptInvite(
-                                                                //           index);
-                                                                //     },
-                                                                //   ),
-                                                                //   IconButton(
-                                                                //     icon: const Icon(
-                                                                //         Icons
-                                                                //             .close),
-                                                                //     onPressed:
-                                                                //         () {
-                                                                //       _denyInvite(
-                                                                //           index);
-                                                                //     },
-                                                                //   ),
-                                                              ],
+                                                              icon: Icon(
+                                                                  Icons.mail,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary),
+                                                              onPressed: () {
+                                                                acceptInvite(
+                                                                    index);
+                                                              },
                                                             ),
                                                           );
                                                         },
@@ -2191,7 +2156,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                               10),
                                                       child: ListView.separated(
                                                         itemCount:
-                                                            _invites.length,
+                                                            invites.length,
                                                         separatorBuilder:
                                                             (context, index) =>
                                                                 const Divider(
@@ -2207,12 +2172,11 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                       .colorScheme
                                                                       .primary,
                                                               child: Text(
-                                                                  _invites[
-                                                                          index]
+                                                                  invites[index]
                                                                       [0]),
                                                             ),
                                                             title: Text(
-                                                                _invites[index],
+                                                                invites[index],
                                                                 style: GoogleFonts.inter(
                                                                     textStyle: const TextStyle(
                                                                         fontSize:
@@ -2249,7 +2213,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                           .primary),
                                                                   onPressed:
                                                                       () {
-                                                                    _acceptInvite(
+                                                                    acceptInvite(
                                                                         index);
                                                                   },
                                                                 ),
@@ -2259,7 +2223,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                           .close),
                                                                   onPressed:
                                                                       () {
-                                                                    _denyInvite(
+                                                                    denyInvite(
                                                                         index);
                                                                   },
                                                                 ),
@@ -2397,39 +2361,35 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                 // ),
                                                 TextButton(
                                                   onPressed: () async {
-                                                    String id =
-                                                        widget.post["id"];
-                                                    List collaboratorReq = [];
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection("posts")
-                                                        .doc(id)
-                                                        .get()
-                                                        .then((doc) {
-                                                      collaboratorReq = doc.get(
-                                                          "collaborator_req");
-                                                    });
-                                                    collaboratorReq.add(
+                                                    // await FirebaseFirestore
+                                                    //     .instance
+                                                    //     .collection("posts")
+                                                    //     .doc(id)
+                                                    //     .get()
+                                                    //     .then((doc) {
+                                                    //   collaboratorReq = doc.get(
+                                                    //       "collaborator_req");
+                                                    // });
+                                                    invites.add(
                                                         FirebaseAuth
                                                             .instance
                                                             .currentUser!
-                                                            .email);
+                                                            .email!);
                                                     await FirebaseFirestore
                                                         .instance
                                                         .collection("posts")
-                                                        .doc(id)
+                                                        .doc(widget.documentID)
                                                         .update({
                                                       "collaborator_req":
-                                                          collaboratorReq
+                                                          invites
                                                     });
-                                                    setState(() {
-                                                      widget.post[
-                                                              "collaborator_req"]
-                                                          .add(FirebaseAuth
-                                                              .instance
-                                                              .currentUser!
-                                                              .email);
-                                                    });
+                                                    // setState(() {
+                                                    //   invites
+                                                    //       .add(FirebaseAuth
+                                                    //           .instance
+                                                    //           .currentUser!
+                                                    //           .email);
+                                                    // });
                                                   },
                                                   style: ButtonStyle(
                                                       backgroundColor:
