@@ -91,7 +91,7 @@ class _ProfileState extends State<Profile> {
     };
 
     return Scaffold(
-      appBar: appBar(context),
+      // appBar: appBar(context),
       backgroundColor: const Color.fromARGB(255, 223, 218, 218),
       body: SingleChildScrollView(
         child: Column(

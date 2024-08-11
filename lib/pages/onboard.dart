@@ -184,6 +184,8 @@ class _OnBoardState extends State<OnBoard> {
                         FirebaseAuth.instance.currentUser!.photoURL!);
                     await prefs.setString(
                         "department", departmentController.text);
+                    await prefs.setString(
+                        "college", collegeController.text);
                     await prefs.setString("position", positionController.text);
                     await prefs.setBool("onboard", true);
                     checkOnboard();

@@ -152,7 +152,7 @@ class _PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context),
+      // appBar: appBar(context),
       backgroundColor: const Color(0xffF7F9FA),
       body: SafeArea(
         child: Column(
@@ -222,7 +222,8 @@ class _PostPageState extends State<PostPage> {
                                                           FontWeight.bold,
                                                       color: Colors.black))),
                                           const SizedBox(width: 15),
-                                          Text(widget.post["op_email"],
+                                          Text(
+                                              "${widget.post["position"]} at ${widget.post["department"]}, ${widget.post["college"]}",
                                               style: GoogleFonts.archivo(
                                                   textStyle: const TextStyle(
                                                       fontSize: 14,
@@ -2122,225 +2123,148 @@ class _PostPageState extends State<PostPage> {
                                       height:
                                           MediaQuery.of(context).size.height -
                                               56,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Image.asset("assets/icons/team.png",
-                                              height: 120, width: 120),
-                                          const SizedBox(height: 40),
-                                          Text(
-                                              "Be The Missing Piece\nRequest to join, contribute and collaborate",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.archivo(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black))),
-                                          const SizedBox(height: 10),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8,
-                                                bottom: 8,
-                                                left: 15.0,
-                                                right: 15),
-                                            child: TextField(
-                                              controller: noteController,
-                                              maxLines: 3,
-                                              decoration: InputDecoration(
-                                                hintText:
-                                                    'Enter your note here...',
-                                                filled: true,
-                                                fillColor: const Color.fromARGB(
-                                                    183, 216, 215, 215),
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
-                                                    width: 1,
-                                                  ),
+                                      child: widget.post["collaborator_req"]
+                                              .contains(FirebaseAuth
+                                                  .instance.currentUser!.email)
+                                          ? Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                const Icon(
+                                                  Icons.mark_email_read_rounded,
+                                                  color: Colors.green,
+                                                  size: 80,
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              //Collaboration form page
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                    "Your collaboration request has been sent",
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.archivo(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black)))
+                                              ],
+                                            )
+                                          : Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                    "assets/icons/team.png",
+                                                    height: 120,
+                                                    width: 120),
+                                                const SizedBox(height: 40),
+                                                Text(
+                                                    "Be The Missing Piece\nRequest to join, contribute and collaborate",
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.archivo(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .black))),
+                                                const SizedBox(height: 10),
+                                                // Padding(
+                                                //   padding: const EdgeInsets.only(
+                                                //       top: 8,
+                                                //       bottom: 8,
+                                                //       left: 15.0,
+                                                //       right: 15),
+                                                //   child: TextField(
+                                                //     controller: noteController,
+                                                //     maxLines: 3,
+                                                //     decoration: InputDecoration(
+                                                //       hintText:
+                                                //           'Enter your note here.',
+                                                //       filled: true,
+                                                //       fillColor: const Color.fromARGB(
+                                                //           183, 216, 215, 215),
+                                                //       border: OutlineInputBorder(
+                                                //         borderSide: BorderSide(
+                                                //           color: Theme.of(context)
+                                                //               .colorScheme
+                                                //               .primary,
+                                                //           width: 1,
+                                                //         ),
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    String id =
+                                                        widget.post["id"];
+                                                    List collaboratorReq = [];
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection("posts")
+                                                        .doc(id)
+                                                        .get()
+                                                        .then((doc) {
+                                                      collaboratorReq = doc.get(
+                                                          "collaborator_req");
+                                                    });
+                                                    collaboratorReq.add(
+                                                        FirebaseAuth
+                                                            .instance
+                                                            .currentUser!
+                                                            .email);
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection("posts")
+                                                        .doc(id)
+                                                        .update({
+                                                      "collaborator_req":
+                                                          collaboratorReq
+                                                    });
+                                                    setState(() {
+                                                      widget.post[
+                                                              "collaborator_req"]
+                                                          .add(FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .email);
+                                                    });
+                                                  },
+                                                  style: ButtonStyle(
                                                       backgroundColor:
-                                                          Colors.white,
-                                                      content: Container(
-                                                          width: 450,
-                                                          height: 350,
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
+                                                          WidgetStateProperty
+                                                              .all(
+                                                                  Colors.black),
+                                                      shape: WidgetStateProperty.all(
+                                                          RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          15)),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        top:
-                                                                            8.0,
-                                                                        left: 8,
-                                                                        right:
-                                                                            8,
-                                                                        bottom:
-                                                                            25),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "How can your expertise contribute to this \nresearch endeavor?",
-                                                                      style: GoogleFonts
-                                                                          .archivo(
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        color: Theme.of(context)
-                                                                            .colorScheme
-                                                                            .primary,
-                                                                      ),
-                                                                    ),
-                                                                    IconButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        icon: Icon(
-                                                                            Icons
-                                                                                .close,
-                                                                            size:
-                                                                                15,
-                                                                            color:
-                                                                                Theme.of(context).colorScheme.primary))
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                height: 200,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              15),
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .colorScheme
-                                                                        .secondary,
-                                                                    width: 1,
-                                                                  ),
-                                                                ),
-                                                                child: Column(
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .all(
-                                                                          15.0),
-                                                                      child:
-                                                                          TextField(
-                                                                        controller:
-                                                                            shortNoteController,
-                                                                        maxLines:
-                                                                            2,
-                                                                        decoration:
-                                                                            InputDecoration(
-                                                                          hintText:
-                                                                              'Tell us about you...',
-                                                                          filled:
-                                                                              false,
-                                                                          fillColor:
-                                                                              Colors.grey[50],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                  height: 20),
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                style: ButtonStyle(
-                                                                    backgroundColor:
-                                                                        WidgetStateProperty.all(Colors
-                                                                            .black),
-                                                                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                10))),
-                                                                    fixedSize: WidgetStateProperty.all(
-                                                                        const Size(
-                                                                            100,
-                                                                            30))),
-                                                                child: Text(
-                                                                  "Submit",
-                                                                  style: GoogleFonts.inter(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )),
-                                                    );
-                                                  });
-                                            },
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    WidgetStateProperty.all(
-                                                        Colors.black),
-                                                shape: WidgetStateProperty.all(
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10))),
-                                                fixedSize:
-                                                    WidgetStateProperty.all(
-                                                        const Size(100, 30))),
-                                            child: Text(
-                                              "Join",
-                                              style: GoogleFonts.inter(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ))))
+                                                                          10))),
+                                                      fixedSize:
+                                                          WidgetStateProperty
+                                                              .all(const Size(
+                                                                  100, 30))),
+                                                  child: Text(
+                                                    "Join",
+                                                    style: GoogleFonts.inter(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ],
+                                            ))))
                     ],
                   ),
                 ),

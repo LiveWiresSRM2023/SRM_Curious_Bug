@@ -44,6 +44,7 @@ class _FeedState extends State<Feed> {
         posts.add({
           "id": doc.id,
           "collaborator": doc.get("collaborator"),
+          "collaborator_req": doc.get("collaborator_req"),
           "duration": doc.get("duration"),
           "expertise": doc.get("expertise"),
           "hashtags": doc.get("hashtags"),
@@ -56,6 +57,9 @@ class _FeedState extends State<Feed> {
           "post": doc.get("post"),
           "post_images": doc.get("post_images"),
           "timestamp": doc.get("timestamp"),
+          "department": doc.get("department"),
+          "college": doc.get("college"),
+          "position": doc.get("position"),
           "title": doc.get("title"),
           "upvote": doc.get("upvote")
         });

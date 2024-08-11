@@ -46,7 +46,6 @@ postDialog(BuildContext context,
   }
   bool showError = false;
   bool mediaUploaded = false;
-  bool mediaExists = false;
 
   return showDialog(
       context: context,
@@ -515,16 +514,17 @@ postDialog(BuildContext context,
                               padding: const EdgeInsets.all(2.0),
                               child: TextButton(
                                 onPressed: () async {
-                                  if (mediaUploaded) {
-                                    String id = const Uuid().v4();
+                                  String id = const Uuid().v4();
                                     SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
-
-                                    Map<String, dynamic> storeData = {
-                                      "Department":
+                                  Map<String, dynamic> storeData = {
+                                      "department":
                                           prefs.getString("department"),
+                                      "college": prefs.getString("college"),
+                                      "postition": prefs.getString("position"),
                                       "title": titleController.text,
                                       "collaborator": invities,
+                                      "collaborator_req": [],
                                       "meetingDetails": "",
                                       "meetingLink": "",
                                       "upvote": "0",
@@ -542,7 +542,7 @@ postDialog(BuildContext context,
                                           .instance.currentUser!.email,
                                       "op_profile": FirebaseAuth
                                           .instance.currentUser!.photoURL,
-                                      "comments": "/collection/{docID}",
+                                      // "comments": "/collection/{docID}",
                                       "post_images": mediaUrl,
                                       "duration": durationController.text,
                                       "expertise": [
@@ -550,6 +550,7 @@ postDialog(BuildContext context,
                                         "Natural Language Processing (NLP)"
                                       ]
                                     };
+                                  if (images.isEmpty) {
                                     FirebaseFirestore.instance
                                         .collection("posts")
                                         .doc(id)
@@ -557,7 +558,6 @@ postDialog(BuildContext context,
                                     // await getAllPosts();
                                     dialogState(() {
                                       // posts.insert(0,storeData);
-
                                       Navigator.pop(context);
                                     });
 
@@ -581,6 +581,31 @@ postDialog(BuildContext context,
                                     print(res.body);
                                     Navigator.pop(context);
                                   } else {
+                                    if (mediaUploaded) {
+                                      FirebaseFirestore.instance
+                                        .collection("posts")
+                                        .doc(id)
+                                        .set(storeData);
+                                    // upload to qdrant
+                                    http.Response res = await http
+                                        .post(Uri.parse("$url/post"),
+                                            headers: headers,
+                                            body: jsonEncode({
+                                              "user_id": FirebaseAuth
+                                                  .instance.currentUser!.uid
+                                                  .toString(),
+                                              "type": "post",
+                                              "content":
+                                                  "${titleController.text}\n${abstractController.text}",
+                                              "id": id
+                                            }))
+                                        .onError((e, s) {
+                                      print(e);
+                                      throw "Error on sendin request to QDrant";
+                                    }).whenComplete(() {
+                                      Navigator.pop(context);
+                                    });
+                                    }
                                     // dialogState(() => showError = true);
                                   }
                                 },
