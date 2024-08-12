@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +19,11 @@ class PostPage extends StatefulWidget {
   final Map post;
   final String documentID;
   final Map inviteDetails;
-  const PostPage({super.key, required this.post, required this.documentID, required this.inviteDetails});
+  const PostPage(
+      {super.key,
+      required this.post,
+      required this.documentID,
+      required this.inviteDetails});
 
   @override
   State<PostPage> createState() => _PostPageState();
@@ -88,7 +93,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
         }
       }
     });
-    // setState(() {});
+    setState(() {});
   }
 
   // updateDetails() async {
@@ -101,7 +106,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   //         "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}",
   //     "email": FirebaseAuth.instance.currentUser!.email
   //   };
-    // setState(() {});
+  // setState(() {});
   // }
 
   Future<void> getAllComments() async {
@@ -123,20 +128,19 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
         });
       }
     });
-    // setState(() {});
+    setState(() {});
   }
 
   @override
   void initState() {
-    // updateDetails();
-        invites = List.from(widget.post["collaborator_req"]);
+    invites = List.from(widget.post["collaborator_req"]);
     collaborators = List.from(widget.post["collaborator"]);
+    inviteDetails = Map.from(widget.inviteDetails);
     getAllTasks();
     getAllComments();
     print(invites);
-    print(List.from(widget.post["collaborator_req"]));
-    print(List.from(widget.post["collaborator_req"]).contains(inviteDetails));
-    print(widget.inviteDetails);
+    print(inviteDetails);
+    print(invites.contains(inviteDetails));
     super.initState();
   }
 
@@ -1426,6 +1430,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                         ),
                                         Container(
                                           height: 300,
+                                          width: double.maxFinite,
                                           decoration: BoxDecoration(
                                               color: Colors.grey.shade200
                                                   .withOpacity(0.7),
@@ -2350,7 +2355,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                       height:
                                           MediaQuery.of(context).size.height -
                                               56,
-                                      child: invites.contains(inviteDetails)
+                                      child: invites.any((el) => const MapEquality().equals(el, inviteDetails))
                                           ? Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
