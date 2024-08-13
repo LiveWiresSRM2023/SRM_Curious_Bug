@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/utils/constants.dart';
 import 'package:srm_curious_bug/widgets/gantt_chart.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostPage extends StatefulWidget {
   final Map post;
@@ -42,6 +43,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   List<Map> invites = [];
   List<Map> collaborators = [];
   Map inviteDetails = {};
+  bool invited = false;
   DateTime startDate = DateTime(9999); // max value
   DateTime endDate = DateTime(0); //min
   // List events = []
@@ -96,18 +98,21 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
     setState(() {});
   }
 
-  // updateDetails() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   invites = List.from(widget.post["collaborator_req"]);
-  //   collaborators = List.from(widget.post["collaborator"]);
-  //   inviteDetails = {
-  //     "name": FirebaseAuth.instance.currentUser!.displayName,
-  //     "bio":
-  //         "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}",
-  //     "email": FirebaseAuth.instance.currentUser!.email
-  //   };
-  // setState(() {});
-  // }
+  updateDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    invites = List.from(widget.post["collaborator_req"]);
+    collaborators = List.from(widget.post["collaborator"]);
+    inviteDetails = {
+      "name": FirebaseAuth.instance.currentUser!.displayName,
+      "bio":
+          "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}",
+      "email": FirebaseAuth.instance.currentUser!.email
+    };
+    setState(() {
+      invited =
+          invites.any((el) => const MapEquality().equals(el, inviteDetails));
+    });
+  }
 
   Future<void> getAllComments() async {
     await FirebaseFirestore.instance
@@ -133,9 +138,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    invites = List.from(widget.post["collaborator_req"]);
-    collaborators = List.from(widget.post["collaborator"]);
-    inviteDetails = Map.from(widget.inviteDetails);
+    updateDetails();
     getAllTasks();
     getAllComments();
     print(invites);
@@ -1162,6 +1165,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                             10,
                                                                         child:
                                                                             TextField(
+                                                                          readOnly:
+                                                                              true,
                                                                           controller:
                                                                               startDatePicker,
                                                                           onTap:
@@ -1213,6 +1218,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                             10,
                                                                         child:
                                                                             TextField(
+                                                                          readOnly:
+                                                                              true,
                                                                           controller:
                                                                               endDatePicker,
                                                                           onTap:
@@ -1481,7 +1488,11 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                               SizedBox(
                                                 width: 240,
                                                 child: Text(
-                                                  "Meeting from Monday to Saturday. 3PM - 4PM",
+                                                  widget.post["meetingDetails"] ==
+                                                          ""
+                                                      ? "No meeting scheduled"
+                                                      : widget.post[
+                                                          "meetingDetails"],
                                                   style: GoogleFonts.inter(
                                                       color: Colors.black),
                                                 ),
@@ -1490,7 +1501,29 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                   // width: 5,
                                                   ),
                                               TextButton(
-                                                onPressed: () {},
+                                                onPressed: () async {
+                                                  if (widget.post[
+                                                          "meetingLink"] ==
+                                                      "") {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                      content: Text(
+                                                          "No meeting scheduled"),
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                    ));
+                                                  } else {
+                                                    if (await canLaunchUrl(
+                                                        Uri.parse(widget.post[
+                                                            "meetingLink"]))) {
+                                                      await launchUrl(Uri.parse(
+                                                          widget.post[
+                                                              "meetingLink"]));
+                                                    }
+                                                  }
+                                                },
                                                 style: ButtonStyle(
                                                     backgroundColor:
                                                         WidgetStateProperty.all(
@@ -1728,6 +1761,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                           10,
                                                                       child:
                                                                           TextField(
+                                                                        readOnly:
+                                                                            true,
                                                                         controller:
                                                                             startDatePicker,
                                                                         onTap:
@@ -1741,10 +1776,10 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                               null) {
                                                                             String
                                                                                 formattedDate =
-                                                                                DateFormat('yyyy-mm-dd').format(datetime);
+                                                                                DateFormat('yyyy-MM-dd').format(datetime);
                                                                             setState(() {
                                                                               startDatePicker.text = formattedDate;
-                                                                              meetDate = datetime.toString();
+                                                                              meetDate = formattedDate;
                                                                             });
                                                                           }
                                                                         },
@@ -1805,6 +1840,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                           10,
                                                                       child:
                                                                           TextField(
+                                                                        readOnly:
+                                                                            true,
                                                                         controller:
                                                                             startTimePicker,
                                                                         onTap:
@@ -1832,7 +1869,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                                 DateFormat('HH:mm:ss').format(dateTime);
                                                                             setState(() {
                                                                               startTimePicker.text = formattedTime;
-                                                                              meetStartTime = timeOfDay.format(context);
+                                                                              meetStartTime = formattedTime;
                                                                             });
                                                                           }
                                                                         },
@@ -1874,6 +1911,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                           10,
                                                                       child:
                                                                           TextField(
+                                                                        readOnly:
+                                                                            true,
                                                                         controller:
                                                                             endTimePicker,
                                                                         onTap:
@@ -1901,7 +1940,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                                 DateFormat('HH:mm:ss').format(dateTime);
                                                                             setState(() {
                                                                               endTimePicker.text = formattedTime;
-                                                                              meetEndTime = timeOfDay.format(context);
+                                                                              meetEndTime = formattedTime;
                                                                             });
                                                                           }
                                                                         },
@@ -1945,6 +1984,19 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                               TextButton(
                                                                 onPressed:
                                                                     () async {
+                                                                  List
+                                                                      attendeeEmail =
+                                                                      [];
+                                                                  for (var el
+                                                                      in collaborators) {
+                                                                    attendeeEmail
+                                                                        .add(el[
+                                                                            "email"]);
+                                                                  }
+                                                                  attendeeEmail
+                                                                      .add(widget
+                                                                              .post[
+                                                                          "op_email"]);
                                                                   http.Response res = await http.post(
                                                                       Uri.parse(
                                                                           "$url/create_event"),
@@ -1966,11 +2018,39 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                         "end_time":
                                                                             "${meetDate}T$meetEndTime+05:30:00",
                                                                         "attendees":
-                                                                            widget.post["collaborator"].join(", ") +
-                                                                                widget.post["op_email"]
+                                                                            attendeeEmail
                                                                       }));
                                                                   print(
                                                                       res.body);
+                                                                  Map out =
+                                                                      jsonDecode(
+                                                                          res.body);
+                                                                  if (out.containsKey(
+                                                                          "msg") &&
+                                                                      out["msg"] ==
+                                                                          "Event created successfully") {
+                                                                    await FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            "posts")
+                                                                        .doc(widget
+                                                                            .documentID)
+                                                                        .update({
+                                                                      "meetingDetails":
+                                                                          "${titleController.text} meeting scheduled on $meetDate from $meetStartTime to $meetEndTime",
+                                                                      "meetingLink":
+                                                                          out["link"]
+                                                                    });
+                                                                    setState(
+                                                                        () {
+                                                                      widget.post[
+                                                                              "meetingLink"] =
+                                                                          out["link"];
+                                                                      widget.post[
+                                                                              "meetingDetails"] =
+                                                                          "${titleController.text} meeting scheduled on $meetDate from $meetStartTime to $meetEndTime";
+                                                                    });
+                                                                  }
 
                                                                   Navigator.pop(
                                                                       context);
@@ -2355,7 +2435,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                       height:
                                           MediaQuery.of(context).size.height -
                                               56,
-                                      child: invites.any((el) => const MapEquality().equals(el, inviteDetails))
+                                      child: invited
                                           ? Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,

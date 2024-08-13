@@ -106,7 +106,7 @@ class _FeedState extends State<Feed> {
               prefixIcon: const Icon(Icons.search),
               labelText: "Search",
               suffixIcon: SizedBox(
-                width: 140,
+                width: 50,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -248,7 +248,8 @@ class _FeedState extends State<Feed> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Profile(email: FirebaseAuth.instance.currentUser!.email)));
+                      builder: (context) => Profile(
+                          email: FirebaseAuth.instance.currentUser!.email)));
               // Navigator.pushNamed(context, '/profile');
             },
             child: Row(
