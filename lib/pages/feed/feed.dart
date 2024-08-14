@@ -217,7 +217,7 @@ class _FeedState extends State<Feed> {
         actions: [
           TextButton(
             onPressed: () async {
-              postDialog(context);
+              await postDialog(context);
               await getAllPosts();
             },
             style: ButtonStyle(

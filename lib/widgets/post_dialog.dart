@@ -322,132 +322,134 @@ postDialog(BuildContext context,
                                   ),
                                 ),
                                 const SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 280,
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            height: 40,
-                                            width: 180,
-                                            child: TextField(
-                                              textAlign: TextAlign.left,
-                                              style: GoogleFonts.inter(
-                                                  fontSize: 14),
-                                              textAlignVertical:
-                                                  TextAlignVertical.center,
-                                              controller: invitesController,
-                                              decoration: InputDecoration(
-                                                contentPadding:
-                                                    const EdgeInsets.all(8),
-                                                hintText: 'Add collaborator',
+                                // Row(
+                                //   children: [
+                                //     SizedBox(
+                                //       width: 280,
+                                //       child: Row(
+                                //         children: [
+                                //           SizedBox(
+                                //             height: 40,
+                                //             width: 180,
+                                //             child: TextField(
+                                //               textAlign: TextAlign.left,
+                                //               style: GoogleFonts.inter(
+                                //                   fontSize: 14),
+                                //               textAlignVertical:
+                                //                   TextAlignVertical.center,
+                                //               controller: invitesController,
+                                //               decoration: InputDecoration(
+                                //                 contentPadding:
+                                //                     const EdgeInsets.all(8),
+                                //                 hintText: 'Add collaborator',
 
-                                                filled: true,
-                                                fillColor: Colors.grey[50],
+                                //                 filled: true,
+                                //                 fillColor: Colors.grey[50],
 
-                                                // suffix: IconButton(
-                                                //   icon: const Icon(Icons.add),
-                                                //   onPressed: () {
-                                                //     dialogState(() {
-                                                //       invities.add(
-                                                //           invitesController.text);
-                                                //     });
-                                                //   },
-                                                // ),
-                                                hintStyle: GoogleFonts.archivo(
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                ),
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: IconButton(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              icon: const Icon(Icons.add),
-                                              onPressed: () {
-                                                dialogState(() {
-                                                  invities.add(
-                                                      invitesController.text);
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        width:
-                                            (MediaQuery.of(context).size.width *
-                                                    0.25) -
-                                                10,
-                                        height: 40,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: invities.length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(1.0),
-                                              child: Container(
-                                                height: 25,
-                                                alignment: Alignment.center,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                                child: Row(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5.0),
-                                                      child: Text(
-                                                        invities[index],
-                                                        style:
-                                                            GoogleFonts.inter(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .black),
-                                                      ),
-                                                    ),
-                                                    IconButton(
-                                                      iconSize: 10,
-                                                      color: Colors.black,
-                                                      icon: const Icon(
-                                                          Icons.close),
-                                                      onPressed: () {
-                                                        dialogState(() {
-                                                          invities.remove(
-                                                              invitesController
-                                                                  .text);
-                                                        });
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        )),
-                                  ],
-                                ),
+                                //                 // suffix: IconButton(
+                                //                 //   icon: const Icon(Icons.add),
+                                //                 //   onPressed: () {
+                                //                 //     dialogState(() {
+                                //                 //       invities.add(
+                                //                 //           invitesController.text);
+                                //                 //     });
+                                //                 //   },
+                                //                 // ),
+                                //                 hintStyle: GoogleFonts.archivo(
+                                //                   fontSize: 12,
+                                //                   color: Colors.black,
+                                //                 ),
+                                //                 border: OutlineInputBorder(
+                                //                   borderSide: BorderSide(
+                                //                     color: Theme.of(context)
+                                //                         .colorScheme
+                                //                         .primary,
+                                //                     width: 1,
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //           ),
+                                //           Padding(
+                                //             padding: const EdgeInsets.all(8.0),
+                                //             child: IconButton(
+                                //               color: Theme.of(context)
+                                //                   .colorScheme
+                                //                   .primary,
+                                //               icon: const Icon(Icons.add),
+                                //               onPressed: () {
+                                //                 dialogState(() {
+                                //                   invities.add(
+                                //                       {
+                                //                         "email": invitesController.text,
+                                //                       });
+                                //                 });
+                                //               },
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //     SizedBox(
+                                //         width:
+                                //             (MediaQuery.of(context).size.width *
+                                //                     0.25) -
+                                //                 10,
+                                //         height: 40,
+                                //         child: ListView.builder(
+                                //           scrollDirection: Axis.horizontal,
+                                //           itemCount: invities.length,
+                                //           shrinkWrap: true,
+                                //           itemBuilder: (context, index) {
+                                //             return Padding(
+                                //               padding:
+                                //                   const EdgeInsets.all(1.0),
+                                //               child: Container(
+                                //                 height: 25,
+                                //                 alignment: Alignment.center,
+                                //                 decoration: BoxDecoration(
+                                //                     borderRadius:
+                                //                         BorderRadius.circular(
+                                //                             15),
+                                //                     color: Theme.of(context)
+                                //                         .colorScheme
+                                //                         .primary),
+                                //                 child: Row(
+                                //                   children: [
+                                //                     Padding(
+                                //                       padding:
+                                //                           const EdgeInsets.all(
+                                //                               5.0),
+                                //                       child: Text(
+                                //                         invities[index],
+                                //                         style:
+                                //                             GoogleFonts.inter(
+                                //                                 fontSize: 12,
+                                //                                 color: Colors
+                                //                                     .black),
+                                //                       ),
+                                //                     ),
+                                //                     IconButton(
+                                //                       iconSize: 10,
+                                //                       color: Colors.black,
+                                //                       icon: const Icon(
+                                //                           Icons.close),
+                                //                       onPressed: () {
+                                //                         dialogState(() {
+                                //                           invities.remove(
+                                //                               invitesController
+                                //                                   .text);
+                                //                         });
+                                //                       },
+                                //                     ),
+                                //                   ],
+                                //                 ),
+                                //               ),
+                                //             );
+                                //           },
+                                //         )),
+                                //   ],
+                                // ),
                               ],
                             ),
                           ),
@@ -522,7 +524,7 @@ postDialog(BuildContext context,
                                       "department":
                                           prefs.getString("department"),
                                       "college": prefs.getString("college"),
-                                      "postition": prefs.getString("position"),
+                                      "position": prefs.getString("position"),
                                       "title": titleController.text,
                                       "collaborator": invities,
                                       "collaborator_req": [],

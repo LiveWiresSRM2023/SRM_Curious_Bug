@@ -196,8 +196,7 @@ class _OnBoardState extends State<OnBoard> {
                         .doc(FirebaseAuth.instance.currentUser!.email)
                         .set({
                       "name": FirebaseAuth.instance.currentUser!.displayName,
-                      "about":
-                          "${positionController.text} at ${departmentController.text}, ${collegeController.text}",
+                      "about": "${positionController.text} at ${departmentController.text}, ${collegeController.text}",
                       "scholar": "",
                       "researchgate": "",
                       "x": "",
