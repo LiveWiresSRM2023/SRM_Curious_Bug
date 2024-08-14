@@ -5,12 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/posts.dart';
 import 'package:srm_curious_bug/pages/feed/sidebar.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 import 'package:srm_curious_bug/utils/constants.dart';
-import 'package:http/http.dart' as http;
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
 class Feed extends StatefulWidget {
@@ -20,7 +20,7 @@ class Feed extends StatefulWidget {
   State<Feed> createState() => _FeedState();
 }
 
-class _FeedState extends State<Feed> {
+class _FeedState extends State<Feed> with TickerProviderStateMixin {
   TextEditingController titleController = TextEditingController();
   TextEditingController abstractController = TextEditingController();
   TextEditingController invitesController = TextEditingController();
@@ -80,6 +80,7 @@ class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
     //bool collaborationSwitch = false;
+    TabController maintabcontroller = TabController(length: 2, vsync: this);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -333,11 +334,55 @@ class _FeedState extends State<Feed> {
                     color: Color(0xffdcdcdc),
                     width: 1,
                   ),
-                  const Expanded(
+                  Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Events(),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(children: [
+                        Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: TabBar(
+                                controller: maintabcontroller,
+                                isScrollable: true,
+                                indicatorColor:
+                                    Theme.of(context).colorScheme.primary,
+                                labelPadding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                tabs: [
+                                  Tab(
+                                      child: Text("Events",
+                                          style: GoogleFonts.inter(
+                                              textStyle: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  fontSize: 15,
+                                                  fontWeight:
+                                                      FontWeight.w500)))),
+                                  Tab(
+                                      child: Text("Announcements",
+                                          style: GoogleFonts.inter(
+                                              textStyle: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  fontSize: 15,
+                                                  fontWeight:
+                                                      FontWeight.w500)))),
+                                ])),
+                        Expanded(
+                          child: TabBarView(
+                            controller: maintabcontroller,
+                            children: const [
+                              Events(),
+                              Text("this section is for announcements")
+                            ],
+                          ),
+                        )
+                      ]),
                     ),
                   )
                 ],
