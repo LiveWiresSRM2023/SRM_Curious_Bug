@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -11,18 +12,27 @@ class Announcement extends StatefulWidget {
 }
 
 class _AnnouncementState extends State<Announcement> {
-  List announcements = [
-    {
-      'title': 'Announcement 1',
-      'content': 'This is the first announcement',
-      'registration': ''
-    },
-    {
-      'title': 'Announcement 2',
-      'content': 'This is the second announcement',
-      'registration': ''
-    },
-  ];
+  List announcements = [];
+  bool announcementsLoaded = false;
+
+  getAnnouncementsFromDB() async {
+    announcements = [];
+    await FirebaseFirestore.instance
+        .collection("announcements")
+        .get()
+        .then((value) {
+      announcements.addAll(value.docs);
+    });
+    setState(() {
+      announcementsLoaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    getAnnouncementsFromDB();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,87 +44,118 @@ class _AnnouncementState extends State<Announcement> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-              height: MediaQuery.of(context).size.height - 180,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: announcements.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 228, 238, 247),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 160,
-                                  child: Text(
-                                    announcements[index]["title"],
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+            height: MediaQuery.of(context).size.height - 180,
+            child: announcementsLoaded
+                ? announcements.isEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.announcement,
+                            color: Colors.green,
+                            size: 80,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "No announcements",
+                            style: GoogleFonts.inter(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: announcements.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 228, 238, 247),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 160,
+                                          child: Text(
+                                            announcements[index]["title"],
+                                            style: GoogleFonts.inter(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            RichText(
-                                text: TextSpan(children: [
-                              TextSpan(
-                                text: announcements[index]["content"],
-                                style: GoogleFonts.inter(
-                                  fontSize: 13,
-                                  color: Colors.black,
+                                    const SizedBox(height: 5),
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                        text: announcements[index]["content"],
+                                        style: GoogleFonts.inter(
+                                          fontSize: 13,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ])),
+                                    const SizedBox(height: 10),
+                                    TextButton(
+                                        onPressed: () async {
+                                          Uri url = Uri.parse(
+                                              announcements[index]
+                                                  ["registration"]);
+                                          if (await canLaunchUrl(url)) {
+                                            await launchUrl(url);
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "Unable to open the link"),
+                                              backgroundColor: Colors.red,
+                                            ));
+                                          }
+                                        },
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                WidgetStateProperty.all(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                            shape: WidgetStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10))),
+                                            fixedSize: WidgetStateProperty.all(
+                                                const Size(
+                                                    double.maxFinite, 25))),
+                                        child: Text(
+                                          "Open announcement link",
+                                          style: GoogleFonts.inter(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ))
+                                  ],
                                 ),
                               ),
-                            ])),
-                            const SizedBox(height: 10),
-                            TextButton(
-                                onPressed: () async {
-                                  Uri url = Uri.parse(
-                                      announcements[index]["registration"]);
-                                  if (await canLaunchUrl(url)) {
-                                    await launchUrl(url);
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text("Unable to open the link"),
-                                      backgroundColor: Colors.red,
-                                    ));
-                                  }
-                                },
-                                style: ButtonStyle(
-                                    backgroundColor: WidgetStateProperty.all(
-                                        Theme.of(context).colorScheme.primary),
-                                    shape: WidgetStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10))),
-                                    fixedSize: WidgetStateProperty.all(
-                                        const Size(double.maxFinite, 25))),
-                                child: Text(
-                                  "Open announcement link",
-                                  style: GoogleFonts.inter(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              )),
+                            ),
+                          );
+                        },
+                      )
+                : const Center(child: CircularProgressIndicator()),
+          ),
           TextButton(
             onPressed: () async {
               TextEditingController announcementTitleController =
@@ -168,7 +209,7 @@ class _AnnouncementState extends State<Announcement> {
                                 child: TextField(
                                   controller: announcementTitleController,
                                   decoration: InputDecoration(
-                                    hintText: 'Enter title here...',
+                                    hintText: 'Enter announcement',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                       borderSide: BorderSide(
@@ -196,7 +237,7 @@ class _AnnouncementState extends State<Announcement> {
                                   maxLines: 2,
                                   controller: announcementContentController,
                                   decoration: InputDecoration(
-                                    hintText: 'Enter your announcement here..',
+                                    hintText: 'Description',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                       borderSide: BorderSide(
@@ -257,7 +298,20 @@ class _AnnouncementState extends State<Announcement> {
                               ),
                               const SizedBox(height: 25),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection("announcements")
+                                      .doc()
+                                      .set({
+                                    "title": announcementTitleController.text,
+                                    "content":
+                                        announcementContentController.text,
+                                    "registration":
+                                        announcementRegistrationController.text
+                                  });
+                                  await getAnnouncementsFromDB();
+                                  Navigator.pop(context);
+                                },
                                 style: ButtonStyle(
                                     backgroundColor:
                                         WidgetStateProperty.all(Colors.black),

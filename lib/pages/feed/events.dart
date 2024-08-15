@@ -50,186 +50,209 @@ class _EventsState extends State<Events> {
           SizedBox(
             height: MediaQuery.of(context).size.height - 180,
             child: eventsLoaded
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: events.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 228, 238, 247),
-                            borderRadius: BorderRadius.circular(10.0),
+                ? events.isEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.event,
+                            color: Colors.green,
+                            size: 80,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "No events scheduled",
+                            style: GoogleFonts.inter(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: events.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 228, 238, 247),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(
-                                      width: 160,
-                                      child: Text(
-                                        events[index]["title"],
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 160,
+                                          child: Text(
+                                            events[index]["title"],
+                                            style: GoogleFonts.inter(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        // Container(
+                                        //   height: 30,
+                                        //   width: 60,
+                                        //   alignment: Alignment.center,
+                                        //   decoration: BoxDecoration(
+                                        //       color: color,
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(20)),
+                                        //   child: Text(
+                                        //     key,
+                                        //     style: const TextStyle(
+                                        //       color: Colors.white,
+                                        //       fontSize: 11.0,
+                                        //       letterSpacing: 0.8,
+                                        //       fontWeight: FontWeight.bold,
+                                        //     ),
+                                        //   ),
+                                        // )
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(
+                                        //       left: 5.0, right: 5, top: 2, bottom: 2),
+                                        //   child: Container(
+                                        //     alignment: Alignment.bottomRight,
+                                        //     child: TextButton(
+                                        //       onPressed: () {},
+                                        //       style: TextButton.styleFrom(
+                                        //         backgroundColor: color,
+                                        //         shape: RoundedRectangleBorder(
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(20.0),
+                                        //         ),
+                                        //       ),
+                                        //       child: Padding(
+                                        //         padding: const EdgeInsets.only(
+                                        //             left: 4, right: 4, top: 1, bottom: 1),
+                                        //         child: Text(
+                                        //           key,
+                                        //           style: const TextStyle(
+                                        //             color: Colors.white,
+                                        //             fontSize: 11.0,
+                                        //             letterSpacing: 0.8,
+                                        //             fontWeight: FontWeight.bold,
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 5),
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                        text: "Venue: ",
                                         style: GoogleFonts.inter(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.black,
                                         ),
                                       ),
+                                      TextSpan(
+                                        text: events[index]["venue"],
+                                        style: GoogleFonts.inter(
+                                          fontSize: 13,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ])),
+                                    const SizedBox(height: 5),
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                        text: "Date: ",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: events[index]["date"],
+                                        style: GoogleFonts.inter(
+                                          fontSize: 13,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ])),
+                                    const SizedBox(height: 5),
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                        text: "Timing: ",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: events[index]["time"],
+                                        style: GoogleFonts.inter(
+                                          fontSize: 13,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ])),
+                                    const SizedBox(
+                                      height: 10,
                                     ),
-                                    const SizedBox(width: 8),
-                                    // Container(
-                                    //   height: 30,
-                                    //   width: 60,
-                                    //   alignment: Alignment.center,
-                                    //   decoration: BoxDecoration(
-                                    //       color: color,
-                                    //       borderRadius:
-                                    //           BorderRadius.circular(20)),
-                                    //   child: Text(
-                                    //     key,
-                                    //     style: const TextStyle(
-                                    //       color: Colors.white,
-                                    //       fontSize: 11.0,
-                                    //       letterSpacing: 0.8,
-                                    //       fontWeight: FontWeight.bold,
-                                    //     ),
-                                    //   ),
-                                    // )
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(
-                                    //       left: 5.0, right: 5, top: 2, bottom: 2),
-                                    //   child: Container(
-                                    //     alignment: Alignment.bottomRight,
-                                    //     child: TextButton(
-                                    //       onPressed: () {},
-                                    //       style: TextButton.styleFrom(
-                                    //         backgroundColor: color,
-                                    //         shape: RoundedRectangleBorder(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(20.0),
-                                    //         ),
-                                    //       ),
-                                    //       child: Padding(
-                                    //         padding: const EdgeInsets.only(
-                                    //             left: 4, right: 4, top: 1, bottom: 1),
-                                    //         child: Text(
-                                    //           key,
-                                    //           style: const TextStyle(
-                                    //             color: Colors.white,
-                                    //             fontSize: 11.0,
-                                    //             letterSpacing: 0.8,
-                                    //             fontWeight: FontWeight.bold,
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
+                                    TextButton(
+                                        onPressed: () async {
+                                          Uri url = Uri.parse(
+                                              events[index]["registration"]);
+                                          if (await canLaunchUrl(url)) {
+                                            await launchUrl(url);
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "Unable to open the link"),
+                                              backgroundColor: Colors.red,
+                                            ));
+                                          }
+                                        },
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                WidgetStateProperty.all(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                            shape: WidgetStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10))),
+                                            fixedSize: WidgetStateProperty.all(
+                                                const Size(
+                                                    double.maxFinite, 25))),
+                                        child: Text(
+                                          "Open registration link",
+                                          style: GoogleFonts.inter(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ))
                                   ],
                                 ),
-                                const SizedBox(height: 5),
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                    text: "Venue: ",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: events[index]["venue"],
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ])),
-                                const SizedBox(height: 5),
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                    text: "Date: ",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: events[index]["date"],
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ])),
-                                const SizedBox(height: 5),
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                    text: "Timing: ",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: events[index]["time"],
-                                    style: GoogleFonts.inter(
-                                      fontSize: 13,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ])),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                TextButton(
-                                    onPressed: () async {
-                                      Uri url = Uri.parse(
-                                          events[index]["registration"]);
-                                      if (await canLaunchUrl(url)) {
-                                        await launchUrl(url);
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                          content:
-                                              Text("Unable to open the link"),
-                                          backgroundColor: Colors.red,
-                                        ));
-                                      }
-                                    },
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            WidgetStateProperty.all(
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .primary),
-                                        shape: WidgetStateProperty.all(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10))),
-                                        fixedSize: WidgetStateProperty.all(
-                                            const Size(double.maxFinite, 25))),
-                                    child: Text(
-                                      "Open registration link",
-                                      style: GoogleFonts.inter(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ))
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    },
-                  )
+                          );
+                        },
+                      )
                 : const Center(child: CircularProgressIndicator()),
           ),
           TextButton(
