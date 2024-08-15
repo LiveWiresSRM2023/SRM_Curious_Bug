@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:srm_curious_bug/pages/feed/announcements.dart';
 import 'package:srm_curious_bug/pages/feed/events.dart';
 import 'package:srm_curious_bug/pages/feed/posts.dart';
 import 'package:srm_curious_bug/pages/feed/sidebar.dart';
@@ -338,51 +339,53 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
                     flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(children: [
-                        Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: TabBar(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: TabBar(
+                                    controller: maintabcontroller,
+                                    isScrollable: true,
+                                    indicatorColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    labelPadding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    tabs: [
+                                      Tab(
+                                          child: Text("Events",
+                                              style: GoogleFonts.inter(
+                                                  textStyle: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w500)))),
+                                      Tab(
+                                          child: Text("Announcements",
+                                              style: GoogleFonts.inter(
+                                                  textStyle: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w500)))),
+                                    ])),
+                            Expanded(
+                              child: TabBarView(
                                 controller: maintabcontroller,
-                                isScrollable: true,
-                                indicatorColor:
-                                    Theme.of(context).colorScheme.primary,
-                                labelPadding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                tabs: [
-                                  Tab(
-                                      child: Text("Events",
-                                          style: GoogleFonts.inter(
-                                              textStyle: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                  fontSize: 15,
-                                                  fontWeight:
-                                                      FontWeight.w500)))),
-                                  Tab(
-                                      child: Text("Announcements",
-                                          style: GoogleFonts.inter(
-                                              textStyle: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                  fontSize: 15,
-                                                  fontWeight:
-                                                      FontWeight.w500)))),
-                                ])),
-                        Expanded(
-                          child: TabBarView(
-                            controller: maintabcontroller,
-                            children: const [
-                              Events(),
-                              Text("this section is for announcements")
-                            ],
-                          ),
-                        )
-                      ]),
+                                children: const [
+                                  Events(),
+                                  Announcement(),
+                                ],
+                              ),
+                            )
+                          ]),
                     ),
                   )
                 ],

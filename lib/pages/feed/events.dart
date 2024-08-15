@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Events extends StatefulWidget {
@@ -43,473 +44,11 @@ class _EventsState extends State<Events> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Events",
-                  style: GoogleFonts.archivo(
-                      textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black))),
-              TextButton(
-                onPressed: () async {
-                  TextEditingController eventTitleController =
-                      TextEditingController();
-                  TextEditingController eventStartDatePicker =
-                      TextEditingController();
-                  TextEditingController eventVenueController =
-                      TextEditingController();
-                  TextEditingController eventRegistrationController =
-                      TextEditingController();
-                  TextEditingController eventstartTimePicker =
-                      TextEditingController();
-                  TextEditingController eventendTimePicker =
-                      TextEditingController();
-                  String eventStartTime = '';
-                  String eventEndTime = '';
-                  String eventDate = '';
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return StatefulBuilder(builder: (context, dState) {
-                          return AlertDialog(
-                            backgroundColor: Colors.white,
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Create a new event",
-                                  style: GoogleFonts.inter(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(Icons.close,
-                                        size: 15,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary))
-                              ],
-                            ),
-                            content: SizedBox(
-                              // height: double
-                              //     .minPositive,
-                              width: MediaQuery.of(context).size.width * 0.42,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const SizedBox(height: 5),
-                                  SizedBox(
-                                    height: 40,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: TextField(
-                                      controller: eventTitleController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Enter event name',
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                        ),
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 179, 177, 177)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: TextField(
-                                      maxLines: 1,
-                                      controller: eventVenueController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Enter venue of the event',
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                        ),
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 179, 177, 177)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: TextField(
-                                      maxLines: 1,
-                                      controller: eventRegistrationController,
-                                      decoration: InputDecoration(
-                                        suffixIcon: Transform.rotate(
-                                          angle: 90,
-                                          child: Icon(
-                                            Icons.link,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
-                                        ),
-                                        hintText: 'Enter registration link',
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                        ),
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 179, 177, 177)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text("Date of the event : ",
-                                            style: GoogleFonts.archivo(
-                                                textStyle: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary))),
-                                        const Spacer(),
-                                        SizedBox(
-                                          width: (MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.2) -
-                                              10,
-                                          child: TextField(
-                                            readOnly: true,
-                                            controller: eventStartDatePicker,
-                                            onTap: () async {
-                                              DateTime? datetime =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          DateTime.now(),
-                                                      firstDate: DateTime(2024),
-                                                      lastDate: DateTime(2050));
-                                              if (datetime != null) {
-                                                String formattedDate =
-                                                    DateFormat('dd-MM-yyyy')
-                                                        .format(datetime);
-                                                setState(() {
-                                                  eventStartDatePicker.text =
-                                                      formattedDate;
-                                                  eventDate =
-                                                      formattedDate.toString();
-                                                });
-                                              }
-                                            },
-                                            decoration: InputDecoration(
-                                              suffixIcon: Icon(
-                                                Icons.date_range,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ),
-                                              hintText: 'Event date',
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                borderSide: BorderSide(
-                                                    color: Theme.of(context)
-                                                        .primaryColor),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                              ),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Color.fromARGB(
-                                                        255, 179, 177, 177)),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          // height:
-                                          //     32,
-                                          width: (MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.2) -
-                                              10,
-                                          child: TextField(
-                                            readOnly: true,
-                                            controller: eventstartTimePicker,
-                                            onTap: () async {
-                                              TimeOfDay? timeOfDay =
-                                                  await showTimePicker(
-                                                context: context,
-                                                initialTime: TimeOfDay.now(),
-                                              );
-                                              if (timeOfDay != null) {
-                                                final now = DateTime.now();
-                                                final dateTime = DateTime(
-                                                    now.year,
-                                                    now.month,
-                                                    now.day,
-                                                    timeOfDay.hour,
-                                                    timeOfDay.minute);
-                                                String formattedTime =
-                                                    DateFormat('HH:mm:ss')
-                                                        .format(dateTime);
-                                                setState(() {
-                                                  eventstartTimePicker.text =
-                                                      formattedTime;
-                                                  eventStartTime =
-                                                      timeOfDay.format(context);
-                                                });
-                                              }
-                                            },
-                                            decoration: InputDecoration(
-                                              suffixIcon: Icon(
-                                                Icons.access_time,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ),
-                                              hintText: 'Start time',
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                borderSide: BorderSide(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                              ),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Color.fromARGB(
-                                                        255, 179, 177, 177)),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          // height:
-                                          //     32,
-                                          width: (MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.2) -
-                                              10,
-                                          child: TextField(
-                                            readOnly: true,
-                                            controller: eventendTimePicker,
-                                            onTap: () async {
-                                              TimeOfDay? timeOfDay =
-                                                  await showTimePicker(
-                                                context: context,
-                                                initialTime: TimeOfDay.now(),
-                                              );
-                                              if (timeOfDay != null) {
-                                                final now = DateTime.now();
-                                                final dateTime = DateTime(
-                                                    now.year,
-                                                    now.month,
-                                                    now.day,
-                                                    timeOfDay.hour,
-                                                    timeOfDay.minute);
-                                                String formattedTime =
-                                                    DateFormat('HH:mm:ss')
-                                                        .format(dateTime);
-                                                setState(() {
-                                                  eventendTimePicker.text =
-                                                      formattedTime;
-                                                  eventEndTime =
-                                                      timeOfDay.format(context);
-                                                });
-                                              }
-                                            },
-                                            decoration: InputDecoration(
-                                              suffixIcon: Icon(
-                                                Icons.access_time,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ),
-                                              hintText: 'End time',
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                borderSide: BorderSide(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                              ),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Color.fromARGB(
-                                                        255, 179, 177, 177)),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 40),
-                                  TextButton(
-                                    onPressed: () async {
-                                      if (eventTitleController.text.isNotEmpty &&
-                                          eventVenueController
-                                              .text.isNotEmpty &&
-                                          eventRegistrationController
-                                              .text.isNotEmpty) {
-                                        Map<String, String> eventDetails = {
-                                          "date": eventDate,
-                                          "time": eventStartTime,
-                                          "registration":
-                                              eventRegistrationController.text,
-                                          "title": eventTitleController.text,
-                                          "venue": eventVenueController.text
-                                        };
-                                        print(eventDetails);
-                                        await FirebaseFirestore.instance
-                                            .collection("events")
-                                            .doc()
-                                            .set(eventDetails)
-                                            .whenComplete(() {
-                                          setState(() {
-                                            events.add(eventDetails);
-                                          });
-                                          Navigator.pop(context);
-                                          // getEventsFromDB();
-                                        });
-                                      } else {}
-                                    },
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            WidgetStateProperty.all(
-                                                Colors.black),
-                                        shape: WidgetStateProperty.all(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10))),
-                                        fixedSize: WidgetStateProperty.all(
-                                            const Size(180, 30))),
-                                    child: Text(
-                                      "Create Event",
-                                      style: GoogleFonts.inter(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        });
-                      });
-                },
-                style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                        Theme.of(context).colorScheme.primary),
-                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                    fixedSize: WidgetStateProperty.all(const Size(135, 30))),
-                child: Text(
-                  "Create Events",
-                  style: GoogleFonts.inter(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
           SizedBox(
-            height: MediaQuery.of(context).size.height - 140,
+            height: MediaQuery.of(context).size.height - 180,
             child: eventsLoaded
                 ? ListView.builder(
                     shrinkWrap: true,
@@ -692,6 +231,438 @@ class _EventsState extends State<Events> {
                     },
                   )
                 : const Center(child: CircularProgressIndicator()),
+          ),
+          TextButton(
+            onPressed: () async {
+              TextEditingController eventTitleController =
+                  TextEditingController();
+              TextEditingController eventStartDatePicker =
+                  TextEditingController();
+              TextEditingController eventVenueController =
+                  TextEditingController();
+              TextEditingController eventRegistrationController =
+                  TextEditingController();
+              TextEditingController eventstartTimePicker =
+                  TextEditingController();
+              TextEditingController eventendTimePicker =
+                  TextEditingController();
+              String eventStartTime = '';
+              // ignore: unused_local_variable
+              String eventEndTime = '';
+              String eventDate = '';
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return StatefulBuilder(builder: (context, dState) {
+                      return AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Create a new event",
+                              style: GoogleFonts.inter(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.close,
+                                    size: 15,
+                                    color:
+                                        Theme.of(context).colorScheme.primary))
+                          ],
+                        ),
+                        content: SizedBox(
+                          // height: double
+                          //     .minPositive,
+                          width: MediaQuery.of(context).size.width * 0.42,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 5),
+                              SizedBox(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: TextField(
+                                  controller: eventTitleController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter event name',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 179, 177, 177)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: TextField(
+                                  maxLines: 1,
+                                  controller: eventVenueController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter venue of the event',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 179, 177, 177)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: TextField(
+                                  maxLines: 1,
+                                  controller: eventRegistrationController,
+                                  decoration: InputDecoration(
+                                    suffixIcon: Transform.rotate(
+                                      angle: 90,
+                                      child: Icon(
+                                        Icons.link,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
+                                    hintText: 'Enter registration link',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 179, 177, 177)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Text("Date of the event : ",
+                                        style: GoogleFonts.archivo(
+                                            textStyle: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary))),
+                                    const Spacer(),
+                                    SizedBox(
+                                      width:
+                                          (MediaQuery.of(context).size.width *
+                                                  0.2) -
+                                              10,
+                                      child: TextField(
+                                        readOnly: true,
+                                        controller: eventStartDatePicker,
+                                        onTap: () async {
+                                          DateTime? datetime =
+                                              await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(2024),
+                                                  lastDate: DateTime(2050));
+                                          if (datetime != null) {
+                                            String formattedDate =
+                                                DateFormat('dd-MM-yyyy')
+                                                    .format(datetime);
+                                            setState(() {
+                                              eventStartDatePicker.text =
+                                                  formattedDate;
+                                              eventDate =
+                                                  formattedDate.toString();
+                                            });
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.date_range,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                          hintText: 'Event date',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
+                                          enabledBorder:
+                                              const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 179, 177, 177)),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    SizedBox(
+                                      // height:
+                                      //     32,
+                                      width:
+                                          (MediaQuery.of(context).size.width *
+                                                  0.2) -
+                                              10,
+                                      child: TextField(
+                                        readOnly: true,
+                                        controller: eventstartTimePicker,
+                                        onTap: () async {
+                                          TimeOfDay? timeOfDay =
+                                              await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now(),
+                                          );
+                                          if (timeOfDay != null) {
+                                            final now = DateTime.now();
+                                            final dateTime = DateTime(
+                                                now.year,
+                                                now.month,
+                                                now.day,
+                                                timeOfDay.hour,
+                                                timeOfDay.minute);
+                                            String formattedTime =
+                                                DateFormat('HH:mm:ss')
+                                                    .format(dateTime);
+                                            setState(() {
+                                              eventstartTimePicker.text =
+                                                  formattedTime;
+                                              eventStartTime =
+                                                  timeOfDay.format(context);
+                                            });
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.access_time,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                          hintText: 'Start time',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
+                                          enabledBorder:
+                                              const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 179, 177, 177)),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      // height:
+                                      //     32,
+                                      width:
+                                          (MediaQuery.of(context).size.width *
+                                                  0.2) -
+                                              10,
+                                      child: TextField(
+                                        readOnly: true,
+                                        controller: eventendTimePicker,
+                                        onTap: () async {
+                                          TimeOfDay? timeOfDay =
+                                              await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now(),
+                                          );
+                                          if (timeOfDay != null) {
+                                            final now = DateTime.now();
+                                            final dateTime = DateTime(
+                                                now.year,
+                                                now.month,
+                                                now.day,
+                                                timeOfDay.hour,
+                                                timeOfDay.minute);
+                                            String formattedTime =
+                                                DateFormat('HH:mm:ss')
+                                                    .format(dateTime);
+                                            setState(() {
+                                              eventendTimePicker.text =
+                                                  formattedTime;
+                                              eventEndTime =
+                                                  timeOfDay.format(context);
+                                            });
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.access_time,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                          hintText: 'End time',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
+                                          enabledBorder:
+                                              const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 179, 177, 177)),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+                              TextButton(
+                                onPressed: () async {
+                                  if (eventTitleController.text.isNotEmpty &&
+                                      eventVenueController.text.isNotEmpty &&
+                                      eventRegistrationController
+                                          .text.isNotEmpty) {
+                                    Map<String, String> eventDetails = {
+                                      "date": eventDate,
+                                      "time": eventStartTime,
+                                      "registration":
+                                          eventRegistrationController.text,
+                                      "title": eventTitleController.text,
+                                      "venue": eventVenueController.text
+                                    };
+                                    print(eventDetails);
+                                    await FirebaseFirestore.instance
+                                        .collection("events")
+                                        .doc()
+                                        .set(eventDetails)
+                                        .whenComplete(() {
+                                      setState(() {
+                                        events.add(eventDetails);
+                                      });
+                                      Navigator.pop(context);
+                                      // getEventsFromDB();
+                                    });
+                                  } else {}
+                                },
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        WidgetStateProperty.all(Colors.black),
+                                    shape: WidgetStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                    fixedSize: WidgetStateProperty.all(
+                                        const Size(180, 30))),
+                                child: Text(
+                                  "Create Event",
+                                  style: GoogleFonts.inter(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+                  });
+            },
+            style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(Colors.black),
+                shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+                fixedSize:
+                    WidgetStateProperty.all(const Size(fullDegree - 74, 30))),
+            child: Text(
+              "Create Events",
+              style: GoogleFonts.inter(
+                  color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
