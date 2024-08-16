@@ -10,30 +10,23 @@ void editProfile(BuildContext context) {
   final Map<String, TextEditingController> profileInfo = {
     "About": TextEditingController(),
     "Degree": TextEditingController(),
-    // "Department": TextEditingController(),
-    // "Github": TextEditingController(),
     "Gmail": TextEditingController(),
     "GoogleScholar": TextEditingController(),
     "Website": TextEditingController(),
+    "Research Gate link": TextEditingController(),
+    "Interests": TextEditingController(),
   };
 
   final List<double> textFieldConfig = [120, 40, 40, 40, 40, 40, 40];
-  // final Map<String, AssetImage> profileIcons = {
-  //   "About": const AssetImage('assets/icons/about.png'),
-  //   "Degree": const AssetImage('assets/icons/degree.png'),
-  //   // "Department": TextEditingController(),
-  //   "Github": const AssetImage('assets/icons/github_yellow.png'),
-  //   "Gmail": const AssetImage('assets/icons/mail.png'),
-  //   "GoogleScholar": const AssetImage('assets/icons/scholar.png'),
-  //   "Website": const AssetImage('assets/icons/website.png'),
-  // };
+
   final List<List<dynamic>> profileIcons = [
     [Image.asset('assets/icons/about.png'), "About"],
     [Image.asset('assets/icons/degree.png'), "Degree"],
-    // [Image.asset('assets/icons/github_yellow.png'), "Github"],
     [Image.asset('assets/icons/mail.png'), "Gmail"],
     [Image.asset('assets/icons/googlescholar_bg.png'), "Google Scholar"],
     [Image.asset('assets/icons/website.png'), "Website"],
+    [Image.asset('assets/icons/researchgate.png'), "Research Gate link"],
+    [Image.asset('assets/icons/interests.png'), "Interests"],
   ];
 
   final List<String> departmentNames = [
@@ -236,8 +229,8 @@ void editProfile(BuildContext context) {
                         "website": profileInfo["Website"]!.text,
                         // "department": departmentController.text,
                         // "position": positionController.text,
-                        "researchgate": "",
-                        "x": "",
+                        "researchgate": profileInfo["Research Gate link"]!.text,
+                        "x": profileInfo["Interests"]!.text,
                       });
                       Navigator.pop(context);
                     },

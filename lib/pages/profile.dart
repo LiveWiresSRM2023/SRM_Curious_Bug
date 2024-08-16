@@ -88,11 +88,16 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, String> textMap = {
-      "NLP": "Intermediate",
-      "Differential equations": "Beginner",
-      "DSP": "Expert",
-    };
+    final List<String> texts = [
+      'NLP',
+      'Differential equations',
+      'DSP',
+      'Machine Learning',
+      'AI',
+      'Flutter',
+      'React',
+      'Python',
+    ];
 
     Map<String, List> userProfiles = {
       "Alex Job A": ["UI/UX Designer", "assets/images/pfp.jpg"],
@@ -711,7 +716,8 @@ class _ProfileState extends State<Profile> {
                                             )
                                           : ListView.separated(
                                               shrinkWrap: true,
-                                              separatorBuilder: (context, int index) {
+                                              separatorBuilder:
+                                                  (context, int index) {
                                                 return const Divider(
                                                   thickness: 1,
                                                   color: Colors.black,
@@ -924,7 +930,9 @@ class _ProfileState extends State<Profile> {
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  const SizedBox(width: 10,),
+                                                                  const SizedBox(
+                                                                    width: 10,
+                                                                  ),
                                                                   Text(
                                                                     "${activity[index]["n_comments"]} comments",
                                                                     style: GoogleFonts
@@ -1216,91 +1224,58 @@ class _ProfileState extends State<Profile> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.5,
-                                          child: Padding(
+                                        Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: ListView.builder(
-                                              itemCount: textMap.length,
-                                              itemBuilder: (context, index) {
-                                                String text1 = textMap.keys
-                                                    .elementAt(index);
-                                                String text2 = textMap.values
-                                                    .elementAt(index);
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            border: Border.all(
-                                                                color: const Color
-                                                                    .fromARGB(
-                                                                    255,
-                                                                    14,
-                                                                    14,
-                                                                    14))),
-                                                        child: Center(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Text(
-                                                              text1,
-                                                              style: GoogleFonts
-                                                                  .inter(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                            ),
+                                            child: SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.25,
+                                              child: GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 2,
+                                                  crossAxisSpacing: 2,
+                                                  mainAxisSpacing: 2,
+                                                  childAspectRatio: 5,
+                                                ),
+                                                itemCount: texts.length,
+                                                itemBuilder: (context, index) {
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.transparent,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      border: Border.all(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary,
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        texts[index],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          textStyle: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .secondary,
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ),
-                                                      const Spacer(),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          text2,
-                                                          style:
-                                                              GoogleFonts.inter(
-                                                            textStyle:
-                                                                const TextStyle(
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ))
                                       ],
                                     ),
                                   )),
