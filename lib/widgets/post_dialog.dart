@@ -6,7 +6,6 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
@@ -16,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/utils/constants.dart';
 // import 'package:srm_curious_bug/pages/feed/feed.dart';
 import 'package:uuid/uuid.dart';
+
+// collaborator for the post newest has not map instead the list of string find the root cause and fix it, found by clicking the post in activity of the profile screen
 
 postDialog(BuildContext context,
     {String? title,

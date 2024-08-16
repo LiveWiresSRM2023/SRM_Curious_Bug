@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:srm_curious_bug/pages/post_page.dart';
 import 'package:srm_curious_bug/widgets/editProfile.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 
@@ -17,25 +19,70 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   String name = '';
   String about = '';
+  // String position = '';
+  // String degree = '';
+  // String department = '';
+  // String website = '';
   List activity = [];
   bool showMore = false;
   List interets = [];
+  Map profileInto = {};
 
   void loadProfileDetails() async {
+    if (widget.email == null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      name = prefs.getString("name")!;
+      about = prefs.getString("about")!;
+      interets = prefs.getStringList("interests")!;
+      profileInto["Position"] = prefs.getString("position");
+      profileInto["Degree"] = prefs.getString("degree");
+      profileInto["Department"] = prefs.getString("department");
+      profileInto["Website"] = prefs.getString("website");
+    } else {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.email)
+          .get()
+          .then((doc) {
+        name = doc.get("name");
+        about = doc.get("about");
+        interets = doc.get("interests");
+        profileInto["Position"] = doc.get("position");
+        profileInto["Degree"] = doc.get("degree");
+        profileInto["Department"] = doc.get("department");
+        profileInto["Website"] = doc.get("website");
+      });
+    }
+    setState(() {});
+  }
+
+  void loadActivityFromDB() async {
+    activity = [];
     await FirebaseFirestore.instance
-        .collection("users")
-        .doc(widget.email)
+        .collection("posts")
+        .where("op_email",
+            isEqualTo: FirebaseAuth.instance.currentUser!.email.toString())
+        .limit(5)
         .get()
-        .then((doc) {
-      name = doc.get("name");
-      about = doc.get("about");
-      interets = doc.get("interests");
+        .then((docs) {
+      for (var doc in docs.docs) {
+        activity.add({
+          "id": doc.id,
+          "title": doc.get("title"),
+          "post": doc.get("post"),
+          "photo": doc.get("post_images"),
+          "upvote": doc.get("upvote"),
+          "n_comments": doc.get("n_comments")
+        });
+      }
     });
+    setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    loadProfileDetails();
+    loadActivityFromDB();
     super.initState();
   }
 
@@ -52,26 +99,6 @@ class _ProfileState extends State<Profile> {
       "Roshan SK": ["Software Developer", "assets/images/pfp.jpg"],
       "Sudharshan": ["UI/UX Developer", "assets/images/pfp.jpg"],
       "Abin": ["Data Scientist", "assets/images/pfp.jpg"],
-    };
-
-    Map<String, List> userActivities = {
-      "Alex Job A": [
-        "3w",
-        "assets/images/bluebells.jpg",
-        "Had an amazing experience organizing Techutsav, An intra college event! Rocked the role of creative head, designing invitations, event details, banners, and backdrops. The Tech Innovation Challenge provided the perfect platform for us to unleash our creativity, problem-solving skills, and technical prowess. With fervor in our hearts and lines of code at our fingertips, we set out to tackle one of the most pressing issues of our time: transportation in urban landscapes.Big learning experience - leveled up my pressure management skills for sure! Plus, I met some super talented people along the way! 🔥✨"
-      ],
-      "Roshan SK": [
-        "5w",
-        "assets/images/bluebells.jpg",
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-      ],
-    };
-
-    Map profileInto = {
-      "Position ": "Student at SRM FSH",
-      "Degree ": "Master in Applied Data Science",
-      "Department ": "Faculty of Science and Humanities",
-      "Website ": "www.google.com"
     };
 
     // List contactImages = [
@@ -177,7 +204,7 @@ class _ProfileState extends State<Profile> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  "Tamil Nadu | Chennai",
+                                                  "${profileInto["Position"]} at ${profileInto["Department"]}",
                                                   style: GoogleFonts.inter(
                                                       color: Theme.of(context)
                                                           .colorScheme
@@ -287,6 +314,7 @@ class _ProfileState extends State<Profile> {
                                                 TextButton(
                                                   onPressed: () {
                                                     editProfile(context);
+                                                    loadProfileDetails();
                                                   },
                                                   style: ButtonStyle(
                                                       backgroundColor:
@@ -548,6 +576,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             const SizedBox(height: 8),
                             Container(
+                              width: MediaQuery.of(context).size.width * 0.7,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(15),
@@ -575,11 +604,11 @@ class _ProfileState extends State<Profile> {
                                     const SizedBox(height: 5),
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
-                                      child: ReadMoreText(
-                                          "Making magic on screens (UI/UX design) by day. When I'm off the clock, it's church, guitar jams, and good vibes. Love meeting new people. Always up to connect! Making magic on screens (UI/UX design) by day. When I'm off the clock, it's church, guitar jams, and good vibes. Love meeting new people. Always up to connect!Making magic on screens (UI/UX design) by day. When I'm off the clock, it's church, guitar jams, and good vibes. Love meeting new people. Always up to connect!.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                      child: ReadMoreText(about,
                                           textAlign: TextAlign.start,
                                           trimLines: 5,
                                           trimCollapsedText: ' Show More',
+                                          trimExpandedText: ' Show less',
                                           style: GoogleFonts.inter(
                                               textStyle: const TextStyle(
                                             fontSize: 11,
@@ -649,102 +678,137 @@ class _ProfileState extends State<Profile> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.44,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ListView.builder(
-                                            itemCount: userActivities.length,
-                                            itemBuilder: (context, index) {
-                                              String username = userActivities
-                                                  .keys
-                                                  .elementAt(index);
-                                              String durationofpost =
-                                                  userActivities.values
-                                                      .elementAt(index)[0];
-                                              String postimg = userActivities
-                                                  .values
-                                                  .elementAt(index)[1];
-                                              String abt = userActivities.values
-                                                  .elementAt(index)[2];
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(2.0),
-                                                          child: Text(username,
-                                                              style: GoogleFonts
-                                                                  .inter(
-                                                                      textStyle:
-                                                                          TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .secondary,
-                                                              ))),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(2.0),
-                                                          child: Text(
-                                                              "posted this",
-                                                              style: GoogleFonts
-                                                                  .inter(
-                                                                      textStyle:
-                                                                          TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .secondary,
-                                                              ))),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(2.0),
-                                                          child: Text(
-                                                              " . $durationofpost",
-                                                              style: GoogleFonts
-                                                                  .inter(
-                                                                      textStyle:
-                                                                          TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .secondary,
-                                                              ))),
-                                                        ),
-                                                      ],
+                                      activity.isEmpty
+                                          ? SizedBox(
+                                              width: double.maxFinite,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.post_add_outlined,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    size: 70,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    "No posts created",
+                                                    style: GoogleFonts.inter(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 15,
                                                     ),
-                                                    Row(
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : ListView.separated(
+                                              shrinkWrap: true,
+                                              separatorBuilder: (context, int index) {
+                                                return const Divider(
+                                                  thickness: 1,
+                                                  color: Colors.black,
+                                                );
+                                              },
+                                              itemCount: activity.length,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: () async {
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection("posts")
+                                                        .doc(activity[index]
+                                                            ["id"])
+                                                        .get()
+                                                        .then((doc) async {
+                                                      Map post = {
+                                                        "id": doc.id,
+                                                        "collaborator": doc.get(
+                                                            "collaborator"),
+                                                        "collaborator_req": doc.get(
+                                                            "collaborator_req"),
+                                                        "duration":
+                                                            doc.get("duration"),
+                                                        "expertise": doc
+                                                            .get("expertise"),
+                                                        "hashtags":
+                                                            doc.get("hashtags"),
+                                                        "meetingDetails": doc.get(
+                                                            "meetingDetails"),
+                                                        "meetingLink": doc
+                                                            .get("meetingLink"),
+                                                        "n_comments": doc
+                                                            .get("n_comments"),
+                                                        "op_email":
+                                                            doc.get("op_email"),
+                                                        "op_name":
+                                                            doc.get("op_name"),
+                                                        "op_profile": doc
+                                                            .get("op_profile"),
+                                                        "post": doc.get("post"),
+                                                        "post_images": doc
+                                                            .get("post_images"),
+                                                        "timestamp": doc
+                                                            .get("timestamp"),
+                                                        "department": doc
+                                                            .get("department"),
+                                                        "college":
+                                                            doc.get("college"),
+                                                        "position":
+                                                            doc.get("position"),
+                                                        "title":
+                                                            doc.get("title"),
+                                                        "upvote":
+                                                            doc.get("upvote")
+                                                      };
+                                                      SharedPreferences prefs =
+                                                          await SharedPreferences
+                                                              .getInstance();
+
+                                                      Map inviteDetails = {
+                                                        "name": FirebaseAuth
+                                                            .instance
+                                                            .currentUser!
+                                                            .displayName,
+                                                        "bio":
+                                                            "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}",
+                                                        "email": FirebaseAuth
+                                                            .instance
+                                                            .currentUser!
+                                                            .email
+                                                      };
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      PostPage(
+                                                                        post:
+                                                                            post,
+                                                                        documentID:
+                                                                            activity[index]["id"],
+                                                                        inviteDetails:
+                                                                            inviteDetails,
+                                                                      )));
+                                                    });
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10.0),
+                                                    child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
@@ -752,84 +816,139 @@ class _ProfileState extends State<Profile> {
                                                         Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .only(
-                                                                  top: 8.0,
-                                                                  right: 4,
-                                                                  bottom: 8),
+                                                                  .all(5.0),
                                                           child: Container(
-                                                              height: MediaQuery
-                                                                          .of(
-                                                                              context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.09,
-                                                              width:
-                                                                  MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width *
-                                                                      0.09,
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8)),
-                                                              child:
-                                                                  Image.asset(
-                                                                postimg,
-                                                              )),
-                                                        ),
-                                                        SizedBox(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.53,
-                                                          child: Padding(
-                                                            padding:
+                                                            margin:
                                                                 const EdgeInsets
-                                                                    .all(4.0),
-                                                            child: ReadMoreText(
-                                                                abt,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .justify,
-                                                                trimLines: 3,
-                                                                trimMode:
-                                                                    TrimMode
-                                                                        .Line,
-                                                                trimCollapsedText:
-                                                                    ' Show More',
-                                                                style: GoogleFonts
-                                                                    .inter(
-                                                                        textStyle:
-                                                                            const TextStyle(
-                                                                  fontSize: 11,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ))),
+                                                                    .only(
+                                                                    right: 8.0),
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.05,
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.05,
+                                                            color: Colors.white,
+                                                            child: activity[index]
+                                                                        [
+                                                                        "photo"]
+                                                                    .isEmpty
+                                                                ? Image.asset(
+                                                                    "assets/icons/gallery_Icon.png")
+                                                                : Image.network(
+                                                                    activity[
+                                                                            index]
+                                                                        [
+                                                                        "photo"][0],
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(1.0),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                activity[index]
+                                                                    ["title"],
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .archivo(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Colors
+                                                                        .black,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.6,
+                                                                child: Text(
+                                                                  "${activity[index]["post"]}",
+                                                                  style: GoogleFonts
+                                                                      .archivo(
+                                                                    textStyle:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    "${activity[index]["upvote"]} upvotes",
+                                                                    style: GoogleFonts
+                                                                        .archivo(
+                                                                      textStyle:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            10,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(width: 10,),
+                                                                  Text(
+                                                                    "${activity[index]["n_comments"]} comments",
+                                                                    style: GoogleFonts
+                                                                        .archivo(
+                                                                      textStyle:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            10,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(height: 5),
-                                                    const Divider(
-                                                        height: 1,
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            187,
-                                                            185,
-                                                            185)),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                     ],
                                   ),
                                 )),

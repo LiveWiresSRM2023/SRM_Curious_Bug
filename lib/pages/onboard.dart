@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +16,9 @@ class _OnBoardState extends State<OnBoard> {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController collegeController = TextEditingController();
   TextEditingController departmentController = TextEditingController();
+  TextEditingController degreeController = TextEditingController();
   TextEditingController positionController = TextEditingController();
+  TextEditingController websiteController = TextEditingController();
 
   bool isChecked = false;
 
@@ -34,6 +35,7 @@ class _OnBoardState extends State<OnBoard> {
     lastNameController.dispose();
     collegeController.dispose();
     departmentController.dispose();
+    degreeController.dispose();
     positionController.dispose();
     super.dispose();
   }
@@ -147,7 +149,11 @@ class _OnBoardState extends State<OnBoard> {
               buildTextField(
                   controller: departmentController, labelText: "Department"),
               buildTextField(
+                  controller: degreeController, labelText: "Degree"),
+              buildTextField(
                   controller: positionController, labelText: "Position"),
+              buildTextField(
+                  controller: websiteController, labelText: "Website"),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -186,18 +192,26 @@ class _OnBoardState extends State<OnBoard> {
                         FirebaseAuth.instance.currentUser!.photoURL!);
                     await prefs.setString(
                         "department", departmentController.text);
+                    await prefs.setString("degree", departmentController.text);
+                    await prefs.setString("website", websiteController.text);
                     await prefs.setString("college", collegeController.text);
                     await prefs.setString("position", positionController.text);
                     await prefs.setStringList("interests", []);
-                    await prefs.setString("about", "${positionController.text} at ${departmentController.text}, ${collegeController.text}");
+                    await prefs.setString("about",
+                        "${positionController.text} at ${departmentController.text}, ${collegeController.text}");
                     await prefs.setBool("onboard", true);
                     await FirebaseFirestore.instance
                         .collection("users")
                         .doc(FirebaseAuth.instance.currentUser!.email)
                         .set({
                       "name": FirebaseAuth.instance.currentUser!.displayName,
-                      "about": "${positionController.text} at ${departmentController.text}, ${collegeController.text}",
+                      "about":
+                          "${positionController.text} at ${departmentController.text}, ${collegeController.text}",
                       "scholar": "",
+                      "department": departmentController.text,
+                      "position": positionController.text,
+                      "website": websiteController.text,
+                      "degree": degreeController.text,
                       "researchgate": "",
                       "x": "",
                       "email": FirebaseAuth.instance.currentUser!.email,
@@ -223,6 +237,9 @@ class _OnBoardState extends State<OnBoard> {
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              )
             ],
           ),
         ),
