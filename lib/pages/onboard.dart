@@ -148,12 +148,11 @@ class _OnBoardState extends State<OnBoard> {
                   controller: collegeController, labelText: "College"),
               buildTextField(
                   controller: departmentController, labelText: "Department"),
-              buildTextField(
-                  controller: degreeController, labelText: "Degree"),
+              buildTextField(controller: degreeController, labelText: "Degree"),
               buildTextField(
                   controller: positionController, labelText: "Position"),
-              buildTextField(
-                  controller: websiteController, labelText: "Website"),
+              // buildTextField(
+              //     controller: websiteController, labelText: "Website"),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -183,42 +182,48 @@ class _OnBoardState extends State<OnBoard> {
                       lastNameController.text.isNotEmpty &&
                       collegeController.text.isNotEmpty &&
                       departmentController.text.isNotEmpty &&
+                      degreeController.text.isNotEmpty &&
                       positionController.text.isNotEmpty) {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    await prefs.setString("username",
+                    await prefs.setString("name",
                         FirebaseAuth.instance.currentUser!.displayName!);
                     await prefs.setString("imageUrl",
                         FirebaseAuth.instance.currentUser!.photoURL!);
                     await prefs.setString(
                         "department", departmentController.text);
                     await prefs.setString("degree", departmentController.text);
-                    await prefs.setString("website", websiteController.text);
+                    // await prefs.setString("website", websiteController.text);
                     await prefs.setString("college", collegeController.text);
                     await prefs.setString("position", positionController.text);
                     await prefs.setStringList("interests", []);
                     await prefs.setString("about",
                         "${positionController.text} at ${departmentController.text}, ${collegeController.text}");
                     await prefs.setBool("onboard", true);
-                    await FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(FirebaseAuth.instance.currentUser!.email)
-                        .set({
-                      "name": FirebaseAuth.instance.currentUser!.displayName,
-                      "about":
-                          "${positionController.text} at ${departmentController.text}, ${collegeController.text}",
-                      "scholar": "",
-                      "department": departmentController.text,
-                      "position": positionController.text,
-                      "website": websiteController.text,
-                      "degree": degreeController.text,
-                      "researchgate": "",
-                      "x": "",
-                      "email": FirebaseAuth.instance.currentUser!.email,
-                      "github": "",
-                      "interests": []
-                    });
-                    checkOnboard();
+                    try {
+                      await FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(FirebaseAuth.instance.currentUser!.email)
+                          .set({
+                        "name": FirebaseAuth.instance.currentUser!.displayName,
+                        "about":
+                            "${positionController.text} at ${departmentController.text}, ${collegeController.text}",
+                        "scholar": "",
+                        "department": departmentController.text,
+                        "position": positionController.text,
+                        "website": websiteController.text,
+                        "degree": degreeController.text,
+                        "researchgate": "",
+                        "x": "",
+                        "email": FirebaseAuth.instance.currentUser!.email,
+                        "github": "",
+                        "interests": []
+                      }).whenComplete(() {
+                        checkOnboard();
+                      });
+                    } catch (e) {
+                      print(e);
+                    }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         backgroundColor: Colors.red,

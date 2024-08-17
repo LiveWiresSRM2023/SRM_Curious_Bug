@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -29,8 +30,14 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
 
   bool loadingPosts = true;
-
+  bool searching = false;
   List posts = [];
+
+  // checkAuthState() {
+  //   if (FirebaseAuth.instance.currentUser == null) {
+
+  //   }
+  // }
 
   getAllPosts() async {
     setState(() {
@@ -58,6 +65,7 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
           "post": doc.get("post"),
           "post_images": doc.get("post_images"),
           "timestamp": doc.get("timestamp"),
+          "literatureStudy": doc.get("literatureStudy"),
           "department": doc.get("department"),
           "college": doc.get("college"),
           "position": doc.get("position"),
@@ -188,9 +196,7 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
                                     backgroundColor: Colors.red,
                                     content: Text(
                                         "There was an error, Please try again later")));
-                          } else {
-                            //TODO: implement posts list update
-                          }
+                          } else {}
                         },
                         icon: Icon(
                           Icons.search,
@@ -219,7 +225,7 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
         actions: [
           TextButton(
             onPressed: () async {
-              await postDialog(context);
+              await postDialog(context, isAnUpdate: false);
               await getAllPosts();
             },
             style: ButtonStyle(
@@ -247,11 +253,8 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
           // const SizedBox(width: 20),
           InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Profile(
-                          email: FirebaseAuth.instance.currentUser!.email)));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Profile()));
               // Navigator.pushNamed(context, '/profile');
             },
             child: Row(
@@ -316,20 +319,45 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
                               )
                             ],
                           )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SingleChildScrollView(
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height - 56,
-                                  child: Post(
-                                    posts: posts,
+                        : posts.isEmpty
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image.asset(
+                                    "assets/images/empty-inbox.png",
+                                    height: 100,
+                                    width: 100,
                                   ),
-                                ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    "No posts availble.\nCreate a new post to get started",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.archivo(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SingleChildScrollView(
+                                    child: SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              56,
+                                      child: Post(
+                                        posts: posts,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
                   ),
                   const VerticalDivider(
                     color: Color(0xffdcdcdc),

@@ -10,23 +10,25 @@ void editProfile(BuildContext context) {
   final Map<String, TextEditingController> profileInfo = {
     "About": TextEditingController(),
     "Degree": TextEditingController(),
-    "Gmail": TextEditingController(),
     "GoogleScholar": TextEditingController(),
-    "Website": TextEditingController(),
     "Research Gate link": TextEditingController(),
-    "Interests": TextEditingController(),
+    "X": TextEditingController(),
+    "Gmail": TextEditingController(),
+    "Github": TextEditingController()
   };
+
+  TextEditingController interestsController = TextEditingController();
 
   final List<double> textFieldConfig = [120, 40, 40, 40, 40, 40, 40];
 
   final List<List<dynamic>> profileIcons = [
     [Image.asset('assets/icons/about.png'), "About"],
     [Image.asset('assets/icons/degree.png'), "Degree"],
-    [Image.asset('assets/icons/mail.png'), "Gmail"],
     [Image.asset('assets/icons/googlescholar_bg.png'), "Google Scholar"],
-    [Image.asset('assets/icons/website.png'), "Website"],
     [Image.asset('assets/icons/researchgate.png'), "Research Gate link"],
-    [Image.asset('assets/icons/interests.png'), "Interests"],
+    [Image.asset('assets/icons/twitter.png'), "X"],
+    [Image.asset('assets/icons/mail.png'), "Gmail"],
+    [Image.asset('assets/icons/github.png'), "GitHub"],
   ];
 
   final List<String> departmentNames = [
@@ -40,7 +42,8 @@ void editProfile(BuildContext context) {
     'Law',
   ];
 
-  String department = 'Computer Applications';
+  // String department = 'Computer Applications';
+  List<String> interests = [];
 
   showDialog(
     context: context,
@@ -136,6 +139,118 @@ void editProfile(BuildContext context) {
                       );
                     },
                   ),
+                  SizedBox(
+                    width: 450,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 240,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 40,
+                                width: 180,
+                                child: TextField(
+                                  textAlign: TextAlign.left,
+                                  style: GoogleFonts.inter(fontSize: 14),
+                                  textAlignVertical: TextAlignVertical.center,
+                                  controller: interestsController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(8),
+                                    hintText: 'Add interests',
+
+                                    filled: true,
+                                    fillColor: Colors.grey[50],
+
+                                    // suffix: IconButton(
+                                    //   icon: const Icon(Icons.add),
+                                    //   onPressed: () {
+                                    //     dialogState(() {
+                                    //       invities.add(
+                                    //           invitesController.text);
+                                    //     });
+                                    //   },
+                                    // ),
+                                    hintStyle: GoogleFonts.archivo(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconButton(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  icon: const Icon(Icons.add),
+                                  onPressed: () {
+                                    dState(() {
+                                      interests.insert(0, interestsController.text);
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                            width: 200,
+                            height: 40,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: interests.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: Container(
+                                    height: 25,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Text(
+                                            interests[index],
+                                            style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          iconSize: 10,
+                                          color: Colors.black,
+                                          icon: const Icon(Icons.close),
+                                          onPressed: () {
+                                            dState(() {
+                                              interests.remove(
+                                                  interestsController.text);
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            )),
+                      ],
+                    ),
+                  ),
                   // SizedBox(
                   //   height: 35,
                   //   width: 450,
@@ -212,25 +327,19 @@ void editProfile(BuildContext context) {
                           "about", profileInfo["About"]!.text);
                       await prefs.setString(
                           "degree", profileInfo["Degree"]!.text);
-                      await prefs.setString(
-                          "website", profileInfo["Website"]!.text);
-                      await prefs.setStringList("interests", []);
-                      await prefs.setString(
-                          "about", profileInfo["About"]!.text);
+                      await prefs.setStringList("interests", interests);
+
                       await FirebaseFirestore.instance
                           .collection("users")
                           .doc(FirebaseAuth.instance.currentUser!.email)
                           .update({
                         "about": profileInfo["About"]!.text,
                         "degree": profileInfo["Degree"]!.text,
-                        // "github": profileInfo["Github"]!.text,
-                        // "email": FirebaseAuth.instance.currentUser!.email,
                         "scholar": profileInfo["GoogleScholar"]!.text,
-                        "website": profileInfo["Website"]!.text,
-                        // "department": departmentController.text,
-                        // "position": positionController.text,
                         "researchgate": profileInfo["Research Gate link"]!.text,
-                        "x": profileInfo["Interests"]!.text,
+                        "x": profileInfo["X"]!.text,
+                        "github": profileInfo["Github"]!.text,
+                        "interests": interests
                       });
                       Navigator.pop(context);
                     },

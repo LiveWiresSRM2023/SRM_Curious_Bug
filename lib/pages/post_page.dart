@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:srm_curious_bug/pages/profile.dart';
 import 'package:srm_curious_bug/utils/constants.dart';
 import 'package:srm_curious_bug/widgets/gantt_chart.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
@@ -247,37 +248,47 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                     .post["op_profile"]))),
                                       ),
                                       const SizedBox(width: 10),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(widget.post["op_name"],
-                                              style: GoogleFonts.archivo(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black))),
-                                          const SizedBox(width: 15),
-                                          Text(
-                                              "${widget.post["position"]} at ${widget.post["department"]}, ${widget.post["college"]}",
-                                              style: GoogleFonts.archivo(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: Colors.grey))),
-                                          Text(
-                                              "● ${DateTime.now().difference(DateTime.parse(widget.post["timestamp"])).inDays}D",
-                                              style: GoogleFonts.archivo(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: Colors.grey))),
-                                        ],
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => Profile(
+                                                      email: widget
+                                                          .post["op_email"])));
+                                        },
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(widget.post["op_name"],
+                                                style: GoogleFonts.archivo(
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black))),
+                                            const SizedBox(width: 15),
+                                            Text(
+                                                "${widget.post["position"]} at ${widget.post["department"]}, ${widget.post["college"]}",
+                                                style: GoogleFonts.archivo(
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: Colors.grey))),
+                                            Text(
+                                                "● ${DateTime.now().difference(DateTime.parse(widget.post["timestamp"])).inDays}D",
+                                                style: GoogleFonts.archivo(
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: Colors.grey))),
+                                          ],
+                                        ),
                                       ),
                                       const Spacer(),
                                       FirebaseAuth.instance.currentUser!
@@ -300,7 +311,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                         .post["post_images"],
                                                     literatureStudy:
                                                         widget.post[
-                                                            "literatureStudy"]);
+                                                            "literatureStudy"],
+                                                    isAnUpdate: true);
                                               },
                                               icon: const Icon(Icons.edit,
                                                   size: 17,
@@ -686,43 +698,60 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                             ),
                                             TextButton(
                                                 onPressed: () async {
-                                                  SharedPreferences prefs =
-                                                      await SharedPreferences
-                                                          .getInstance();
-                                                  Map<String, dynamic>
-                                                      commentData = {
-                                                    "comment":
-                                                        commentController.text,
-                                                    "date": DateTime.now().day,
-                                                    "month":
-                                                        DateTime.now().month,
-                                                    "year": DateTime.now().year,
-                                                    "username": prefs
-                                                        .getString("username"),
-                                                    "imageUrl": prefs
-                                                        .getString("imageUrl"),
-                                                    "bio":
-                                                        "${prefs.getString("position")} at ${prefs.getString("department")}",
-                                                    "isReply": false
-                                                  };
-                                                  FirebaseFirestore.instance
-                                                      .collection("posts")
-                                                      .doc(widget.documentID)
-                                                      .collection("comments")
-                                                      .doc(DateTime.now()
-                                                          .toString())
-                                                      .set(commentData);
-                                                  FirebaseFirestore.instance
-                                                      .collection("posts")
-                                                      .doc(widget.documentID)
-                                                      .update({
-                                                    "n_comments": widget.post[
-                                                            "n_comments"] +
-                                                        1
-                                                  });
-                                                  setState(() {
-                                                    comments.add(commentData);
-                                                  });
+                                                  if (commentController
+                                                      .text.isNotEmpty) {
+                                                    SharedPreferences prefs =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    Map<String, dynamic>
+                                                        commentData = {
+                                                      "comment":
+                                                          commentController
+                                                              .text,
+                                                      "date":
+                                                          DateTime.now().day,
+                                                      "month":
+                                                          DateTime.now().month,
+                                                      "year":
+                                                          DateTime.now().year,
+                                                      "username":
+                                                          prefs.getString(
+                                                              "username"),
+                                                      "imageUrl":
+                                                          prefs.getString(
+                                                              "imageUrl"),
+                                                      "email": FirebaseAuth
+                                                          .instance
+                                                          .currentUser!
+                                                          .email,
+                                                      "bio":
+                                                          "${prefs.getString("position")} at ${prefs.getString("department")}",
+                                                      "isReply": false
+                                                    };
+                                                    FirebaseFirestore.instance
+                                                        .collection("posts")
+                                                        .doc(widget.documentID)
+                                                        .collection("comments")
+                                                        .doc(DateTime.now()
+                                                            .toString())
+                                                        .set(commentData);
+                                                    FirebaseFirestore.instance
+                                                        .collection("posts")
+                                                        .doc(widget.documentID)
+                                                        .update({
+                                                      "n_comments": widget.post[
+                                                              "n_comments"] +
+                                                          1
+                                                    });
+                                                    setState(() {
+                                                      widget.post[
+                                                          "n_comments"] = widget
+                                                                  .post[
+                                                              "n_comments"] +
+                                                          1;
+                                                      comments.add(commentData);
+                                                    });
+                                                  }
                                                 },
                                                 style: ButtonStyle(
                                                     backgroundColor:
@@ -842,7 +871,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                         InkWell(
                                                                           onTap:
                                                                               () {
-                                                                            //TODO: go to profile screen
+                                                                            Navigator.push(context,
+                                                                                MaterialPageRoute(builder: (context) => Profile(email: comments[index]["email"])));
                                                                           },
                                                                           child:
                                                                               Text(
@@ -1654,7 +1684,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                   decoration:
                                                                       InputDecoration(
                                                                     hintText:
-                                                                        'Enter title here..',
+                                                                        'Enter meeting name',
                                                                     border:
                                                                         OutlineInputBorder(
                                                                       borderRadius:
@@ -1699,7 +1729,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                   decoration:
                                                                       InputDecoration(
                                                                     hintText:
-                                                                        'Summarie the purpose of the meet',
+                                                                        'Description of the meeting',
                                                                     border:
                                                                         OutlineInputBorder(
                                                                       borderRadius:
@@ -2529,6 +2559,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                       widget.post[
                                                               "collaborator_req"]
                                                           .add(inviteDetails);
+                                                      invited = true;
                                                     });
                                                   },
                                                   style: ButtonStyle(

@@ -19,26 +19,31 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   String name = '';
   String about = '';
+  String email = '';
   // String position = '';
   // String degree = '';
   // String department = '';
   // String website = '';
   List activity = [];
   bool showMore = false;
-  List interets = [];
+  List interests = [];
   Map profileInto = {};
 
   void loadProfileDetails() async {
+    print(widget.email);
     if (widget.email == null) {
+      print("has no email");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       name = prefs.getString("name")!;
       about = prefs.getString("about")!;
-      interets = prefs.getStringList("interests")!;
+      interests = prefs.getStringList("interests")!;
+      email = FirebaseAuth.instance.currentUser!.email!;
       profileInto["Position"] = prefs.getString("position");
       profileInto["Degree"] = prefs.getString("degree");
       profileInto["Department"] = prefs.getString("department");
-      profileInto["Website"] = prefs.getString("website");
+      // profileInto["Website"] = prefs.getString("website");
     } else {
+      print("has email");
       await FirebaseFirestore.instance
           .collection("users")
           .doc(widget.email)
@@ -46,11 +51,12 @@ class _ProfileState extends State<Profile> {
           .then((doc) {
         name = doc.get("name");
         about = doc.get("about");
-        interets = doc.get("interests");
+        interests = doc.get("interests");
+        email = doc.get("email");
         profileInto["Position"] = doc.get("position");
         profileInto["Degree"] = doc.get("degree");
         profileInto["Department"] = doc.get("department");
-        profileInto["Website"] = doc.get("website");
+        // profileInto["Website"] = doc.get("website");
       });
     }
     setState(() {});
@@ -88,17 +94,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> texts = [
-      'NLP',
-      'Differential equations',
-      'DSP',
-      'Machine Learning',
-      'AI',
-      'Flutter',
-      'React',
-      'Python',
-    ];
-
     Map<String, List> userProfiles = {
       "Alex Job A": ["UI/UX Designer", "assets/images/pfp.jpg"],
       "Roshan SK": ["Software Developer", "assets/images/pfp.jpg"],
@@ -616,7 +611,7 @@ class _ProfileState extends State<Profile> {
                                           trimExpandedText: ' Show less',
                                           style: GoogleFonts.inter(
                                               textStyle: const TextStyle(
-                                            fontSize: 11,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.normal,
                                             color: Colors.black,
                                           ))),
@@ -657,7 +652,8 @@ class _ProfileState extends State<Profile> {
                                             const Spacer(),
                                             TextButton(
                                               onPressed: () {
-                                                postDialog(context);
+                                                postDialog(context,
+                                                    isAnUpdate: false);
                                               },
                                               style: ButtonStyle(
                                                   backgroundColor:
@@ -880,7 +876,7 @@ class _ProfileState extends State<Profile> {
                                                                   textStyle:
                                                                       const TextStyle(
                                                                     fontSize:
-                                                                        13,
+                                                                        14,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
@@ -902,7 +898,7 @@ class _ProfileState extends State<Profile> {
                                                                     textStyle:
                                                                         const TextStyle(
                                                                       fontSize:
-                                                                          12,
+                                                                          13,
                                                                       color: Colors
                                                                           .black,
                                                                     ),
@@ -992,7 +988,7 @@ class _ProfileState extends State<Profile> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(2.0),
-                                          child: Text("User ID : ",
+                                          child: Text("Email ID : ",
                                               style: GoogleFonts.inter(
                                                   textStyle: const TextStyle(
                                                 fontSize: 14,
@@ -1002,8 +998,7 @@ class _ProfileState extends State<Profile> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(2.0),
-                                          child: Text(
-                                              "www.srmcuriousbees.in/alex_job",
+                                          child: Text(email,
                                               style: GoogleFonts.inter(
                                                   textStyle: const TextStyle(
                                                 fontSize: 12,
@@ -1231,50 +1226,79 @@ class _ProfileState extends State<Profile> {
                                                       .size
                                                       .height *
                                                   0.25,
-                                              child: GridView.builder(
-                                                gridDelegate:
-                                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 2,
-                                                  crossAxisSpacing: 2,
-                                                  mainAxisSpacing: 2,
-                                                  childAspectRatio: 5,
-                                                ),
-                                                itemCount: texts.length,
-                                                itemBuilder: (context, index) {
-                                                  return Container(
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.transparent,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
-                                                      border: Border.all(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary,
-                                                      ),
-                                                    ),
-                                                    child: Center(
+                                              child: interests.isEmpty
+                                                  ? Center(
                                                       child: Text(
-                                                        texts[index],
+                                                        "Display your interests.\nTap on Edit Profile to add.",
                                                         textAlign:
                                                             TextAlign.center,
                                                         style:
-                                                            GoogleFonts.inter(
-                                                          textStyle: TextStyle(
+                                                            GoogleFonts.archivo(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary,
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                    )
+                                                  : GridView.builder(
+                                                      gridDelegate:
+                                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                                        crossAxisCount: 2,
+                                                        crossAxisSpacing: 2,
+                                                        mainAxisSpacing: 2,
+                                                        childAspectRatio: 5,
+                                                      ),
+                                                      itemCount:
+                                                          interests.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return Container(
+                                                          decoration:
+                                                              BoxDecoration(
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .secondary,
-                                                            fontSize: 12.0,
-                                                            fontWeight:
-                                                                FontWeight.w400,
+                                                                .primary,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
                                                           ),
-                                                        ),
-                                                      ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              interests[index],
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: GoogleFonts
+                                                                  .inter(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                textStyle:
+                                                                    TextStyle(
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .secondary,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
                                                     ),
-                                                  );
-                                                },
-                                              ),
                                             ))
                                       ],
                                     ),

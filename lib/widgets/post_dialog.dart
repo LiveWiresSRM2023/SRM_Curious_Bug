@@ -23,16 +23,18 @@ postDialog(BuildContext context,
     String? abstractData,
     List? collaborator,
     List? mediaUrl,
-    String? literatureStudy}) {
+    String? literatureStudy,
+    required bool isAnUpdate}) {
   TextEditingController titleController = TextEditingController();
   TextEditingController abstractController = TextEditingController();
-  TextEditingController invitesController = TextEditingController();
+  // TextEditingController invitesController = TextEditingController();
   TextEditingController topicsController = TextEditingController();
   TextEditingController durationController = TextEditingController();
   TextEditingController literatureStudyController = TextEditingController();
   // ignore: unused_local_variable
   TextEditingController collaboratorController = TextEditingController();
-  List invities = [];
+  // List invities = [];
+  List topics = [];
   List images = [];
   List<String> mediaUrl = [];
   bool collaborationSwitch = false;
@@ -43,7 +45,7 @@ postDialog(BuildContext context,
       literatureStudy != null) {
     titleController.text = title!;
     abstractController.text = abstractData!;
-    invities = collaborator!;
+    // invities = collaborator!;
     literatureStudyController.text = literatureStudy!;
   }
   bool showError = false;
@@ -315,7 +317,7 @@ postDialog(BuildContext context,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Invite",
+                                  "Topics",
                                   style: GoogleFonts.archivo(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -323,134 +325,135 @@ postDialog(BuildContext context,
                                   ),
                                 ),
                                 const SizedBox(height: 5),
-                                // Row(
-                                //   children: [
-                                //     SizedBox(
-                                //       width: 280,
-                                //       child: Row(
-                                //         children: [
-                                //           SizedBox(
-                                //             height: 40,
-                                //             width: 180,
-                                //             child: TextField(
-                                //               textAlign: TextAlign.left,
-                                //               style: GoogleFonts.inter(
-                                //                   fontSize: 14),
-                                //               textAlignVertical:
-                                //                   TextAlignVertical.center,
-                                //               controller: invitesController,
-                                //               decoration: InputDecoration(
-                                //                 contentPadding:
-                                //                     const EdgeInsets.all(8),
-                                //                 hintText: 'Add collaborator',
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 280,
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 40,
+                                            width: 180,
+                                            child: TextField(
+                                              textAlign: TextAlign.left,
+                                              style: GoogleFonts.inter(
+                                                  fontSize: 14),
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              controller: topicsController,
+                                              decoration: InputDecoration(
+                                                contentPadding:
+                                                    const EdgeInsets.all(8),
+                                                hintText: 'Add topics',
 
-                                //                 filled: true,
-                                //                 fillColor: Colors.grey[50],
+                                                filled: true,
+                                                fillColor: Colors.grey[50],
 
-                                //                 // suffix: IconButton(
-                                //                 //   icon: const Icon(Icons.add),
-                                //                 //   onPressed: () {
-                                //                 //     dialogState(() {
-                                //                 //       invities.add(
-                                //                 //           invitesController.text);
-                                //                 //     });
-                                //                 //   },
-                                //                 // ),
-                                //                 hintStyle: GoogleFonts.archivo(
-                                //                   fontSize: 12,
-                                //                   color: Colors.black,
-                                //                 ),
-                                //                 border: OutlineInputBorder(
-                                //                   borderSide: BorderSide(
-                                //                     color: Theme.of(context)
-                                //                         .colorScheme
-                                //                         .primary,
-                                //                     width: 1,
-                                //                   ),
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //           ),
-                                //           Padding(
-                                //             padding: const EdgeInsets.all(8.0),
-                                //             child: IconButton(
-                                //               color: Theme.of(context)
-                                //                   .colorScheme
-                                //                   .primary,
-                                //               icon: const Icon(Icons.add),
-                                //               onPressed: () {
-                                //                 dialogState(() {
-                                //                   invities.add(
-                                //                       {
-                                //                         "email": invitesController.text,
-                                //                       });
-                                //                 });
-                                //               },
-                                //             ),
-                                //           ),
-                                //         ],
-                                //       ),
-                                //     ),
-                                //     SizedBox(
-                                //         width:
-                                //             (MediaQuery.of(context).size.width *
-                                //                     0.25) -
-                                //                 10,
-                                //         height: 40,
-                                //         child: ListView.builder(
-                                //           scrollDirection: Axis.horizontal,
-                                //           itemCount: invities.length,
-                                //           shrinkWrap: true,
-                                //           itemBuilder: (context, index) {
-                                //             return Padding(
-                                //               padding:
-                                //                   const EdgeInsets.all(1.0),
-                                //               child: Container(
-                                //                 height: 25,
-                                //                 alignment: Alignment.center,
-                                //                 decoration: BoxDecoration(
-                                //                     borderRadius:
-                                //                         BorderRadius.circular(
-                                //                             15),
-                                //                     color: Theme.of(context)
-                                //                         .colorScheme
-                                //                         .primary),
-                                //                 child: Row(
-                                //                   children: [
-                                //                     Padding(
-                                //                       padding:
-                                //                           const EdgeInsets.all(
-                                //                               5.0),
-                                //                       child: Text(
-                                //                         invities[index],
-                                //                         style:
-                                //                             GoogleFonts.inter(
-                                //                                 fontSize: 12,
-                                //                                 color: Colors
-                                //                                     .black),
-                                //                       ),
-                                //                     ),
-                                //                     IconButton(
-                                //                       iconSize: 10,
-                                //                       color: Colors.black,
-                                //                       icon: const Icon(
-                                //                           Icons.close),
-                                //                       onPressed: () {
-                                //                         dialogState(() {
-                                //                           invities.remove(
-                                //                               invitesController
-                                //                                   .text);
-                                //                         });
-                                //                       },
-                                //                     ),
-                                //                   ],
-                                //                 ),
-                                //               ),
-                                //             );
-                                //           },
-                                //         )),
-                                //   ],
-                                // ),
+                                                // suffix: IconButton(
+                                                //   icon: const Icon(Icons.add),
+                                                //   onPressed: () {
+                                                //     dialogState(() {
+                                                //       invities.add(
+                                                //           invitesController.text);
+                                                //     });
+                                                //   },
+                                                // ),
+                                                hintStyle: GoogleFonts.archivo(
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: IconButton(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              icon: const Icon(Icons.add),
+                                              onPressed: () {
+                                                dialogState(() {
+                                                  topics.add(
+                                                      topicsController.text);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            (MediaQuery.of(context).size.width *
+                                                    0.25) -
+                                                10,
+                                        height: 40,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: topics.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(1.0),
+                                              child: Container(
+                                                height: 25,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5.0),
+                                                      child: Text(
+                                                        topics[index],
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black),
+                                                      ),
+                                                    ),
+                                                    IconButton(
+                                                      iconSize: 10,
+                                                      color: Colors.black,
+                                                      icon: const Icon(
+                                                          Icons.close),
+                                                      onPressed: () {
+                                                        dialogState(() {
+                                                          topics.remove(
+                                                              topicsController
+                                                                  .text);
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        )),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -519,98 +522,151 @@ postDialog(BuildContext context,
                               child: TextButton(
                                 onPressed: () async {
                                   String id = const Uuid().v4();
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
                                   Map<String, dynamic> storeData = {
-                                      "department":
-                                          prefs.getString("department"),
-                                      "college": prefs.getString("college"),
-                                      "position": prefs.getString("position"),
-                                      "title": titleController.text,
-                                      "collaborator": invities,
-                                      "collaborator_req": [],
-                                      "meetingDetails": "",
-                                      "meetingLink": "",
-                                      "upvote": "0",
-                                      "post": abstractController.text,
-                                      "timestamp": DateTime.now().toString(),
-                                      "op_name": FirebaseAuth
-                                          .instance.currentUser!.displayName,
-                                      "n_comments": 0,
-                                      "hashtags": [
-                                        "legaltech",
-                                        "python",
-                                        "nlp"
-                                      ],
-                                      "op_email": FirebaseAuth
-                                          .instance.currentUser!.email,
-                                      "op_profile": FirebaseAuth
-                                          .instance.currentUser!.photoURL,
-                                      // "comments": "/collection/{docID}",
-                                      "post_images": mediaUrl,
-                                      "duration": durationController.text,
-                                      "expertise": [
-                                        "Python",
-                                        "Natural Language Processing (NLP)"
-                                      ]
-                                    };
-                                  if (images.isEmpty) {
-                                    FirebaseFirestore.instance
-                                        .collection("posts")
-                                        .doc(id)
-                                        .set(storeData);
-                                    // await getAllPosts();
-                                    dialogState(() {
-                                      // posts.insert(0,storeData);
-                                      Navigator.pop(context);
-                                    });
+                                    "department": prefs.getString("department"),
+                                    "college": prefs.getString("college"),
+                                    "position": prefs.getString("position"),
+                                    "title": titleController.text,
+                                    "collaborator": [], //invites
+                                    "collaborator_req": [],
+                                    "meetingDetails": "",
+                                    "meetingLink": "",
+                                    "upvote": 0,
+                                    "literatureStudy":
+                                        literatureStudyController.text,
+                                    "post": abstractController.text,
+                                    "timestamp": DateTime.now().toString(),
+                                    "op_name": FirebaseAuth
+                                        .instance.currentUser!.displayName,
+                                    "n_comments": 0,
+                                    "hashtags": topics,
+                                    "op_email": FirebaseAuth
+                                        .instance.currentUser!.email,
+                                    "op_profile": FirebaseAuth
+                                        .instance.currentUser!.photoURL,
+                                    "post_images": mediaUrl,
+                                    "duration": durationController.text,
+                                    "expertise": []
+                                  };
 
-                                    // upload to qdrant
-                                    http.Response res = await http
-                                        .post(Uri.parse("$url/post"),
-                                            headers: headers,
-                                            body: jsonEncode({
-                                              "user_id": FirebaseAuth
-                                                  .instance.currentUser!.uid
-                                                  .toString(),
-                                              "type": "post",
-                                              "content":
-                                                  "${titleController.text}\n${abstractController.text}",
-                                              "id": id
-                                            }))
-                                        .onError((e, s) {
-                                      print(e);
-                                      throw "Error on sendin request to QDrant";
-                                    });
-                                    print(res.body);
-                                    Navigator.pop(context);
-                                  } else {
-                                    if (mediaUploaded) {
+                                  if (isAnUpdate) {
+                                    if (images.isEmpty) {
                                       FirebaseFirestore.instance
-                                        .collection("posts")
-                                        .doc(id)
-                                        .set(storeData);
-                                    // upload to qdrant
-                                    http.Response res = await http
-                                        .post(Uri.parse("$url/post"),
-                                            headers: headers,
-                                            body: jsonEncode({
-                                              "user_id": FirebaseAuth
-                                                  .instance.currentUser!.uid
-                                                  .toString(),
-                                              "type": "post",
-                                              "content":
-                                                  "${titleController.text}\n${abstractController.text}",
-                                              "id": id
-                                            }))
-                                        .onError((e, s) {
-                                      print(e);
-                                      throw "Error on sendin request to QDrant";
-                                    }).whenComplete(() {
+                                          .collection("posts")
+                                          .doc(id)
+                                          .update(storeData);
+                                      // await getAllPosts();
+                                      dialogState(() {
+                                        // posts.insert(0,storeData);
+                                        Navigator.pop(context);
+                                      });
+
+                                      // upload to qdrant
+                                      // http.Response res = await http
+                                      //     .post(Uri.parse("$url/post"),
+                                      //         headers: headers,
+                                      //         body: jsonEncode({
+                                      //           "user_id": FirebaseAuth
+                                      //               .instance.currentUser!.uid
+                                      //               .toString(),
+                                      //           "type": "post",
+                                      //           "content":
+                                      //               "${titleController.text}\n${abstractController.text}",
+                                      //           "id": id
+                                      //         }))
+                                      //     .onError((e, s) {
+                                      //   print(e);
+                                      //   throw "Error on sendin request to QDrant";
+                                      // });
+                                      // print(res.body);
                                       Navigator.pop(context);
-                                    });
+                                    } else {
+                                      if (mediaUploaded) {
+                                        FirebaseFirestore.instance
+                                            .collection("posts")
+                                            .doc(id)
+                                            .update(storeData);
+                                        // upload to qdrant
+                                        // http.Response res = await http
+                                        //     .post(Uri.parse("$url/post"),
+                                        //         headers: headers,
+                                        //         body: jsonEncode({
+                                        //           "user_id": FirebaseAuth
+                                        //               .instance.currentUser!.uid
+                                        //               .toString(),
+                                        //           "type": "post",
+                                        //           "content":
+                                        //               "${titleController.text}\n${abstractController.text}",
+                                        //           "id": id
+                                        //         }))
+                                        //     .onError((e, s) {
+                                        //   print(e);
+                                        //   throw "Error on sendin request to QDrant";
+                                        // });
+                                      }
+                                      Navigator.pop(context);
                                     }
-                                    // dialogState(() => showError = true);
+                                  } else {
+                                    if (images.isEmpty) {
+                                      FirebaseFirestore.instance
+                                          .collection("posts")
+                                          .doc(id)
+                                          .set(storeData);
+                                      // await getAllPosts();
+                                      dialogState(() {
+                                        // posts.insert(0,storeData);
+                                        Navigator.pop(context);
+                                      });
+
+                                      // upload to qdrant
+                                      http.Response res = await http
+                                          .post(Uri.parse("$url/post"),
+                                              headers: headers,
+                                              body: jsonEncode({
+                                                "user_id": FirebaseAuth
+                                                    .instance.currentUser!.uid
+                                                    .toString(),
+                                                "type": "post",
+                                                "content":
+                                                    "${titleController.text}\n${abstractController.text}",
+                                                "id": id
+                                              }))
+                                          .onError((e, s) {
+                                        print(e);
+                                        throw "Error on sendin request to QDrant";
+                                      });
+                                      print(res.body);
+                                      Navigator.pop(context);
+                                    } else {
+                                      if (mediaUploaded) {
+                                        FirebaseFirestore.instance
+                                            .collection("posts")
+                                            .doc(id)
+                                            .set(storeData);
+                                        // upload to qdrant
+                                        http.Response res = await http
+                                            .post(Uri.parse("$url/post"),
+                                                headers: headers,
+                                                body: jsonEncode({
+                                                  "user_id": FirebaseAuth
+                                                      .instance.currentUser!.uid
+                                                      .toString(),
+                                                  "type": "post",
+                                                  "content":
+                                                      "${titleController.text}\n${abstractController.text}",
+                                                  "id": id
+                                                }))
+                                            .onError((e, s) {
+                                          print(e);
+                                          throw "Error on sendin request to QDrant";
+                                        }).whenComplete(() {
+                                          Navigator.pop(context);
+                                        });
+                                      }
+                                      // dialogState(() => showError = true);
+                                    }
                                   }
                                 },
                                 style: ButtonStyle(
