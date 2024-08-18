@@ -1,9 +1,6 @@
-// ignore_for_file: avoid_print
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -167,6 +164,49 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
     setState(() {});
   }
 
+  searchInPosts(List documentIds) async {
+    setState(() {
+      searching = true;
+      loadingPosts = true;
+    });
+    posts = [];
+    await FirebaseFirestore.instance
+        .collection("posts")
+        .where(FieldPath.documentId, whereIn: documentIds)
+        .get()
+        .then((QuerySnapshot docs) {
+      for (var doc in docs.docs) {
+        posts.add({
+          "id": doc.id,
+          "collaborator": doc.get("collaborator"),
+          "collaborator_req": doc.get("collaborator_req"),
+          "duration": doc.get("duration"),
+          "expertise": doc.get("expertise"),
+          "hashtags": doc.get("hashtags"),
+          "meetingDetails": doc.get("meetingDetails"),
+          "meetingLink": doc.get("meetingLink"),
+          "n_comments": doc.get("n_comments"),
+          "op_email": doc.get("op_email"),
+          "op_name": doc.get("op_name"),
+          "op_profile": doc.get("op_profile"),
+          "post": doc.get("post"),
+          "post_images": doc.get("post_images"),
+          "timestamp": doc.get("timestamp"),
+          "literatureStudy": doc.get("literatureStudy"),
+          "department": doc.get("department"),
+          "college": doc.get("college"),
+          "position": doc.get("position"),
+          "title": doc.get("title"),
+          "upvote": doc.get("upvote")
+        });
+      }
+    });
+    setState(() {
+      searching = false;
+      loadingPosts = false;
+    });
+  }
+
   @override
   void initState() {
     getAllPosts();
@@ -260,35 +300,44 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
                     // ),
                     IconButton(
                         onPressed: () async {
-                          http.Response res = await http
-                              .post(Uri.parse("$url/post"),
-                                  headers: {
-                                    "Access-Control-Allow-Origin": "*",
-                                    'Content-Type': 'application/json',
-                                    'Accept': '*/*'
-                                  },
-                                  body: jsonEncode({
-                                    "user_id": "123",
-                                    "type": "search",
-                                    "content": searchController.text.toString(),
-                                    "id": "123"
-                                  }))
-                              .onError((e, s) {
-                            print(e);
-                            throw "Error on querying request to QDrant";
-                          });
-                          print(res.body);
-                          if (jsonDecode(res.body)["msg"] ==
-                              "There was an error") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.red,
-                                    content: Text(
-                                        "There was an error, Please try again later")));
-                          } else {}
+                          if (searching) {
+                            await getAllPosts();
+                          } else {
+                            http.Response res = await http
+                                .post(Uri.parse("$url/post"),
+                                    headers: {
+                                      "Access-Control-Allow-Origin": "*",
+                                      'Content-Type': 'application/json',
+                                      'Accept': '*/*'
+                                    },
+                                    body: jsonEncode({
+                                      "user_id": "123",
+                                      "type": "search",
+                                      "content":
+                                          searchController.text.toString(),
+                                      "id": "123"
+                                    }))
+                                .onError((e, s) {
+                              print(e);
+                              throw "Error on querying request to QDrant";
+                            });
+                            print(res.body);
+                            if (jsonDecode(res.body)["msg"] ==
+                                "There was an error") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                          "There was an error, Please try again later")));
+                            } else {
+                              Map docs = jsonDecode(res.body);
+                              await searchInPosts(docs.keys.toList());
+                              // searchInPosts(res.body["id"] as List);
+                            }
+                          }
                         },
                         icon: Icon(
-                          Icons.search,
+                          searching ? Icons.close : Icons.search,
                           color: Theme.of(context).colorScheme.primary,
                         ))
                   ],
