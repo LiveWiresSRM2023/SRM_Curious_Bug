@@ -714,9 +714,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                           DateTime.now().month,
                                                       "year":
                                                           DateTime.now().year,
-                                                      "username":
-                                                          prefs.getString(
-                                                              "name"),
+                                                      "username": prefs
+                                                          .getString("name"),
                                                       "imageUrl":
                                                           prefs.getString(
                                                               "userImage"),
@@ -2159,11 +2158,6 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                           height: 10,
                                         ),
                                         SizedBox(
-                                          // height: 300,
-                                          // decoration: BoxDecoration(
-                                          //     color: Colors.grey.shade200,
-                                          //     borderRadius:
-                                          //         BorderRadius.circular(15)),
                                           child: Column(children: [
                                             const SizedBox(height: 15),
                                             Container(
@@ -2303,9 +2297,9 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                                             color:
                                                                                 Theme.of(context).colorScheme.primary),
                                                                         onPressed:
-                                                                            () {
-                                                                          acceptInvite(
-                                                                              index);
+                                                                            () async {
+                                                                          await launchUrl(
+                                                                              Uri.parse("mailto:${collaborators[index]["email"]}"));
                                                                         },
                                                                       ),
                                                                     );

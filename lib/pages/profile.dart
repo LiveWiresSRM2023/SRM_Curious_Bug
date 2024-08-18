@@ -30,9 +30,9 @@ class _ProfileState extends State<Profile> {
   String x = '';
   String github = '';
   List activity = [];
-  bool showMore = false;
   List interests = [];
   List peopleWhoYouMayKnow = [];
+  bool loadingPeopleYouMayKnow = true;
   // Map profileInto = {};
 
   List contactImages = [
@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
     "assets/icons/github.png",
   ];
 
-  void loadProfileDetails() async {
+  loadProfileDetails() async {
     if (widget.email == null) {
       print("has no email");
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -130,7 +130,9 @@ class _ProfileState extends State<Profile> {
         }
       }
     });
-    setState(() {});
+    setState(() {
+      loadingPeopleYouMayKnow = false;
+    });
   }
 
   @override
@@ -347,154 +349,155 @@ class _ProfileState extends State<Profile> {
                                                   thickness: 2,
                                                 ),
                                                 Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: List.generate(
-                                                            contactImages
-                                                                .length,
-                                                            (index) => Padding(
-                                                                  padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          4.0),
-                                                                  child:
-                                                                      InkWell(
-                                                                    onTap:
-                                                                        () async {
-                                                                      String
-                                                                          url =
-                                                                          googleScholar;
-                                                                      if (index ==
-                                                                          0) {
-                                                                        url =
-                                                                            googleScholar;
-                                                                      } else if (index ==
-                                                                          1) {
-                                                                        url =
-                                                                            researchGate;
-                                                                      } else if (index ==
-                                                                          2) {
-                                                                        url = x;
-                                                                      } else if (index ==
-                                                                          3) {
-                                                                        url =
-                                                                            github;
-                                                                      }
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: List.generate(
+                                                      contactImages.length,
+                                                      (index) => Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        4.0),
+                                                            child: InkWell(
+                                                              onTap: () async {
+                                                                String url =
+                                                                    googleScholar;
+                                                                if (index ==
+                                                                    0) {
+                                                                  url =
+                                                                      googleScholar;
+                                                                } else if (index ==
+                                                                    1) {
+                                                                  url =
+                                                                      researchGate;
+                                                                } else if (index ==
+                                                                    2) {
+                                                                  url = x;
+                                                                } else if (index ==
+                                                                    3) {
+                                                                  url = github;
+                                                                }
 
-                                                                      if (await canLaunchUrl(
-                                                                          Uri.parse(
-                                                                              url))) {
-                                                                        await launchUrl(
-                                                                            Uri.parse(url));
-                                                                      } else {
-                                                                        ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(const SnackBar(
-                                                                          content:
-                                                                              Text("Cannot open link"),
-                                                                          backgroundColor:
-                                                                              Colors.red,
-                                                                        ));
-                                                                      }
-                                                                    },
-                                                                    child: Image
-                                                                        .asset(
-                                                                      contactImages[
-                                                                          index],
-                                                                      height:
-                                                                          30,
-                                                                      width: 30,
-                                                                    ),
-                                                                  ),
-                                                                )),
-                                                      ),
+                                                                if (await canLaunchUrl(
+                                                                    Uri.parse(
+                                                                        url))) {
+                                                                  await launchUrl(
+                                                                      Uri.parse(
+                                                                          url));
+                                                                } else {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                          const SnackBar(
+                                                                    content: Text(
+                                                                        "Cannot open link"),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .red,
+                                                                  ));
+                                                                }
+                                                              },
+                                                              child:
+                                                                  Image.asset(
+                                                                contactImages[
+                                                                    index],
+                                                                height: 30,
+                                                                width: 30,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                ),
                                                 const SizedBox(
                                                   height: 20,
                                                 ),
-                                                widget.email == null
-                                                    ? Row(
-                                                  children: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        editProfile(context);
-                                                        loadProfileDetails();
-                                                      },
-                                                      style: ButtonStyle(
-                                                          backgroundColor:
-                                                              WidgetStateProperty
-                                                                  .all(Colors
-                                                                      .black),
-                                                          shape: WidgetStateProperty.all(
-                                                              RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10))),
-                                                          fixedSize:
-                                                              WidgetStateProperty
-                                                                  .all(
-                                                                      const Size(
-                                                                          100,
-                                                                          30))),
-                                                      child: Text(
-                                                        "Edit Profile",
-                                                        style:
-                                                            GoogleFonts.inter(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () async {
-                                                        await FirebaseAuth
+                                                FirebaseAuth
                                                             .instance
-                                                            .signOut()
-                                                            .whenComplete(() {
-                                                          Navigator
-                                                              .pushReplacementNamed(
-                                                                  context,
-                                                                  '/auth');
-                                                        });
-                                                      },
-                                                      style: ButtonStyle(
-                                                          backgroundColor:
-                                                              WidgetStateProperty
-                                                                  .all(Colors
-                                                                      .red),
-                                                          shape: WidgetStateProperty.all(
-                                                              RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10))),
-                                                          fixedSize:
-                                                              WidgetStateProperty
-                                                                  .all(
-                                                                      const Size(
-                                                                          100,
-                                                                          30))),
-                                                      child: Text(
-                                                        "Logout",
-                                                        style:
-                                                            GoogleFonts.inter(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ) : const SizedBox(),
+                                                            .currentUser!
+                                                            .email! ==
+                                                        email
+                                                    ? Row(
+                                                        children: [
+                                                          TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              editProfile(
+                                                                  context);
+                                                              await loadProfileDetails();
+                                                              setState(() {});
+                                                            },
+                                                            style: ButtonStyle(
+                                                                backgroundColor:
+                                                                    WidgetStateProperty
+                                                                        .all(Colors
+                                                                            .black),
+                                                                shape: WidgetStateProperty.all(
+                                                                    RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10))),
+                                                                fixedSize:
+                                                                    WidgetStateProperty.all(
+                                                                        const Size(
+                                                                            100,
+                                                                            30))),
+                                                            child: Text(
+                                                              "Edit Profile",
+                                                              style: GoogleFonts.inter(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await FirebaseAuth
+                                                                  .instance
+                                                                  .signOut()
+                                                                  .whenComplete(
+                                                                      () {
+                                                                Navigator
+                                                                    .pushReplacementNamed(
+                                                                        context,
+                                                                        '/auth');
+                                                              });
+                                                            },
+                                                            style: ButtonStyle(
+                                                                backgroundColor:
+                                                                    WidgetStateProperty
+                                                                        .all(Colors
+                                                                            .red),
+                                                                shape: WidgetStateProperty.all(
+                                                                    RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10))),
+                                                                fixedSize:
+                                                                    WidgetStateProperty.all(
+                                                                        const Size(
+                                                                            100,
+                                                                            30))),
+                                                            child: Text(
+                                                              "Logout",
+                                                              style: GoogleFonts.inter(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : const SizedBox(),
                                               ],
                                             )
                                           ],
@@ -1193,170 +1196,156 @@ class _ProfileState extends State<Profile> {
                                               ))),
                                         ),
                                         const SizedBox(height: 2),
-                                        SizedBox(
-                                          height: 400,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: ListView.builder(
-                                              itemCount:
-                                                  peopleWhoYouMayKnow.length,
-                                              itemBuilder: (context, index) {
-                                                return InkWell(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    Profile(
-                                                                      email: peopleWhoYouMayKnow[
-                                                                              index]
-                                                                          [
-                                                                          "email"],
-                                                                    )));
-                                                  },
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 4.0,
-                                                            bottom: 4,
-                                                            right: 8),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Padding(
+                                        loadingPeopleYouMayKnow
+                                            ? const Center(
+                                                child:
+                                                    CircularProgressIndicator())
+                                            : peopleWhoYouMayKnow.isEmpty
+                                                ? Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .people_alt_rounded,
+                                                        color: Colors.green,
+                                                        size: 80,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      Text(
+                                                        "No suggestions as now",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            GoogleFonts.archivo(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary,
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      )
+                                                    ],
+                                                  )
+                                                : SizedBox(
+                                                    height: 200,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: ListView.separated(
+                                                        itemCount:
+                                                            peopleWhoYouMayKnow
+                                                                .length,
+                                                        separatorBuilder:
+                                                            (context, index) {
+                                                          return const Divider(
+                                                            color: Colors.grey,
+                                                          );
+                                                        },
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return InkWell(
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          Profile(
+                                                                            email: peopleWhoYouMayKnow[index]["email"],
+                                                                          )));
+                                                            },
+                                                            child: Padding(
                                                               padding:
                                                                   const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: CircleAvatar(
-                                                                  backgroundColor:
-                                                                      const Color
-                                                                          .fromARGB(
-                                                                          255,
-                                                                          11,
+                                                                      .only(
+                                                                      top:
+                                                                          4.0,
+                                                                      bottom:
                                                                           4,
-                                                                          4),
-                                                                  radius: 20,
-                                                                  backgroundImage:
-                                                                      NetworkImage(
-                                                                          peopleWhoYouMayKnow[index]
-                                                                              [
-                                                                              "userImage"])),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Column(
+                                                                      right:
+                                                                          8),
+                                                              child: Row(
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
-                                                                        .center,
+                                                                        .start,
                                                                 children: [
-                                                                  SizedBox(
-                                                                    width: 340,
-                                                                    child: Text(
-                                                                      peopleWhoYouMayKnow[
-                                                                              index]
-                                                                          [
-                                                                          "name"],
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: GoogleFonts
-                                                                          .inter(
-                                                                        textStyle:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              14.0,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                    ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .all(
+                                                                        8.0),
+                                                                    child: CircleAvatar(
+                                                                        backgroundColor: const Color
+                                                                            .fromARGB(
+                                                                            255,
+                                                                            11,
+                                                                            4,
+                                                                            4),
+                                                                        radius:
+                                                                            20,
+                                                                        backgroundImage:
+                                                                            NetworkImage(peopleWhoYouMayKnow[index]["userImage"])),
                                                                   ),
-                                                                  Text(
-                                                                    peopleWhoYouMayKnow[
-                                                                            index]
-                                                                        ["bio"],
-                                                                    style: GoogleFonts
-                                                                        .inter(
-                                                                      textStyle:
-                                                                          const TextStyle(
-                                                                        fontSize:
-                                                                            12.0,
-                                                                        fontWeight:
-                                                                            FontWeight.normal,
+                                                                  SizedBox(
+                                                                    width:
+                                                                        230,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .all(
+                                                                          8.0),
+                                                                      child:
+                                                                          Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: [
+                                                                          Text(
+                                                                            peopleWhoYouMayKnow[index]["name"],
+                                                                            overflow: TextOverflow.ellipsis,
+                                                                            style: GoogleFonts.inter(
+                                                                              textStyle: const TextStyle(
+                                                                                fontSize: 14.0,
+                                                                                fontWeight: FontWeight.bold,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            peopleWhoYouMayKnow[index]["bio"],
+                                                                            overflow: TextOverflow.ellipsis,
+                                                                            style: GoogleFonts.inter(
+                                                                              textStyle: const TextStyle(
+                                                                                fontSize: 12.0,
+                                                                                fontWeight: FontWeight.normal,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
                                                                     ),
                                                                   ),
                                                                 ],
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
-                                                        const Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 2,
-                                                                  bottom: 2,
-                                                                  right: 8.0,
-                                                                  left: 8),
-                                                          child: Divider(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    231,
-                                                                    228,
-                                                                    228),
-                                                          ),
-                                                        ),
-                                                      ],
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
                                                   ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              showMore = !showMore;
-                                            });
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Center(
-                                              child: Text(
-                                                  showMore
-                                                      ? 'Show Less'
-                                                      : 'Show More',
-                                                  style: GoogleFonts.inter(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      143,
-                                                                      142,
-                                                                      142),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold))),
-                                            ),
-                                          ),
-                                        )
                                       ],
                                     ),
                                   )),
@@ -1405,7 +1394,7 @@ class _ProfileState extends State<Profile> {
                                                                         context)
                                                                     .colorScheme
                                                                     .primary,
-                                                                fontSize: 13,
+                                                                fontSize: 15,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold),
