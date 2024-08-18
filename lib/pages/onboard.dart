@@ -13,14 +13,28 @@ class OnBoard extends StatefulWidget {
 
 class _OnBoardState extends State<OnBoard> {
   TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController collegeController = TextEditingController();
-  TextEditingController departmentController = TextEditingController();
   TextEditingController degreeController = TextEditingController();
   TextEditingController positionController = TextEditingController();
   TextEditingController websiteController = TextEditingController();
 
   bool isChecked = false;
+  String department = "Computer Applications";
+  List<String> departmentNames = [
+    "Computer Applications",
+    "Computer Science",
+    "Biochemistry",
+    "Biotechnology",
+    "Chemistry",
+    "Commerce",
+    "Economics",
+    "Mathematics",
+    "Mathematics and Statistics",
+    "Visual Communications",
+    "CDC",
+  ];
+
+  String college = "Science";
+  List<String> collegeNames = ["Science", "Humanities", "Business", "Law"];
 
   @override
   void initState() {
@@ -32,9 +46,6 @@ class _OnBoardState extends State<OnBoard> {
   @override
   void dispose() {
     firstNameController.dispose();
-    lastNameController.dispose();
-    collegeController.dispose();
-    departmentController.dispose();
     degreeController.dispose();
     positionController.dispose();
     super.dispose();
@@ -50,17 +61,6 @@ class _OnBoardState extends State<OnBoard> {
   void setData() {
     firstNameController.text =
         FirebaseAuth.instance.currentUser!.displayName ?? '';
-  }
-
-  Future<void> saveToPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-        "username", FirebaseAuth.instance.currentUser!.displayName ?? '');
-    await prefs.setString(
-        "imageUrl", FirebaseAuth.instance.currentUser!.photoURL ?? '');
-    await prefs.setBool("onboard", true);
-    // TODO: add user to users collection in firebase
-    checkOnboard();
   }
 
   Widget buildTextField({
@@ -81,10 +81,10 @@ class _OnBoardState extends State<OnBoard> {
                   color: Colors.black),
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 5),
           Container(
-            width: MediaQuery.of(context).size.width * 0.3,
-            height: MediaQuery.of(context).size.width * 0.032,
+            width: MediaQuery.of(context).size.width * 0.4,
+            height: 50,
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -100,10 +100,17 @@ class _OnBoardState extends State<OnBoard> {
                 controller: controller,
                 textAlign: TextAlign.justify,
                 textAlignVertical: TextAlignVertical.top,
-                decoration: const InputDecoration(
-                  fillColor: Colors.white,
+                decoration: InputDecoration(
+                  fillColor: Colors.grey.shade300,
                   filled: true,
-                  border: InputBorder.none,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
                 ),
                 autofocus: true,
                 style: TextStyle(
@@ -129,11 +136,12 @@ class _OnBoardState extends State<OnBoard> {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.09,
-                width: MediaQuery.of(context).size.width * 0.09,
+                height: 100,
+                width: 100,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/logo.png"),
@@ -142,17 +150,155 @@ class _OnBoardState extends State<OnBoard> {
               ),
               buildTextField(
                   controller: firstNameController, labelText: "First Name"),
-              buildTextField(
-                  controller: lastNameController, labelText: "Last Name"),
-              buildTextField(
-                  controller: collegeController, labelText: "College"),
-              buildTextField(
-                  controller: departmentController, labelText: "Department"),
               buildTextField(controller: degreeController, labelText: "Degree"),
               buildTextField(
                   controller: positionController, labelText: "Position"),
-              // buildTextField(
-              //     controller: websiteController, labelText: "Website"),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "College",
+                      style: GoogleFonts.inter(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.grey.shade300,
+                ),
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: 50,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    borderRadius: BorderRadius.circular(5),
+                    focusColor: Colors.grey.shade300,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(left: 205),
+                      child: Icon(Icons.arrow_drop_down,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: GoogleFonts.inter(
+                        textStyle: const TextStyle(color: Colors.black)),
+                    dropdownColor: Colors.white,
+                    hint: Text(
+                      'Select College',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    value: college, // Initially selected value or null
+                    onChanged: (String? newValue) {
+                      setState(() => college = newValue!);
+                    },
+                    items: collegeNames.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            value,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Department",
+                      style: GoogleFonts.inter(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.grey.shade300,
+                ),
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: 50,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    borderRadius: BorderRadius.circular(5),
+                    focusColor: Colors.grey.shade300,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(left: 205),
+                      child: Icon(Icons.arrow_drop_down,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: GoogleFonts.inter(
+                        textStyle: const TextStyle(color: Colors.black)),
+                    dropdownColor: Colors.white,
+                    hint: Text(
+                      'Select Department',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    value: department, // Initially selected value or null
+                    onChanged: (String? newValue) {
+                      setState(() => department = newValue!);
+                    },
+                    items: departmentNames.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            value,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -179,26 +325,23 @@ class _OnBoardState extends State<OnBoard> {
                 onPressed: () async {
                   if (isChecked &&
                       firstNameController.text.isNotEmpty &&
-                      lastNameController.text.isNotEmpty &&
-                      collegeController.text.isNotEmpty &&
-                      departmentController.text.isNotEmpty &&
                       degreeController.text.isNotEmpty &&
                       positionController.text.isNotEmpty) {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
+
                     await prefs.setString("name",
                         FirebaseAuth.instance.currentUser!.displayName!);
                     await prefs.setString("imageUrl",
                         FirebaseAuth.instance.currentUser!.photoURL!);
-                    await prefs.setString(
-                        "department", departmentController.text);
-                    await prefs.setString("degree", departmentController.text);
+                    await prefs.setString("department", department);
+                    await prefs.setString("degree", degreeController.text);
                     // await prefs.setString("website", websiteController.text);
-                    await prefs.setString("college", collegeController.text);
+                    await prefs.setString("college", college);
                     await prefs.setString("position", positionController.text);
                     await prefs.setStringList("interests", []);
                     await prefs.setString("about",
-                        "${positionController.text} at ${departmentController.text}, ${collegeController.text}");
+                        "${positionController.text} at $department, $college");
                     await prefs.setBool("onboard", true);
                     try {
                       await FirebaseFirestore.instance
@@ -207,12 +350,13 @@ class _OnBoardState extends State<OnBoard> {
                           .set({
                         "name": FirebaseAuth.instance.currentUser!.displayName,
                         "about":
-                            "${positionController.text} at ${departmentController.text}, ${collegeController.text}",
-                        "scholar": "",
-                        "department": departmentController.text,
+                            "${positionController.text} at $department, $college",
+                        "college": college,
+                        "department": department,
                         "position": positionController.text,
                         "website": websiteController.text,
                         "degree": degreeController.text,
+                        "scholar": "",
                         "researchgate": "",
                         "x": "",
                         "email": FirebaseAuth.instance.currentUser!.email,

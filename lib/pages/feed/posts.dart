@@ -199,17 +199,17 @@ class _PostState extends State<Post> {
                             ),
                           ),
                           Text(widget.posts[index]["n_comments"].toString()),
-                          const SizedBox(
-                            width: 100,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Icon(
-                              Icons.ios_share,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                          const Text("Share")
+                          // const SizedBox(
+                          //   width: 100,
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(2.0),
+                          //   child: Icon(
+                          //     Icons.ios_share,
+                          //     color: Theme.of(context).colorScheme.primary,
+                          //   ),
+                          // ),
+                          // const Text("Share")
                         ],
                       ),
                     )

@@ -69,7 +69,7 @@ void editProfile(BuildContext context) {
                         Text(
                           "Edit Your Profile here",
                           textAlign: TextAlign.left,
-                          style: GoogleFonts.archivo(
+                          style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                             color: Theme.of(context).colorScheme.primary,
@@ -160,7 +160,7 @@ void editProfile(BuildContext context) {
                                     hintText: 'Add interests',
 
                                     filled: true,
-                                    fillColor: Colors.grey[50],
+                                    fillColor: Colors.grey.shade300,
 
                                     // suffix: IconButton(
                                     //   icon: const Icon(Icons.add),
@@ -183,6 +183,16 @@ void editProfile(BuildContext context) {
                                         width: 1,
                                       ),
                                     ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.transparent),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.transparent),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -193,7 +203,8 @@ void editProfile(BuildContext context) {
                                   icon: const Icon(Icons.add),
                                   onPressed: () {
                                     dState(() {
-                                      interests.insert(0, interestsController.text);
+                                      interests.insert(
+                                          0, interestsController.text);
                                     });
                                   },
                                 ),
@@ -355,7 +366,7 @@ void editProfile(BuildContext context) {
                       child: Center(
                         child: Text(
                           "Save",
-                          style: GoogleFonts.archivo(
+                          style: GoogleFonts.inter(
                             textStyle: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,

@@ -445,19 +445,19 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                         ),
                                         Text(widget.post["n_comments"]
                                             .toString()),
-                                        const SizedBox(
-                                          width: 100,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: Icon(
-                                            Icons.ios_share,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
-                                        ),
-                                        const Text("Share")
+                                        // const SizedBox(
+                                        //   width: 100,
+                                        // ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.all(2.0),
+                                        //   child: Icon(
+                                        //     Icons.ios_share,
+                                        //     color: Theme.of(context)
+                                        //         .colorScheme
+                                        //         .primary,
+                                        //   ),
+                                        // ),
+                                        // const Text("Share")
                                       ],
                                     ),
                                   ),
