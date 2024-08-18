@@ -16,6 +16,10 @@ class _OnBoardState extends State<OnBoard> {
   TextEditingController degreeController = TextEditingController();
   TextEditingController positionController = TextEditingController();
   TextEditingController websiteController = TextEditingController();
+  TextEditingController googleScholarController = TextEditingController();
+  TextEditingController researchGateController = TextEditingController();
+  TextEditingController xController = TextEditingController();
+  TextEditingController githubController = TextEditingController();
 
   bool isChecked = false;
   String department = "Computer Applications";
@@ -63,10 +67,10 @@ class _OnBoardState extends State<OnBoard> {
         FirebaseAuth.instance.currentUser!.displayName ?? '';
   }
 
-  Widget buildTextField({
-    required TextEditingController controller,
-    required String labelText,
-  }) {
+  Widget buildTextField(
+      {required TextEditingController controller,
+      required String labelText,
+      String? hintText}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -103,6 +107,8 @@ class _OnBoardState extends State<OnBoard> {
                 decoration: InputDecoration(
                   fillColor: Colors.grey.shade300,
                   filled: true,
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: Colors.grey),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(5.0),
@@ -139,20 +145,22 @@ class _OnBoardState extends State<OnBoard> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                height: 100,
-                width: 100,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/logo.png"),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey.shade100,
+                    image: const DecorationImage(
+                      image: AssetImage("assets/images/logo.png"),
+                    ),
                   ),
                 ),
               ),
               buildTextField(
-                  controller: firstNameController, labelText: "First Name"),
-              buildTextField(controller: degreeController, labelText: "Degree"),
-              buildTextField(
-                  controller: positionController, labelText: "Position"),
+                  controller: firstNameController, labelText: "Name"),
               const SizedBox(
                 height: 8,
               ),
@@ -299,6 +307,31 @@ class _OnBoardState extends State<OnBoard> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 8,
+              ),
+              buildTextField(
+                hintText: "PhD in Computer Science",
+                controller: degreeController, labelText: "Degree"),
+              buildTextField(
+                hintText: "Professor",
+                  controller: positionController, labelText: "Position"),
+              buildTextField(
+                  hintText: "https://www.googlescholar.com",
+                  controller: googleScholarController,
+                  labelText: "Google Scholar"),
+              buildTextField(
+                  hintText: "https://www.researchgate.com",
+                  controller: researchGateController,
+                  labelText: "ResearchGate"),
+              buildTextField(
+                  hintText: "https://www.x.com",
+                  controller: xController,
+                  labelText: "X"),
+              buildTextField(
+                  hintText: "https://www.github.com/LiveWiresSRM2023",
+                  controller: githubController,
+                  labelText: "GitHub"),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -332,16 +365,23 @@ class _OnBoardState extends State<OnBoard> {
 
                     await prefs.setString("name",
                         FirebaseAuth.instance.currentUser!.displayName!);
-                    await prefs.setString("imageUrl",
-                        FirebaseAuth.instance.currentUser!.photoURL!);
+                    // await prefs.setString("imageUrl",
+                    //     FirebaseAuth.instance.currentUser!.photoURL!);
                     await prefs.setString("department", department);
                     await prefs.setString("degree", degreeController.text);
-                    // await prefs.setString("website", websiteController.text);
+                    await prefs.setString(
+                        "researchgate", researchGateController.text);
+                    await prefs.setString("github", githubController.text);
+                    await prefs.setString(
+                        "scholar", googleScholarController.text);
+                    await prefs.setString("x", xController.text);
                     await prefs.setString("college", college);
                     await prefs.setString("position", positionController.text);
                     await prefs.setStringList("interests", []);
                     await prefs.setString("about",
                         "${positionController.text} at $department, $college");
+                    await prefs.setString("userImage",
+                        FirebaseAuth.instance.currentUser!.photoURL!);
                     await prefs.setBool("onboard", true);
                     try {
                       await FirebaseFirestore.instance
@@ -351,16 +391,18 @@ class _OnBoardState extends State<OnBoard> {
                         "name": FirebaseAuth.instance.currentUser!.displayName,
                         "about":
                             "${positionController.text} at $department, $college",
+                        "userImage":
+                            FirebaseAuth.instance.currentUser!.photoURL!,
                         "college": college,
                         "department": department,
                         "position": positionController.text,
                         "website": websiteController.text,
                         "degree": degreeController.text,
-                        "scholar": "",
-                        "researchgate": "",
-                        "x": "",
+                        "scholar": googleScholarController.text,
+                        "researchgate": researchGateController.text,
+                        "x": xController.text,
                         "email": FirebaseAuth.instance.currentUser!.email,
-                        "github": "",
+                        "github": githubController.text,
                         "interests": []
                       }).whenComplete(() {
                         checkOnboard();

@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/pages/post_page.dart';
 import 'package:srm_curious_bug/widgets/editProfile.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   final String? email;
@@ -18,48 +19,71 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   String name = '';
+  String photoUrl = '';
   String about = '';
   String email = '';
-  // String position = '';
-  // String degree = '';
-  // String department = '';
-  // String website = '';
+  String position = '';
+  String degree = '';
+  String department = '';
+  String googleScholar = '';
+  String researchGate = '';
+  String x = '';
+  String github = '';
   List activity = [];
   bool showMore = false;
   List interests = [];
-  Map profileInto = {};
+  List peopleWhoYouMayKnow = [];
+  // Map profileInto = {};
+
+  List contactImages = [
+    "assets/icons/googlescholar.png",
+    "assets/icons/researchgate.png",
+    "assets/icons/twitter.png",
+    "assets/icons/github.png",
+  ];
 
   void loadProfileDetails() async {
-    print(widget.email);
     if (widget.email == null) {
       print("has no email");
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      name = prefs.getString("name")!;
-      about = prefs.getString("about")!;
-      interests = prefs.getStringList("interests")!;
-      email = FirebaseAuth.instance.currentUser!.email!;
-      profileInto["Position"] = prefs.getString("position");
-      profileInto["Degree"] = prefs.getString("degree");
-      profileInto["Department"] = prefs.getString("department");
+      setState(() {
+        name = prefs.getString("name")!;
+        photoUrl = prefs.getString("userImage")!;
+        about = prefs.getString("about")!;
+        interests = prefs.getStringList("interests")!;
+        googleScholar = prefs.getString("scholar")!;
+        github = prefs.getString("github")!;
+        researchGate = prefs.getString("researchgate")!;
+        x = prefs.getString("x")!;
+        email = FirebaseAuth.instance.currentUser!.email!;
+        position = prefs.getString("position")!;
+        degree = prefs.getString("degree")!;
+        department = prefs.getString("department")!;
+      });
       // profileInto["Website"] = prefs.getString("website");
     } else {
-      print("has email");
+      print("has email ${widget.email}");
       await FirebaseFirestore.instance
           .collection("users")
           .doc(widget.email)
           .get()
           .then((doc) {
-        name = doc.get("name");
-        about = doc.get("about");
-        interests = doc.get("interests");
-        email = doc.get("email");
-        profileInto["Position"] = doc.get("position");
-        profileInto["Degree"] = doc.get("degree");
-        profileInto["Department"] = doc.get("department");
-        // profileInto["Website"] = doc.get("website");
+        setState(() {
+          name = doc.get("name");
+          photoUrl = doc.get("userImage");
+          about = doc.get("about");
+          interests = doc.get("interests");
+          email = doc.get("email");
+          github = doc.get("github");
+          googleScholar = doc.get("scholar");
+          researchGate = doc.get("researchgate");
+          x = doc.get("x");
+          position = doc.get("position");
+          degree = doc.get("degree");
+          department = doc.get("department");
+        });
       });
     }
-    setState(() {});
   }
 
   void loadActivityFromDB() async {
@@ -67,7 +91,8 @@ class _ProfileState extends State<Profile> {
     await FirebaseFirestore.instance
         .collection("posts")
         .where("op_email",
-            isEqualTo: FirebaseAuth.instance.currentUser!.email.toString())
+            isEqualTo:
+                widget.email ?? FirebaseAuth.instance.currentUser!.email!)
         .limit(5)
         .get()
         .then((docs) {
@@ -83,40 +108,41 @@ class _ProfileState extends State<Profile> {
       }
     });
     setState(() {});
+    loadPeopleWhoYouMayKnow();
+  }
+
+  loadPeopleWhoYouMayKnow() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .where("department", isEqualTo: department)
+        .limit(5)
+        .get()
+        .then((docs) {
+      for (var doc in docs.docs) {
+        if (email != doc.get("email")) {
+          peopleWhoYouMayKnow.add({
+            "name": doc.get("name"),
+            "userImage": doc.get("userImage"),
+            "email": doc.get("email"),
+            "bio":
+                "${doc.get("position")} at ${doc.get("department")}, ${doc.get("college")}"
+          });
+        }
+      }
+    });
+    setState(() {});
   }
 
   @override
   void initState() {
     loadProfileDetails();
     loadActivityFromDB();
+    // loadPeopleWhoYouMayKnow();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, List> userProfiles = {
-      "Alex Job A": ["UI/UX Designer", "assets/images/pfp.jpg"],
-      "Roshan SK": ["Software Developer", "assets/images/pfp.jpg"],
-      "Sudharshan": ["UI/UX Developer", "assets/images/pfp.jpg"],
-      "Abin": ["Data Scientist", "assets/images/pfp.jpg"],
-    };
-
-    // List contactImages = [
-    //   "assets/icons/googlescholar.png",
-    //   "assets/icons/researchgate.png",
-    //   "assets/icons/twitter.png",
-    //   "assets/icons/gmail.png",
-    //   "assets/icons/github.png",
-    // ];
-
-    Map contactImages = {
-      "assets/icons/googlescholar.png": "www.google.com",
-      "assets/icons/researchgate.png": "www.google.com",
-      "assets/icons/twitter.png": "www.google.com",
-      "assets/icons/gmail.png": "www.google.com",
-      "assets/icons/github.png": "www.google.com",
-    };
-
     return Scaffold(
       // appBar: appBar(context),
       backgroundColor: const Color.fromARGB(255, 223, 218, 218),
@@ -174,10 +200,7 @@ class _ProfileState extends State<Profile> {
                                                       image: DecorationImage(
                                                           fit: BoxFit.fill,
                                                           image: NetworkImage(
-                                                              FirebaseAuth
-                                                                  .instance
-                                                                  .currentUser!
-                                                                  .photoURL!))),
+                                                              photoUrl))),
                                                 ),
                                                 const SizedBox(
                                                   height: 10,
@@ -188,10 +211,7 @@ class _ProfileState extends State<Profile> {
                                                   child: SizedBox(
                                                     // width: 160,
                                                     child: Text(
-                                                      FirebaseAuth
-                                                          .instance
-                                                          .currentUser!
-                                                          .displayName!,
+                                                      name,
                                                       style: GoogleFonts.inter(
                                                           color:
                                                               Theme.of(context)
@@ -204,7 +224,7 @@ class _ProfileState extends State<Profile> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  "${profileInto["Position"]} at ${profileInto["Department"]}",
+                                                  "$position at $department",
                                                   style: GoogleFonts.inter(
                                                       color: Theme.of(context)
                                                           .colorScheme
@@ -236,109 +256,245 @@ class _ProfileState extends State<Profile> {
                                                   thickness: 1,
                                                 ),
                                                 Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: List.generate(
-                                                      profileInto.length,
-                                                      (index) => Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    bottom:
-                                                                        4.0),
-                                                            child: RichText(
-                                                                text: TextSpan(
-                                                                    children: [
-                                                                  TextSpan(
-                                                                      text:
-                                                                          "${profileInto.keys.toList()[index]} : ",
-                                                                      style: GoogleFonts.inter(
-                                                                          color: Colors
-                                                                              .black,
-                                                                          fontSize:
-                                                                              15,
-                                                                          fontWeight:
-                                                                              FontWeight.bold)),
-                                                                  TextSpan(
-                                                                      text:
-                                                                          "${profileInto.values.toList()[index]}",
-                                                                      style: GoogleFonts
-                                                                          .inter(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize:
-                                                                            15,
-                                                                        // fontWeight: FontWeight.bold
-                                                                      )),
-                                                                ])),
-                                                          )),
-                                                ),
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      RichText(
+                                                          text: TextSpan(
+                                                              children: [
+                                                            TextSpan(
+                                                                text:
+                                                                    "Department: ",
+                                                                style: GoogleFonts.inter(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                            TextSpan(
+                                                                text:
+                                                                    department,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 15,
+                                                                  // fontWeight: FontWeight.bold
+                                                                )),
+                                                          ])),
+                                                      RichText(
+                                                          text: TextSpan(
+                                                              children: [
+                                                            TextSpan(
+                                                                text:
+                                                                    "Position: ",
+                                                                style: GoogleFonts.inter(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                            TextSpan(
+                                                                text: position,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 15,
+                                                                  // fontWeight: FontWeight.bold
+                                                                )),
+                                                          ])),
+                                                      RichText(
+                                                          text: TextSpan(
+                                                              children: [
+                                                            TextSpan(
+                                                                text:
+                                                                    "Degree: ",
+                                                                style: GoogleFonts.inter(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                            TextSpan(
+                                                                text: degree,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 15,
+                                                                  // fontWeight: FontWeight.bold
+                                                                )),
+                                                          ])),
+                                                    ]),
                                                 const Divider(
                                                   color: Colors.black,
                                                   thickness: 2,
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: List.generate(
-                                                      contactImages.length,
-                                                      (index) => Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        4.0),
-                                                            child: InkWell(
-                                                              onTap: () {},
-                                                              child:
-                                                                  Image.asset(
-                                                                contactImages
-                                                                        .keys
-                                                                        .toList()[
-                                                                    index],
-                                                                height: 30,
-                                                                width: 30,
-                                                              ),
-                                                            ),
-                                                          )),
-                                                ),
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: List.generate(
+                                                            contactImages
+                                                                .length,
+                                                            (index) => Padding(
+                                                                  padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          4.0),
+                                                                  child:
+                                                                      InkWell(
+                                                                    onTap:
+                                                                        () async {
+                                                                      String
+                                                                          url =
+                                                                          googleScholar;
+                                                                      if (index ==
+                                                                          0) {
+                                                                        url =
+                                                                            googleScholar;
+                                                                      } else if (index ==
+                                                                          1) {
+                                                                        url =
+                                                                            researchGate;
+                                                                      } else if (index ==
+                                                                          2) {
+                                                                        url = x;
+                                                                      } else if (index ==
+                                                                          3) {
+                                                                        url =
+                                                                            github;
+                                                                      }
+
+                                                                      if (await canLaunchUrl(
+                                                                          Uri.parse(
+                                                                              url))) {
+                                                                        await launchUrl(
+                                                                            Uri.parse(url));
+                                                                      } else {
+                                                                        ScaffoldMessenger.of(context)
+                                                                            .showSnackBar(const SnackBar(
+                                                                          content:
+                                                                              Text("Cannot open link"),
+                                                                          backgroundColor:
+                                                                              Colors.red,
+                                                                        ));
+                                                                      }
+                                                                    },
+                                                                    child: Image
+                                                                        .asset(
+                                                                      contactImages[
+                                                                          index],
+                                                                      height:
+                                                                          30,
+                                                                      width: 30,
+                                                                    ),
+                                                                  ),
+                                                                )),
+                                                      ),
                                                 const SizedBox(
                                                   height: 20,
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    editProfile(context);
-                                                    loadProfileDetails();
-                                                  },
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          WidgetStateProperty
-                                                              .all(
-                                                                  Colors.black),
-                                                      shape: WidgetStateProperty.all(
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10))),
-                                                      fixedSize:
-                                                          WidgetStateProperty
-                                                              .all(const Size(
-                                                                  100, 30))),
-                                                  child: Text(
-                                                    "Edit Profile",
-                                                    style: GoogleFonts.inter(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
+                                                widget.email == null
+                                                    ? Row(
+                                                  children: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        editProfile(context);
+                                                        loadProfileDetails();
+                                                      },
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              WidgetStateProperty
+                                                                  .all(Colors
+                                                                      .black),
+                                                          shape: WidgetStateProperty.all(
+                                                              RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10))),
+                                                          fixedSize:
+                                                              WidgetStateProperty
+                                                                  .all(
+                                                                      const Size(
+                                                                          100,
+                                                                          30))),
+                                                      child: Text(
+                                                        "Edit Profile",
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        await FirebaseAuth
+                                                            .instance
+                                                            .signOut()
+                                                            .whenComplete(() {
+                                                          Navigator
+                                                              .pushReplacementNamed(
+                                                                  context,
+                                                                  '/auth');
+                                                        });
+                                                      },
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              WidgetStateProperty
+                                                                  .all(Colors
+                                                                      .red),
+                                                          shape: WidgetStateProperty.all(
+                                                              RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10))),
+                                                          fixedSize:
+                                                              WidgetStateProperty
+                                                                  .all(
+                                                                      const Size(
+                                                                          100,
+                                                                          30))),
+                                                      child: Text(
+                                                        "Logout",
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ) : const SizedBox(),
                                               ],
                                             )
                                           ],
@@ -1038,123 +1194,134 @@ class _ProfileState extends State<Profile> {
                                         ),
                                         const SizedBox(height: 2),
                                         SizedBox(
-                                          height: showMore
-                                              ? MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.65
-                                              : MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.49,
+                                          height: 400,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: ListView.builder(
-                                              itemCount: userProfiles.length,
+                                              itemCount:
+                                                  peopleWhoYouMayKnow.length,
                                               itemBuilder: (context, index) {
-                                                String text1 = userProfiles.keys
-                                                    .elementAt(index);
-                                                String text2 = userProfiles
-                                                    .values
-                                                    .elementAt(index)[0];
-                                                String img = userProfiles.values
-                                                    .elementAt(index)[1];
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 4.0,
-                                                          bottom: 4,
-                                                          right: 8),
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: CircleAvatar(
-                                                                backgroundColor:
-                                                                    const Color
-                                                                        .fromARGB(
-                                                                        255,
-                                                                        11,
-                                                                        4,
-                                                                        4),
-                                                                radius: 20,
-                                                                backgroundImage:
-                                                                    AssetImage(
-                                                                        img)),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Text(
-                                                                  text1,
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .inter(
-                                                                    textStyle:
-                                                                        const TextStyle(
-                                                                      fontSize:
-                                                                          14.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  text2,
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .inter(
-                                                                    textStyle:
-                                                                        const TextStyle(
-                                                                      fontSize:
-                                                                          12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                return InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    Profile(
+                                                                      email: peopleWhoYouMayKnow[
+                                                                              index]
+                                                                          [
+                                                                          "email"],
+                                                                    )));
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 4.0,
+                                                            bottom: 4,
+                                                            right: 8),
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: CircleAvatar(
+                                                                  backgroundColor:
+                                                                      const Color
+                                                                          .fromARGB(
+                                                                          255,
+                                                                          11,
+                                                                          4,
+                                                                          4),
+                                                                  radius: 20,
+                                                                  backgroundImage:
+                                                                      NetworkImage(
+                                                                          peopleWhoYouMayKnow[index]
+                                                                              [
+                                                                              "userImage"])),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 2,
-                                                                bottom: 2,
-                                                                right: 8.0,
-                                                                left: 8),
-                                                        child: Divider(
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              231,
-                                                              228,
-                                                              228),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: 340,
+                                                                    child: Text(
+                                                                      peopleWhoYouMayKnow[
+                                                                              index]
+                                                                          [
+                                                                          "name"],
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: GoogleFonts
+                                                                          .inter(
+                                                                        textStyle:
+                                                                            const TextStyle(
+                                                                          fontSize:
+                                                                              14.0,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    peopleWhoYouMayKnow[
+                                                                            index]
+                                                                        ["bio"],
+                                                                    style: GoogleFonts
+                                                                        .inter(
+                                                                      textStyle:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            12.0,
+                                                                        fontWeight:
+                                                                            FontWeight.normal,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ),
-                                                    ],
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 2,
+                                                                  bottom: 2,
+                                                                  right: 8.0,
+                                                                  left: 8),
+                                                          child: Divider(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    231,
+                                                                    228,
+                                                                    228),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 );
                                               },

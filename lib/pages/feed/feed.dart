@@ -75,6 +75,7 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
     });
 
     setState(() {
+      searching = false;
       loadingPosts = false;
     });
   }
@@ -202,7 +203,6 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
       }
     });
     setState(() {
-      searching = false;
       loadingPosts = false;
     });
   }

@@ -683,7 +683,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                         border:
                                                             InputBorder.none,
                                                         hintText:
-                                                            'Add a comment...',
+                                                            'Add a comment',
                                                         hintStyle: TextStyle(
                                                             color: Colors.grey),
                                                       ),
@@ -716,16 +716,16 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                           DateTime.now().year,
                                                       "username":
                                                           prefs.getString(
-                                                              "username"),
+                                                              "name"),
                                                       "imageUrl":
                                                           prefs.getString(
-                                                              "imageUrl"),
+                                                              "userImage"),
                                                       "email": FirebaseAuth
                                                           .instance
                                                           .currentUser!
                                                           .email,
                                                       "bio":
-                                                          "${prefs.getString("position")} at ${prefs.getString("department")}",
+                                                          "${prefs.getString("position")} at ${prefs.getString("department")}, ${prefs.getString("college")}",
                                                       "isReply": false
                                                     };
                                                     FirebaseFirestore.instance
