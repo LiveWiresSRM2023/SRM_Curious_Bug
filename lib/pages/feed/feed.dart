@@ -440,15 +440,15 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
                                 AssetImage assetImage = el[txt]!;
                                 return GestureDetector(
                                   onTap: () async {
+                                    setState(() {
+                                      selectedIndex = index;
+                                    });
                                     if (index == 0) {
                                       await getAllPosts();
                                     } else {
                                       await queryCollegeInPosts(
                                           el.keys.toList()[index]);
                                     }
-                                    setState(() {
-                                      selectedIndex = index;
-                                    });
                                   },
                                   child: Container(
                                     width: MediaQuery.of(context).size.width *

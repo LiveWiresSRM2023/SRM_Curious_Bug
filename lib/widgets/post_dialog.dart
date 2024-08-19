@@ -50,6 +50,7 @@ postDialog(BuildContext context,
   }
   bool showError = false;
   bool mediaUploaded = false;
+  bool posting = false;
 
   return showDialog(
       context: context,
@@ -521,6 +522,7 @@ postDialog(BuildContext context,
                               padding: const EdgeInsets.all(2.0),
                               child: TextButton(
                                 onPressed: () async {
+                                  dialogState(() => posting = true);
                                   String id = const Uuid().v4();
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
@@ -553,15 +555,13 @@ postDialog(BuildContext context,
 
                                   if (isAnUpdate) {
                                     if (images.isEmpty) {
-                                      FirebaseFirestore.instance
+                                      await FirebaseFirestore.instance
                                           .collection("posts")
                                           .doc(id)
                                           .update(storeData);
                                       // await getAllPosts();
-                                      dialogState(() {
-                                        // posts.insert(0,storeData);
-                                        Navigator.pop(context);
-                                      });
+                                      dialogState(() => posting = false);
+                                      Navigator.pop(context);
 
                                       // upload to qdrant
                                       // http.Response res = await http
@@ -581,10 +581,9 @@ postDialog(BuildContext context,
                                       //   throw "Error on sendin request to QDrant";
                                       // });
                                       // print(res.body);
-                                      Navigator.pop(context);
                                     } else {
                                       if (mediaUploaded) {
-                                        FirebaseFirestore.instance
+                                        await FirebaseFirestore.instance
                                             .collection("posts")
                                             .doc(id)
                                             .update(storeData);
@@ -606,19 +605,16 @@ postDialog(BuildContext context,
                                         //   throw "Error on sendin request to QDrant";
                                         // });
                                       }
+                                      dialogState(() => posting = false);
                                       Navigator.pop(context);
                                     }
                                   } else {
                                     if (images.isEmpty) {
-                                      FirebaseFirestore.instance
+                                      await FirebaseFirestore.instance
                                           .collection("posts")
                                           .doc(id)
                                           .set(storeData);
                                       // await getAllPosts();
-                                      dialogState(() {
-                                        // posts.insert(0,storeData);
-                                        Navigator.pop(context);
-                                      });
 
                                       // upload to qdrant
                                       http.Response res = await http
@@ -637,11 +633,12 @@ postDialog(BuildContext context,
                                         print(e);
                                         throw "Error on sendin request to QDrant";
                                       });
-                                      print(res.body);
+                                      debugPrint(res.body);
+                                      dialogState(() => posting = false);
                                       Navigator.pop(context);
                                     } else {
                                       if (mediaUploaded) {
-                                        FirebaseFirestore.instance
+                                        await FirebaseFirestore.instance
                                             .collection("posts")
                                             .doc(id)
                                             .set(storeData);
@@ -661,9 +658,9 @@ postDialog(BuildContext context,
                                             .onError((e, s) {
                                           print(e);
                                           throw "Error on sendin request to QDrant";
-                                        }).whenComplete(() {
-                                          Navigator.pop(context);
                                         });
+                                        dialogState(() => posting = false);
+                                        Navigator.pop(context);
                                       }
                                       // dialogState(() => showError = true);
                                     }
@@ -681,13 +678,18 @@ postDialog(BuildContext context,
                                             borderRadius:
                                                 BorderRadius.circular(10))),
                                     fixedSize: WidgetStateProperty.all(
-                                        const Size(100, 30))),
-                                child: Text(
-                                  "Submit",
-                                  style: GoogleFonts.inter(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                        const Size(100, 40))),
+                                child: posting
+                                    ? const SizedBox(
+                                        height: 35,
+                                        width: 35,
+                                        child: CircularProgressIndicator())
+                                    : Text(
+                                        "Submit",
+                                        style: GoogleFonts.inter(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                               ),
                             ),
                           ),

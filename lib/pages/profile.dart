@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/pages/post_page.dart';
+import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/editProfile.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -146,7 +147,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: appBar(context),
+      appBar: appBar(context),
       backgroundColor: const Color.fromARGB(255, 223, 218, 218),
       body: SingleChildScrollView(
         child: Column(

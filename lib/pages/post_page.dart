@@ -13,6 +13,7 @@ import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srm_curious_bug/pages/profile.dart';
 import 'package:srm_curious_bug/utils/constants.dart';
+import 'package:srm_curious_bug/widgets/appbar.dart';
 import 'package:srm_curious_bug/widgets/gantt_chart.dart';
 import 'package:srm_curious_bug/widgets/post_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -192,7 +193,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
     TabController tabController = TabController(length: 2, vsync: this);
 
     return Scaffold(
-      // appBar: appBar(context),
+      appBar: appBar(context),
       backgroundColor: const Color(0xffF7F9FA),
       body: SafeArea(
         child: Column(
