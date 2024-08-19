@@ -967,7 +967,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                       ),
                       FirebaseAuth.instance.currentUser!.email ==
                                   widget.post["op_email"] ||
-                              widget.post["collaborator"].contains(
+                              List<Map>.from(widget.post["collaborator"]).any((e) => e["email"] ==
                                   FirebaseAuth.instance.currentUser!.email)
                           ? Padding(
                               padding: const EdgeInsets.only(
