@@ -27,9 +27,11 @@ class _EventsState extends State<Events> {
     await FirebaseFirestore.instance.collection("events").get().then((value) {
       events.addAll(value.docs);
     });
+    if (mounted) {
     setState(() {
       eventsLoaded = true;
     });
+    }
   }
 
   @override

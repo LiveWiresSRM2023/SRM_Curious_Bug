@@ -116,10 +116,11 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
         });
       }
     });
-
-    setState(() {
-      loadingPosts = false;
-    });
+    if (mounted) {
+      setState(() {
+        loadingPosts = false;
+      });
+    }
   }
 
   int selectedIndex = 0;
@@ -162,7 +163,9 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
         });
       }
     });
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   searchInPosts(List documentIds) async {
@@ -202,9 +205,11 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
         });
       }
     });
-    setState(() {
-      loadingPosts = false;
-    });
+    if (mounted) {
+      setState(() {
+        loadingPosts = false;
+      });
+    }
   }
 
   @override
