@@ -316,9 +316,139 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                                                     isAnUpdate: true);
                                               },
                                               icon: const Icon(Icons.edit,
-                                                  size: 17,
+                                                  size: 25,
                                                   color: Colors.black),
                                             ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      FirebaseAuth.instance.currentUser!
+                                                  .email !=
+                                              widget.post["op_email"]
+                                          ? const SizedBox()
+                                          : IconButton(
+                                              onPressed: () async {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                          "Delete post?",
+                                                          style: GoogleFonts.inter(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        content: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Text(
+                                                                "Click Delete to permanently\ndelete the post",
+                                                                style: GoogleFonts.inter(
+                                                                    fontSize:
+                                                                        16,
+                                                                    color: Colors
+                                                                        .black)),
+                                                            const SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    style: ButtonStyle(
+                                                                        backgroundColor: WidgetStateProperty.all(Colors
+                                                                            .grey
+                                                                            .shade300),
+                                                                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                                                                            borderRadius: BorderRadius.circular(
+                                                                                20))),
+                                                                        fixedSize: WidgetStateProperty.all(const Size(
+                                                                            100,
+                                                                            40))),
+                                                                    child: const Text(
+                                                                        "Cancel",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            color: Colors.black,
+                                                                            fontWeight: FontWeight.w500))),
+                                                                const SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              "posts")
+                                                                          .doc(widget
+                                                                              .documentID)
+                                                                          .delete()
+                                                                          .then(
+                                                                              (v) {
+                                                                        Navigator.pushReplacementNamed(
+                                                                            context,
+                                                                            '/feed');
+                                                                      });
+                                                                    },
+                                                                    style: ButtonStyle(
+                                                                        backgroundColor:
+                                                                            WidgetStateProperty.all(Colors
+                                                                                .red),
+                                                                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                                                                            borderRadius: BorderRadius.circular(
+                                                                                20))),
+                                                                        fixedSize: WidgetStateProperty.all(const Size(
+                                                                            100,
+                                                                            40))),
+                                                                    child:
+                                                                        const Text(
+                                                                      "Delete",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                    )),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      );
+                                                    });
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                                size: 25,
+                                              )),
+                                              const SizedBox(width: 20,)
                                     ],
                                   ),
                                   const SizedBox(height: 10),
@@ -967,8 +1097,10 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                       ),
                       FirebaseAuth.instance.currentUser!.email ==
                                   widget.post["op_email"] ||
-                              List<Map>.from(widget.post["collaborator"]).any((e) => e["email"] == 
-                                  FirebaseAuth.instance.currentUser!.email)
+                              List<Map>.from(widget.post["collaborator"]).any(
+                                  (e) =>
+                                      e["email"] ==
+                                      FirebaseAuth.instance.currentUser!.email)
                           ? Padding(
                               padding: const EdgeInsets.only(
                                   right: 8.0, top: 0, bottom: 0),

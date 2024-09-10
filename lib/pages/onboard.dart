@@ -35,6 +35,18 @@ class _OnBoardState extends State<OnBoard> {
     "Mathematics and Statistics",
     "Visual Communications",
     "CDC",
+    "English",
+    "Fashion Designing",
+    "French",
+    "Hindi",
+    "Journalism and Mass Communication",
+    "Physical Education & Sports Sciences",
+    "Psychology",
+    "Social Work",
+    "Tamil",
+    "Yoga",
+    "Hotel and Catering Management",
+    "School of Education"
   ];
 
   String college = "Science";
@@ -311,11 +323,13 @@ class _OnBoardState extends State<OnBoard> {
                 height: 8,
               ),
               buildTextField(
-                hintText: "PhD in Computer Science",
-                controller: degreeController, labelText: "Degree"),
+                  hintText: "PhD in Computer Science",
+                  controller: degreeController,
+                  labelText: "Degree"),
               buildTextField(
-                hintText: "Professor",
-                  controller: positionController, labelText: "Position"),
+                  hintText: "Professor",
+                  controller: positionController,
+                  labelText: "Position"),
               buildTextField(
                   hintText: "https://www.googlescholar.com",
                   controller: googleScholarController,
@@ -420,7 +434,7 @@ class _OnBoardState extends State<OnBoard> {
                   backgroundColor: WidgetStateProperty.all(Colors.black),
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-                  fixedSize: WidgetStateProperty.all(const Size(100, 30)),
+                  fixedSize: WidgetStateProperty.all(const Size(100, 40)),
                 ),
                 child: Text(
                   "Continue",

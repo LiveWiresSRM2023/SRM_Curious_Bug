@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,14 +16,20 @@ class Auth extends StatefulWidget {
 class _AuthState extends State<Auth> {
   void checkAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (FirebaseAuth.instance.currentUser != null) {
-        if (!mounted) return;
-        if (prefs.containsKey("onboard")) {
-          Navigator.pushReplacementNamed(context, "/feed");
-        } else {
-          Navigator.pushReplacementNamed(context, '/onboard');
-        }
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .get()
+            .then((doc) {
+          if (doc.get("degree").toString().isNotEmpty &&
+              prefs.containsKey("onboard")) {
+            Navigator.pushReplacementNamed(context, "/feed");
+          } else {
+            Navigator.pushReplacementNamed(context, '/onboard');
+          }
+        });
       }
     });
   }
@@ -145,7 +152,7 @@ class _AuthState extends State<Auth> {
                               checkAuth();
                             }
                           });
-                          Navigator.pushReplacementNamed(context, '/onboard');
+                          // Navigator.pushReplacementNamed(context, '/onboard');
                         },
                         splashColor: Colors.white.withOpacity(0.5),
                         highlightColor: Colors.transparent,

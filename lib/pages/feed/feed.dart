@@ -375,7 +375,7 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
                 backgroundColor: WidgetStateProperty.all(Colors.black),
                 shape: WidgetStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
-                fixedSize: WidgetStateProperty.all(const Size(100, 30))),
+                fixedSize: WidgetStateProperty.all(const Size(100, 40))),
             child: Text(
               "Create +",
               style: GoogleFonts.inter(
@@ -408,12 +408,7 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
                     backgroundImage: NetworkImage(
                         FirebaseAuth.instance.currentUser!.photoURL!)),
                 const SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: Icon(
-                    Icons.arrow_drop_down_outlined,
-                    color: Colors.grey,
-                  ),
+                  width: 20,
                 )
               ],
             ),
