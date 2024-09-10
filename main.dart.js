@@ -99383,7 +99383,7 @@ $0(){this.a.a.c[this.b].n(0,"upvote",this.c)},
 $S:0}
 A.rh.prototype={
 a4(){var s=$.ac(),r=t.s
-return new A.Xk(new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),A.b(["Computer Applications","Computer Science","Biochemistry","Biotechnology","Chemistry","Commerce","Economics","Mathematics","Mathematics and Statistics","Visual Communications","CDC","English","Fashion Designing","French","Hindi","Journalism and Mass Communication","Physical Education & Sports Sciences","Psychology","Social Work","Tamil","Yoga","Hotel and Catering Management","School of Education"],r),A.b(["Science","Humanities","Business","Law"],r))}}
+return new A.Xk(new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),new A.bu(B.H,s),A.b(["Computer Applications","Computer Science","Law","Management","Biochemistry","Biotechnology","Physics","Chemistry","Commerce","Corporate Secretaryship and Accounting & Finance","Economics","Mathematics","Mathematics and Statistics","Visual Communications","English","Fashion Designing","French","Hindi","Journalism and Mass Communication","Defence and International Studies","Physical Education & Sports Sciences","Psychology","Social Work","Tamil","Yoga","Hotel and Catering Management","School of Education","CDC"],r),A.b(["Science","Humanities","Business","Law"],r))}}
 A.Xk.prototype={
 aj(){var s,r
 this.aC()
