@@ -14,22 +14,17 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
+  
   void checkAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (FirebaseAuth.instance.currentUser != null) {
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.email)
-            .get()
-            .then((doc) {
-          if (doc.get("degree").toString().isNotEmpty &&
-              prefs.containsKey("onboard")) {
-            Navigator.pushReplacementNamed(context, "/feed");
-          } else {
-            Navigator.pushReplacementNamed(context, '/onboard');
-          }
-        });
+        if (!mounted) return;
+        if (prefs.containsKey("onboard")) {
+          Navigator.pushReplacementNamed(context, "/feed");
+        } else {
+          Navigator.pushReplacementNamed(context, '/onboard');
+        }
       }
     });
   }
