@@ -121,6 +121,7 @@ class _AuthState extends State<Auth> {
                                     .split("@")
                                     .last !=
                                 "srmist.edu.in") {
+                              await FirebaseAuth.instance.signOut();
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 backgroundColor: Colors.red,
